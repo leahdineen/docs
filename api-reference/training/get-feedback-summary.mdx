@@ -1,0 +1,83 @@
+---
+title: 'Get Feedback Summary'
+api: 'GET /jobs/{job_id}/feedback-summary'
+description: 'Get feedback summary for a training job'
+---
+
+## Overview
+
+Retrieves a summary of feedback data used in a training job, including statistics and patterns that influenced the training.
+
+## Path Parameters
+
+<ParamField path="job_id" type="string" required>
+  Unique identifier of the training job
+</ParamField>
+
+## Response
+
+<ResponseField name="job_id" type="string" required>
+  Training job ID
+</ResponseField>
+
+<ResponseField name="feedback_summary" type="object" required>
+  Summary of feedback data used
+  
+  <Expandable title="feedback summary properties">
+    <ResponseField name="total_feedback_count" type="integer" required>
+      Total feedback entries processed
+    </ResponseField>
+    
+    <ResponseField name="feedback_types" type="object" required>
+      Breakdown by feedback type
+    </ResponseField>
+    
+    <ResponseField name="quality_distribution" type="object" required>
+      Distribution of feedback quality scores
+    </ResponseField>
+    
+    <ResponseField name="common_patterns" type="array" required>
+      Common patterns identified in feedback
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="generated_at" type="datetime" required>
+  Summary generation timestamp
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X GET https://api.judge.example.com/jobs/train_job_123/feedback-summary \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Success Response (200)
+{
+  "job_id": "train_job_123",
+  "feedback_summary": {
+    "total_feedback_count": 156,
+    "feedback_types": {
+      "corrections": 89,
+      "ratings": 45,
+      "comments": 22
+    },
+    "quality_distribution": {
+      "excellent": 34,
+      "good": 78,
+      "fair": 32,
+      "poor": 12
+    },
+    "common_patterns": [
+      "Inconsistent scoring on borderline cases",
+      "Need for better handling of technical content"
+    ]
+  },
+  "generated_at": "2024-01-15T18:00:00Z"
+}
+```
+
+</CodeGroup>

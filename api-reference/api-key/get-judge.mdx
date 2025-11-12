@@ -1,0 +1,85 @@
+---
+title: 'Get Judge (API Key)'
+api: 'GET /api-key/judges/{judge_id}'
+description: 'Get judge details using API key authentication'
+---
+
+## Overview
+
+Retrieves detailed information about a specific judge using API key authentication.
+
+## Headers
+
+<ParamField header="X-API-Key" type="string" required>
+  Organization API key for authentication
+</ParamField>
+
+## Path Parameters
+
+<ParamField path="judge_id" type="string" required>
+  Unique identifier of the judge
+</ParamField>
+
+## Response
+
+<ResponseField name="judge_id" type="string" required>
+  Unique judge identifier
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Judge name
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Judge description
+</ResponseField>
+
+<ResponseField name="content_type" type="string" required>
+  Content type this judge evaluates
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  Judge status (ready, learning, training)
+</ResponseField>
+
+<ResponseField name="criteria" type="array" required>
+  List of evaluation criteria
+</ResponseField>
+
+<ResponseField name="created_at" type="datetime" required>
+  Creation timestamp
+</ResponseField>
+
+<ResponseField name="version_number" type="integer" required>
+  Current version number
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X GET https://api.judge.example.com/api-key/judges/jdg_xyz789 \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```json Success Response (200)
+{
+  "judge_id": "jdg_xyz789",
+  "name": "Content Quality Judge",
+  "description": "Evaluates content quality based on clarity, accuracy, and completeness",
+  "content_type": "text",
+  "status": "ready",
+  "criteria": [
+    {
+      "id": "crit_001",
+      "name": "Clarity",
+      "description": "How clear and easy to understand the content is"
+    }
+  ],
+  "created_at": "2024-01-15T10:00:00Z",
+  "version_number": 2
+}
+```
+
+</CodeGroup>

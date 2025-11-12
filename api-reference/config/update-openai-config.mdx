@@ -1,0 +1,92 @@
+---
+title: 'Update OpenAI Configuration'
+api: 'PUT /config/openai'
+description: 'Update OpenAI integration settings'
+---
+
+## Overview
+
+Updates OpenAI configuration settings for your organization, including model preferences, rate limits, and API parameters.
+
+## Request Body
+
+<ParamField body="default_model" type="string">
+  Default model for evaluations (e.g., "gpt-4", "gpt-3.5-turbo")
+</ParamField>
+
+<ParamField body="max_tokens" type="integer" min="100" max="8192">
+  Maximum tokens per request
+</ParamField>
+
+<ParamField body="temperature" type="number" min="0.0" max="2.0">
+  Temperature setting for model responses
+</ParamField>
+
+<ParamField body="rate_limits" type="object">
+  Rate limiting configuration
+  
+  <Expandable title="rate limit properties">
+    <ParamField body="requests_per_minute" type="integer" min="1" max="1000">
+      Maximum requests per minute
+    </ParamField>
+    
+    <ParamField body="tokens_per_minute" type="integer" min="1000" max="500000">
+      Maximum tokens per minute
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="fallback_models" type="array">
+  Alternative models to use if primary model fails
+</ParamField>
+
+## Response
+
+<ResponseField name="updated" type="boolean" required>
+  Whether configuration was successfully updated
+</ResponseField>
+
+<ResponseField name="config" type="object" required>
+  Updated configuration settings
+</ResponseField>
+
+<ResponseField name="updated_at" type="datetime" required>
+  Configuration update timestamp
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X PUT https://api.judge.example.com/config/openai \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "default_model": "gpt-4",
+    "max_tokens": 4096,
+    "temperature": 0.2,
+    "rate_limits": {
+      "requests_per_minute": 100,
+      "tokens_per_minute": 200000
+    }
+  }'
+```
+
+```json Success Response (200)
+{
+  "updated": true,
+  "config": {
+    "default_model": "gpt-4",
+    "max_tokens": 4096,
+    "temperature": 0.2,
+    "rate_limits": {
+      "requests_per_minute": 100,
+      "tokens_per_minute": 200000
+    }
+  },
+  "updated_at": "2024-01-15T17:15:00Z"
+}
+```
+
+</CodeGroup>

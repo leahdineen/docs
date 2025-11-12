@@ -1,0 +1,73 @@
+---
+title: 'Add Content Notes'
+api: 'POST /content/{content_id}/notes'
+description: 'Add notes to content item'
+---
+
+## Overview
+
+Adds notes or annotations to a content item for internal tracking.
+
+## Path Parameters
+
+<ParamField path="content_id" type="string" required>
+  The unique identifier of the content
+</ParamField>
+
+## Request Body
+
+<ParamField body="note" type="string" required maxLength="2000">
+  Note content
+</ParamField>
+
+<ParamField body="category" type="string" maxLength="100">
+  Note category (e.g., "quality", "review", "issue")
+</ParamField>
+
+## Response
+
+<ResponseField name="note_id" type="string" required>
+  Unique identifier for the note
+</ResponseField>
+
+<ResponseField name="content_id" type="string" required>
+  Associated content ID
+</ResponseField>
+
+<ResponseField name="note" type="string" required>
+  Note content
+</ResponseField>
+
+<ResponseField name="category" type="string">
+  Note category
+</ResponseField>
+
+<ResponseField name="created_at" type="datetime" required>
+  Creation timestamp
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X POST https://api.judge.example.com/content/cnt_abc123/notes \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "note": "Content needs grammar review before publishing",
+    "category": "review"
+  }'
+```
+
+```json Success Response (201)
+{
+  "note_id": "note_xyz123",
+  "content_id": "cnt_abc123",
+  "note": "Content needs grammar review before publishing",
+  "category": "review",
+  "created_at": "2024-01-15T11:00:00Z"
+}
+```
+
+</CodeGroup>

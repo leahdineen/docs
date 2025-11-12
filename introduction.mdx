@@ -1,0 +1,70 @@
+---
+title: 'Introduction'
+description: 'Welcome to Judge System API documentation'
+---
+
+## Overview
+
+The Judge System API is a backend service for content evaluation with extensible criteria systems. It supports multiple content types including text, video, audio, and images.
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Multi-Content Support" icon="file-lines">
+    Evaluate text, video, audio, and image content with specialized judges
+  </Card>
+  <Card title="Customizable Criteria" icon="list-check">
+    Define custom evaluation criteria tailored to your specific needs
+  </Card>
+  <Card title="Batch Processing" icon="layer-group">
+    Process multiple content items efficiently in batches
+  </Card>
+  <Card title="AI-Powered" icon="brain">
+    Leverage OpenAI integration for intelligent content analysis
+  </Card>
+</CardGroup>
+
+## Base URL
+
+```
+https://api.judge.example.com
+```
+
+## Authentication
+
+All API requests require authentication using an API key in the header:
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Rate Limits
+
+- **Standard tier**: 100 requests per minute
+- **Premium tier**: 1000 requests per minute
+
+## Response Format
+
+All API responses follow a consistent JSON structure:
+
+```json
+{
+  "data": {},
+  "status": "success",
+  "timestamp": "2024-01-01T00:00:00Z"
+}
+```
+
+## Error Handling
+
+Errors are returned with appropriate HTTP status codes and detailed messages:
+
+```json
+{
+  "error": {
+    "code": "INVALID_REQUEST",
+    "message": "Description of what went wrong",
+    "details": {}
+  }
+}
+```

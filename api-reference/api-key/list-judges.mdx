@@ -1,0 +1,102 @@
+---
+title: 'List Judges (API Key)'
+api: 'GET /api-key/judges'
+description: 'List judges using API key authentication'
+---
+
+## Overview
+
+Retrieves a list of judges accessible to your organization using API key authentication.
+
+## Headers
+
+<ParamField header="X-API-Key" type="string" required>
+  Organization API key for authentication
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="status" type="string">
+  Filter by judge status (ready, learning, training)
+</ParamField>
+
+<ParamField query="content_type" type="string">
+  Filter by content type (text, video, audio, image)
+</ParamField>
+
+<ParamField query="limit" type="integer" default="25" min="1" max="100">
+  Maximum number of judges to return
+</ParamField>
+
+## Response
+
+<ResponseField name="judges" type="array" required>
+  List of judges
+  
+  <Expandable title="judge properties">
+    <ResponseField name="judge_id" type="string" required>
+      Unique judge identifier
+    </ResponseField>
+    
+    <ResponseField name="name" type="string" required>
+      Judge name
+    </ResponseField>
+    
+    <ResponseField name="description" type="string" required>
+      Judge description
+    </ResponseField>
+    
+    <ResponseField name="content_type" type="string" required>
+      Content type (text, video, audio, image)
+    </ResponseField>
+    
+    <ResponseField name="status" type="string" required>
+      Judge status (ready, learning, training)
+    </ResponseField>
+    
+    <ResponseField name="criteria_count" type="integer" required>
+      Number of evaluation criteria
+    </ResponseField>
+    
+    <ResponseField name="created_at" type="datetime" required>
+      Creation timestamp
+    </ResponseField>
+    
+    <ResponseField name="version_number" type="integer" required>
+      Current version number
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total_count" type="integer" required>
+  Total number of judges (for pagination)
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X GET "https://api.judge.example.com/api-key/judges?status=ready&limit=10" \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```json Success Response (200)
+{
+  "judges": [
+    {
+      "judge_id": "jdg_xyz789",
+      "name": "Content Quality Judge",
+      "description": "Evaluates content quality based on clarity, accuracy, and completeness",
+      "content_type": "text",
+      "status": "ready",
+      "criteria_count": 3,
+      "created_at": "2024-01-15T10:00:00Z",
+      "version_number": 2
+    }
+  ],
+  "total_count": 1
+}
+```
+
+</CodeGroup>

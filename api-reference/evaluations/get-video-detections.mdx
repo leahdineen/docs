@@ -1,0 +1,231 @@
+---
+title: 'Get Video Detections'
+api: 'GET /video-detections/{content_id}'
+description: 'Retrieve video content detection results'
+---
+
+## Overview
+
+Retrieves detection results for video content, including objects, faces, text, and other visual elements that have been detected and analyzed in the video.
+
+## Path Parameters
+
+<ParamField path="content_id" type="string" required>
+  Unique identifier of the video content
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="detection_type" type="string">
+  Filter by specific detection type
+  - `objects` - Object detection results
+  - `faces` - Face detection results
+  - `text` - Text detection results
+  - `scenes` - Scene detection results
+</ParamField>
+
+<ParamField query="confidence_threshold" type="number" default="0.7" min="0" max="1">
+  Minimum confidence score for detections (0.0 to 1.0)
+</ParamField>
+
+<ParamField query="limit" type="integer" default="100" min="1" max="1000">
+  Maximum number of detections to return
+</ParamField>
+
+<ParamField query="offset" type="integer" default="0" min="0">
+  Number of detections to skip for pagination
+</ParamField>
+
+## Response
+
+<ResponseField name="content_id" type="string" required>
+  ID of the analyzed video content
+</ResponseField>
+
+<ResponseField name="total_detections" type="integer" required>
+  Total number of detections found
+</ResponseField>
+
+<ResponseField name="detections" type="array" required>
+  List of detection results
+  
+  <Expandable title="detection properties">
+    <ResponseField name="id" type="string" required>
+      Unique detection identifier
+    </ResponseField>
+    
+    <ResponseField name="type" type="string" required>
+      Type of detection (objects, faces, text, scenes)
+    </ResponseField>
+    
+    <ResponseField name="label" type="string" required>
+      Detection label or classification
+    </ResponseField>
+    
+    <ResponseField name="confidence" type="number" required>
+      Detection confidence score (0.0 to 1.0)
+    </ResponseField>
+    
+    <ResponseField name="timestamp" type="number" required>
+      Video timestamp in seconds where detection occurred
+    </ResponseField>
+    
+    <ResponseField name="duration" type="number">
+      Duration of detection in seconds (for persistent objects)
+    </ResponseField>
+    
+    <ResponseField name="bounding_box" type="object">
+      Spatial coordinates of detection
+      <Expandable title="bounding_box properties">
+        <ResponseField name="x" type="number" required>
+          X coordinate (0.0 to 1.0, normalized)
+        </ResponseField>
+        <ResponseField name="y" type="number" required>
+          Y coordinate (0.0 to 1.0, normalized)
+        </ResponseField>
+        <ResponseField name="width" type="number" required>
+          Width (0.0 to 1.0, normalized)
+        </ResponseField>
+        <ResponseField name="height" type="number" required>
+          Height (0.0 to 1.0, normalized)
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    
+    <ResponseField name="attributes" type="object">
+      Additional detection attributes
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="processing_metadata" type="object">
+  Processing information
+  
+  <Expandable title="metadata properties">
+    <ResponseField name="processed_at" type="datetime" required>
+      When detections were processed
+    </ResponseField>
+    
+    <ResponseField name="processing_duration" type="number" required>
+      Processing time in seconds
+    </ResponseField>
+    
+    <ResponseField name="video_duration" type="number" required>
+      Total video duration in seconds
+    </ResponseField>
+    
+    <ResponseField name="resolution" type="object" required>
+      Video resolution
+      <Expandable title="resolution properties">
+        <ResponseField name="width" type="integer" required>
+          Video width in pixels
+        </ResponseField>
+        <ResponseField name="height" type="integer" required>
+          Video height in pixels
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X GET "https://api.judge.example.com/video-detections/cnt_video123?detection_type=objects&confidence_threshold=0.8&limit=50" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Success Response (200)
+{
+  "content_id": "cnt_video123",
+  "total_detections": 127,
+  "detections": [
+    {
+      "id": "det_001",
+      "type": "objects",
+      "label": "person",
+      "confidence": 0.95,
+      "timestamp": 15.2,
+      "duration": 8.7,
+      "bounding_box": {
+        "x": 0.25,
+        "y": 0.1,
+        "width": 0.3,
+        "height": 0.7
+      },
+      "attributes": {
+        "age_estimate": "adult",
+        "gender_estimate": "male"
+      }
+    },
+    {
+      "id": "det_002",
+      "type": "objects",
+      "label": "car",
+      "confidence": 0.87,
+      "timestamp": 22.5,
+      "duration": 3.2,
+      "bounding_box": {
+        "x": 0.6,
+        "y": 0.4,
+        "width": 0.35,
+        "height": 0.25
+      },
+      "attributes": {
+        "color": "red",
+        "type": "sedan"
+      }
+    }
+  ],
+  "processing_metadata": {
+    "processed_at": "2024-01-15T10:30:00Z",
+    "processing_duration": 45.2,
+    "video_duration": 120.0,
+    "resolution": {
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```bash Error: Content Not Found
+curl -X GET "https://api.judge.example.com/video-detections/invalid_content" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Error Response (404)
+{
+  "error": {
+    "code": "CONTENT_NOT_FOUND",
+    "message": "Video content with ID 'invalid_content' not found"
+  }
+}
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```bash Error: Detection Processing Not Complete
+curl -X GET "https://api.judge.example.com/video-detections/cnt_processing123" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Error Response (425)
+{
+  "error": {
+    "code": "PROCESSING_IN_PROGRESS",
+    "message": "Video detection processing is still in progress. Please try again later.",
+    "estimated_completion": "2024-01-15T10:45:00Z"
+  }
+}
+```
+
+</CodeGroup>

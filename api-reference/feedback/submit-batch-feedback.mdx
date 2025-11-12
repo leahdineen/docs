@@ -1,0 +1,338 @@
+---
+title: 'Submit Batch Feedback'
+api: 'POST /batches/{batch_id}/feedback'
+description: 'Submit feedback for batch evaluation results'
+---
+
+## Overview
+
+Submits feedback for multiple evaluations within a batch. This endpoint allows you to provide corrections, ratings, and comments for batch processing results, which helps improve judge performance through machine learning.
+
+## Path Parameters
+
+<ParamField path="batch_id" type="string" required>
+  Unique identifier of the batch
+</ParamField>
+
+## Request Body
+
+<ParamField body="feedback_entries" type="array" required minLength="1" maxLength="100">
+  List of feedback entries for evaluations in the batch
+  
+  <Expandable title="feedback entry properties">
+    <ParamField body="evaluation_id" type="string" required>
+      ID of the evaluation within the batch
+    </ParamField>
+    
+    <ParamField body="type" type="string" required>
+      Type of feedback
+      - `correction` - Corrected scores or judgments
+      - `rating` - Overall rating of the evaluation
+      - `comment` - General feedback comment
+      - `approval` - Approve or reject the evaluation
+    </ParamField>
+    
+    <ParamField body="content" type="object" required>
+      Feedback content (structure varies by type)
+      
+      <Expandable title="content properties (by type)">
+        <ParamField body="corrected_scores" type="object">
+          For corrections: mapping of criterion_id to corrected score (0-100)
+        </ParamField>
+        
+        <ParamField body="corrected_overall_score" type="number">
+          For corrections: corrected overall score (0-100)
+        </ParamField>
+        
+        <ParamField body="rating" type="number" min="1" max="10">
+          For ratings: numerical rating of evaluation quality
+        </ParamField>
+        
+        <ParamField body="comment" type="string" maxLength="2000">
+          Text comment or explanation
+        </ParamField>
+        
+        <ParamField body="approved" type="boolean">
+          For approval: whether the evaluation is approved
+        </ParamField>
+        
+        <ParamField body="explanation" type="string" maxLength="1000">
+          Explanation for the feedback
+        </ParamField>
+      </Expandable>
+    </ParamField>
+    
+    <ParamField body="criterion_specific" type="boolean" default="false">
+      Whether this feedback targets specific criteria
+    </ParamField>
+    
+    <ParamField body="target_criteria" type="array">
+      List of criterion IDs this feedback applies to (if criterion_specific=true)
+    </ParamField>
+    
+    <ParamField body="severity" type="string" default="medium">
+      Importance level of this feedback
+      - `low` - Minor feedback
+      - `medium` - Important feedback
+      - `high` - Critical feedback requiring attention
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="feedback_options" type="object">
+  Global feedback options for the batch
+  
+  <Expandable title="feedback options">
+    <ParamField body="auto_trigger_retraining" type="boolean" default="false">
+      Whether to automatically trigger retraining if significant issues are found
+    </ParamField>
+    
+    <ParamField body="notification_preferences" type="object">
+      Feedback processing notifications
+      
+      <Expandable title="notification properties">
+        <ParamField body="email" type="boolean" default="true">
+          Send email notifications about feedback processing
+        </ParamField>
+        
+        <ParamField body="webhook_url" type="string">
+          URL to receive webhook notifications
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response
+
+<ResponseField name="batch_id" type="string" required>
+  ID of the batch feedback was submitted for
+</ResponseField>
+
+<ResponseField name="feedback_session_id" type="string" required>
+  Unique identifier for this feedback submission session
+</ResponseField>
+
+<ResponseField name="submitted_count" type="integer" required>
+  Number of feedback entries successfully submitted
+</ResponseField>
+
+<ResponseField name="failed_count" type="integer" required>
+  Number of feedback entries that failed validation
+</ResponseField>
+
+<ResponseField name="processing_status" type="string" required>
+  Status of feedback processing
+  - `submitted` - Feedback submitted successfully
+  - `processing` - Feedback being processed
+  - `processed` - Feedback processing completed
+  - `failed` - Feedback processing failed
+</ResponseField>
+
+<ResponseField name="validation_results" type="array">
+  Results of feedback validation
+  
+  <Expandable title="validation result properties">
+    <ResponseField name="evaluation_id" type="string" required>
+      ID of the evaluation
+    </ResponseField>
+    
+    <ResponseField name="status" type="string" required>
+      Validation status (success, warning, error)
+    </ResponseField>
+    
+    <ResponseField name="message" type="string">
+      Validation message or error description
+    </ResponseField>
+    
+    <ResponseField name="feedback_id" type="string">
+      ID assigned to valid feedback entries
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="impact_analysis" type="object">
+  Analysis of feedback impact
+  
+  <Expandable title="impact properties">
+    <ResponseField name="significant_corrections" type="integer" required>
+      Number of significant score corrections
+    </ResponseField>
+    
+    <ResponseField name="approval_rate" type="number" required>
+      Percentage of evaluations approved (0-100)
+    </ResponseField>
+    
+    <ResponseField name="average_rating" type="number">
+      Average rating across all feedback (1-10)
+    </ResponseField>
+    
+    <ResponseField name="retraining_recommended" type="boolean" required>
+      Whether retraining is recommended based on feedback
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="submitted_at" type="datetime" required>
+  Timestamp when feedback was submitted
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X POST https://api.judge.example.com/batches/batch_abc123/feedback \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "feedback_entries": [
+      {
+        "evaluation_id": "eval_001",
+        "type": "correction",
+        "content": {
+          "corrected_scores": {
+            "crit_quality": 85,
+            "crit_relevance": 90
+          },
+          "corrected_overall_score": 87,
+          "explanation": "The content quality was underestimated"
+        },
+        "criterion_specific": true,
+        "target_criteria": ["crit_quality", "crit_relevance"],
+        "severity": "high"
+      },
+      {
+        "evaluation_id": "eval_002",
+        "type": "approval",
+        "content": {
+          "approved": true,
+          "comment": "Accurate evaluation"
+        },
+        "severity": "low"
+      },
+      {
+        "evaluation_id": "eval_003",
+        "type": "rating",
+        "content": {
+          "rating": 8,
+          "comment": "Good evaluation with minor issues"
+        },
+        "severity": "medium"
+      }
+    ],
+    "feedback_options": {
+      "auto_trigger_retraining": true,
+      "notification_preferences": {
+        "email": true,
+        "webhook_url": "https://your-app.com/webhooks/feedback"
+      }
+    }
+  }'
+```
+
+```json Success Response (201)
+{
+  "batch_id": "batch_abc123",
+  "feedback_session_id": "fs_xyz789",
+  "submitted_count": 3,
+  "failed_count": 0,
+  "processing_status": "processing",
+  "validation_results": [
+    {
+      "evaluation_id": "eval_001",
+      "status": "success",
+      "message": "Correction feedback accepted",
+      "feedback_id": "fb_001"
+    },
+    {
+      "evaluation_id": "eval_002",
+      "status": "success",
+      "message": "Approval feedback accepted",
+      "feedback_id": "fb_002"
+    },
+    {
+      "evaluation_id": "eval_003",
+      "status": "success",
+      "message": "Rating feedback accepted",
+      "feedback_id": "fb_003"
+    }
+  ],
+  "impact_analysis": {
+    "significant_corrections": 1,
+    "approval_rate": 66.7,
+    "average_rating": 8.0,
+    "retraining_recommended": true
+  },
+  "submitted_at": "2024-01-15T11:30:00Z"
+}
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```bash Error: Invalid Evaluation IDs
+curl -X POST https://api.judge.example.com/batches/batch_abc123/feedback \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "feedback_entries": [
+      {
+        "evaluation_id": "eval_invalid",
+        "type": "rating",
+        "content": {
+          "rating": 8
+        }
+      }
+    ]
+  }'
+```
+
+```json Validation Error Response (400)
+{
+  "batch_id": "batch_abc123",
+  "feedback_session_id": "fs_error123",
+  "submitted_count": 0,
+  "failed_count": 1,
+  "processing_status": "failed",
+  "validation_results": [
+    {
+      "evaluation_id": "eval_invalid",
+      "status": "error",
+      "message": "Evaluation not found in this batch or access denied"
+    }
+  ],
+  "submitted_at": "2024-01-15T11:31:00Z"
+}
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```bash Error: Batch Not Found
+curl -X POST https://api.judge.example.com/batches/invalid_batch/feedback \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "feedback_entries": [
+      {
+        "evaluation_id": "eval_001",
+        "type": "rating",
+        "content": {"rating": 8}
+      }
+    ]
+  }'
+```
+
+```json Error Response (404)
+{
+  "error": {
+    "code": "BATCH_NOT_FOUND",
+    "message": "Batch with ID 'invalid_batch' not found or access denied"
+  }
+}
+```
+
+</CodeGroup>

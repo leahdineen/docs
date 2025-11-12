@@ -1,0 +1,100 @@
+---
+title: 'List API Keys'
+api: 'GET /api-keys'
+description: 'List organization API keys'
+---
+
+## Overview
+
+Retrieves a list of API keys for your organization with usage statistics and status information.
+
+## Query Parameters
+
+<ParamField query="status" type="string">
+  Filter by key status (active, suspended, expired)
+</ParamField>
+
+<ParamField query="limit" type="integer" default="25" min="1" max="100">
+  Maximum number of keys to return
+</ParamField>
+
+## Response
+
+<ResponseField name="api_keys" type="array" required>
+  List of API keys
+  
+  <Expandable title="api key properties">
+    <ResponseField name="api_key_id" type="string" required>
+      Unique API key identifier
+    </ResponseField>
+    
+    <ResponseField name="name" type="string" required>
+      API key name
+    </ResponseField>
+    
+    <ResponseField name="status" type="string" required>
+      Key status (active, suspended, expired)
+    </ResponseField>
+    
+    <ResponseField name="permissions" type="array" required>
+      Configured permissions
+    </ResponseField>
+    
+    <ResponseField name="usage_stats" type="object" required>
+      Usage statistics
+      
+      <Expandable title="usage properties">
+        <ResponseField name="requests_this_month" type="integer" required>
+          Requests made this month
+        </ResponseField>
+        
+        <ResponseField name="evaluations_this_month" type="integer" required>
+          Evaluations performed this month
+        </ResponseField>
+        
+        <ResponseField name="last_used" type="datetime">
+          Last usage timestamp
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    
+    <ResponseField name="created_at" type="datetime" required>
+      Creation timestamp
+    </ResponseField>
+    
+    <ResponseField name="expires_at" type="datetime">
+      Expiration timestamp (if set)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X GET https://api.judge.example.com/api-keys \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Success Response (200)
+{
+  "api_keys": [
+    {
+      "api_key_id": "key_abc123",
+      "name": "Production API",
+      "status": "active",
+      "permissions": ["evaluations.create", "evaluations.read"],
+      "usage_stats": {
+        "requests_this_month": 12847,
+        "evaluations_this_month": 8234,
+        "last_used": "2024-01-15T14:30:00Z"
+      },
+      "created_at": "2024-01-01T00:00:00Z",
+      "expires_at": "2025-01-01T00:00:00Z"
+    }
+  ]
+}
+```
+
+</CodeGroup>

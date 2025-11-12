@@ -1,0 +1,102 @@
+---
+title: 'Submit Feedback'
+api: 'POST /feedback'
+description: 'Submit feedback on an evaluation'
+---
+
+## Overview
+
+Submits feedback on an evaluation result to improve judge performance.
+
+## Request Body
+
+<ParamField body="evaluation_id" type="string" required>
+  ID of the evaluation to provide feedback on
+</ParamField>
+
+<ParamField body="overall_rating" type="integer" required min="1" max="5">
+  Overall rating of the evaluation (1-5 stars)
+</ParamField>
+
+<ParamField body="accuracy_rating" type="integer" min="1" max="5">
+  Rating of evaluation accuracy
+</ParamField>
+
+<ParamField body="helpfulness_rating" type="integer" min="1" max="5">
+  Rating of evaluation helpfulness
+</ParamField>
+
+<ParamField body="comments" type="string" maxLength="2000">
+  Additional comments and feedback
+</ParamField>
+
+<ParamField body="criteria_feedback" type="array">
+  Specific feedback on individual criteria
+  
+  <Expandable title="feedback properties">
+    <ParamField body="criterion_id" type="string" required>
+      ID of the criterion
+    </ParamField>
+    
+    <ParamField body="rating" type="integer" required min="1" max="5">
+      Rating for this criterion (1-5)
+    </ParamField>
+    
+    <ParamField body="comment" type="string" maxLength="500">
+      Specific feedback comment
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response
+
+<ResponseField name="feedback_id" type="string" required>
+  Unique identifier for the feedback
+</ResponseField>
+
+<ResponseField name="evaluation_id" type="string" required>
+  Associated evaluation ID
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  Feedback status (submitted, processed)
+</ResponseField>
+
+<ResponseField name="created_at" type="datetime" required>
+  Submission timestamp
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X POST https://api.judge.example.com/feedback \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "evaluation_id": "eval_def456",
+    "overall_rating": 4,
+    "accuracy_rating": 5,
+    "helpfulness_rating": 3,
+    "comments": "Good analysis but suggestions could be more specific",
+    "criteria_feedback": [
+      {
+        "criterion_id": "crit_001",
+        "rating": 5,
+        "comment": "Clarity rating was spot on"
+      }
+    ]
+  }'
+```
+
+```json Success Response (201)
+{
+  "feedback_id": "fb_ghi789",
+  "evaluation_id": "eval_def456",
+  "status": "submitted",
+  "created_at": "2024-01-15T11:00:00Z"
+}
+```
+
+</CodeGroup>

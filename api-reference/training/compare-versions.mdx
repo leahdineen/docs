@@ -1,0 +1,103 @@
+---
+title: 'Compare Versions'
+api: 'GET /versions/compare'
+description: 'Compare performance between judge versions'
+---
+
+## Overview
+
+Compares performance metrics between different versions of judges to help evaluate improvements and make deployment decisions.
+
+## Query Parameters
+
+<ParamField query="judge_id" type="string" required>
+  ID of the judge to compare versions for
+</ParamField>
+
+<ParamField query="version_a" type="integer" required>
+  First version number to compare
+</ParamField>
+
+<ParamField query="version_b" type="integer" required>
+  Second version number to compare
+</ParamField>
+
+<ParamField query="metrics" type="array">
+  Specific metrics to compare (accuracy, speed, consistency)
+</ParamField>
+
+## Response
+
+<ResponseField name="judge_id" type="string" required>
+  ID of the judge being compared
+</ResponseField>
+
+<ResponseField name="version_a" type="object" required>
+  Details and metrics for version A
+</ResponseField>
+
+<ResponseField name="version_b" type="object" required>
+  Details and metrics for version B
+</ResponseField>
+
+<ResponseField name="comparison" type="object" required>
+  Side-by-side comparison results
+  
+  <Expandable title="comparison properties">
+    <ResponseField name="accuracy_delta" type="number" required>
+      Difference in accuracy (B - A)
+    </ResponseField>
+    
+    <ResponseField name="speed_delta" type="number" required>
+      Difference in response time (B - A, in ms)
+    </ResponseField>
+    
+    <ResponseField name="consistency_delta" type="number" required>
+      Difference in consistency score (B - A)
+    </ResponseField>
+    
+    <ResponseField name="overall_improvement" type="string" required>
+      Overall assessment (significant_improvement, minor_improvement, no_change, regression)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="recommendation" type="string" required>
+  Deployment recommendation based on comparison
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X GET "https://api.judge.example.com/versions/compare?judge_id=jdg_xyz789&version_a=2&version_b=3" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Success Response (200)
+{
+  "judge_id": "jdg_xyz789",
+  "version_a": {
+    "version_number": 2,
+    "accuracy": 78.7,
+    "avg_response_time": 1400,
+    "consistency_score": 82.1
+  },
+  "version_b": {
+    "version_number": 3,
+    "accuracy": 91.2,
+    "avg_response_time": 1250,
+    "consistency_score": 87.8
+  },
+  "comparison": {
+    "accuracy_delta": 12.5,
+    "speed_delta": -150,
+    "consistency_delta": 5.7,
+    "overall_improvement": "significant_improvement"
+  },
+  "recommendation": "Deploy version 3 - shows significant improvements across all metrics"
+}
+```
+
+</CodeGroup>

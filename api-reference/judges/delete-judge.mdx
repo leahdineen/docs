@@ -1,0 +1,74 @@
+---
+title: 'Delete Judge'
+api: 'DELETE /judges/{judge_id}'
+description: 'Delete a judge'
+---
+
+## Overview
+
+Deletes a judge and all associated data. This action cannot be undone.
+
+<Warning>
+This will permanently delete the judge and all its evaluation history. Active evaluations using this judge will fail.
+</Warning>
+
+## Path Parameters
+
+<ParamField path="judge_id" type="string" required>
+  The unique identifier of the judge to delete
+</ParamField>
+
+## Response
+
+Returns `204 No Content` on successful deletion.
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X DELETE https://api.judge.example.com/judges/jdg_xyz789 \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```bash Success Response (204)
+# No response body - successful deletion
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```bash Error: Judge Not Found
+curl -X DELETE https://api.judge.example.com/judges/invalid_id \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Error Response (404)
+{
+  "error": {
+    "code": "JUDGE_NOT_FOUND",
+    "message": "Judge with ID 'invalid_id' not found"
+  }
+}
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```bash Error: Judge in Use
+curl -X DELETE https://api.judge.example.com/judges/jdg_active \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Error Response (400)
+{
+  "error": {
+    "code": "JUDGE_IN_USE",
+    "message": "Cannot delete judge with active evaluations. Cancel running evaluations first."
+  }
+}
+```
+
+</CodeGroup>

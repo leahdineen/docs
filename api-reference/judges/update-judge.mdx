@@ -1,0 +1,112 @@
+---
+title: 'Update Judge'
+api: 'PUT /judges/{judge_id}'
+description: 'Update an existing judge'
+---
+
+## Overview
+
+Updates an existing judge's name, description, or criteria. Creates a new version of the judge while preserving the original.
+
+## Path Parameters
+
+<ParamField path="judge_id" type="string" required>
+  The unique identifier of the judge to update
+</ParamField>
+
+## Request Body
+
+<ParamField body="name" type="string" maxLength="200">
+  Updated name for the judge
+</ParamField>
+
+<ParamField body="description" type="string" maxLength="2000">
+  Updated description
+</ParamField>
+
+<ParamField body="criteria" type="array" minLength="1" maxLength="50">
+  Updated list of evaluation criteria
+  
+  <Expandable title="criterion properties">
+    <ParamField body="name" type="string" required maxLength="200">
+      Criterion name (must be unique within the judge)
+    </ParamField>
+    
+    <ParamField body="description" type="string" required maxLength="1000">
+      Criterion description
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string" required>
+  Judge identifier
+</ResponseField>
+
+<ResponseField name="updated_at" type="datetime" required>
+  Update timestamp
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Success message
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X PUT https://api.judge.example.com/judges/jdg_xyz789 \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Enhanced Content Quality Judge",
+    "criteria": [
+      {
+        "name": "Clarity",
+        "description": "How clear and understandable the content is"
+      },
+      {
+        "name": "Accuracy", 
+        "description": "Factual correctness and precision"
+      },
+      {
+        "name": "Engagement",
+        "description": "How engaging and interesting the content is"
+      }
+    ]
+  }'
+```
+
+```json Success Response
+{
+  "id": "jdg_xyz789",
+  "updated_at": "2024-01-15T10:30:00Z",
+  "message": "Judge updated successfully. New version created."
+}
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```bash Error: Judge Not Found
+curl -X PUT https://api.judge.example.com/judges/invalid_id \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Updated Judge"
+  }'
+```
+
+```json Error Response (404)
+{
+  "error": {
+    "code": "JUDGE_NOT_FOUND",
+    "message": "Judge with ID 'invalid_id' not found"
+  }
+}
+```
+
+</CodeGroup>

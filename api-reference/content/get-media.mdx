@@ -1,0 +1,39 @@
+---
+title: 'Get Media'
+api: 'GET /media/{media_type}/{filename}'
+description: 'Retrieve uploaded media files'
+---
+
+## Overview
+
+Retrieves uploaded media files like videos, images, and audio files.
+
+## Path Parameters
+
+<ParamField path="media_type" type="string" required>
+  Type of media (video, audio, image)
+</ParamField>
+
+<ParamField path="filename" type="string" required>
+  Filename of the media file
+</ParamField>
+
+## Response
+
+Returns the binary file content with appropriate content-type headers.
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X GET https://api.judge.example.com/media/video/sample.mp4 \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  --output video.mp4
+```
+
+```bash Success Response (200)
+# Binary file content returned
+```
+
+</CodeGroup>

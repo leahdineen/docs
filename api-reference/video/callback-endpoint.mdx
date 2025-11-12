@@ -1,0 +1,202 @@
+---
+title: 'Video Evaluation Callback'
+api: 'POST /api/video-evaluations/callback'
+description: 'Receive callback notifications for video evaluation completion'
+---
+
+## Overview
+
+Receives webhook callbacks when video evaluations are completed. This endpoint is typically called by the video processing service to notify your application when video content has been fully analyzed and evaluation results are available.
+
+## Request Body
+
+<ParamField body="evaluation_id" type="string" required>
+  ID of the completed evaluation
+</ParamField>
+
+<ParamField body="content_id" type="string" required>
+  ID of the video content that was evaluated
+</ParamField>
+
+<ParamField body="status" type="string" required>
+  Evaluation completion status
+  - `completed` - Evaluation completed successfully
+  - `failed` - Evaluation failed
+  - `partial` - Partial results available
+</ParamField>
+
+<ParamField body="results" type="object">
+  Evaluation results (if status is completed)
+  
+  <Expandable title="results properties">
+    <ParamField body="overall_score" type="number" required>
+      Overall evaluation score (0-100)
+    </ParamField>
+    
+    <ParamField body="criteria_scores" type="array" required>
+      Individual criteria scores
+    </ParamField>
+    
+    <ParamField body="processing_metadata" type="object">
+      Video processing metadata
+      
+      <Expandable title="metadata properties">
+        <ParamField body="duration" type="number" required>
+          Video duration in seconds
+        </ParamField>
+        
+        <ParamField body="resolution" type="object" required>
+          Video resolution
+        </ParamField>
+        
+        <ParamField body="processing_time" type="number" required>
+          Processing time in seconds
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="error_info" type="object">
+  Error information (if status is failed)
+  
+  <Expandable title="error properties">
+    <ParamField body="error_code" type="string" required>
+      Error classification code
+    </ParamField>
+    
+    <ParamField body="error_message" type="string" required>
+      Human-readable error description
+    </ParamField>
+    
+    <ParamField body="retry_possible" type="boolean" required>
+      Whether the evaluation can be retried
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="callback_metadata" type="object">
+  Callback metadata
+  
+  <Expandable title="callback metadata">
+    <ParamField body="timestamp" type="datetime" required>
+      Callback timestamp
+    </ParamField>
+    
+    <ParamField body="source_service" type="string" required>
+      Service that generated the callback
+    </ParamField>
+    
+    <ParamField body="retry_count" type="integer" default="0">
+      Number of callback retry attempts
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response
+
+<ResponseField name="received" type="boolean" required>
+  Whether the callback was successfully received
+</ResponseField>
+
+<ResponseField name="evaluation_id" type="string" required>
+  ID of the evaluation that was updated
+</ResponseField>
+
+<ResponseField name="status_updated" type="boolean" required>
+  Whether the evaluation status was updated
+</ResponseField>
+
+<ResponseField name="processed_at" type="datetime" required>
+  Timestamp when callback was processed
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request: Successful Completion
+curl -X POST https://api.judge.example.com/api/video-evaluations/callback \
+  -H "Content-Type: application/json" \
+  -H "X-Webhook-Signature: sha256=abc123..." \
+  -d '{
+    "evaluation_id": "eval_video_123",
+    "content_id": "cnt_video_456",
+    "status": "completed",
+    "results": {
+      "overall_score": 87.5,
+      "criteria_scores": [
+        {
+          "criterion_id": "crit_video_quality",
+          "name": "Video Quality",
+          "score": 92,
+          "feedback": "High-quality video with excellent clarity"
+        },
+        {
+          "criterion_id": "crit_audio_quality",
+          "name": "Audio Quality",
+          "score": 83,
+          "feedback": "Good audio quality with minor background noise"
+        }
+      ],
+      "processing_metadata": {
+        "duration": 120.5,
+        "resolution": {
+          "width": 1920,
+          "height": 1080
+        },
+        "processing_time": 45.2
+      }
+    },
+    "callback_metadata": {
+      "timestamp": "2024-01-15T15:30:00Z",
+      "source_service": "video-processor-v2",
+      "retry_count": 0
+    }
+  }'
+```
+
+```json Success Response (200)
+{
+  "received": true,
+  "evaluation_id": "eval_video_123",
+  "status_updated": true,
+  "processed_at": "2024-01-15T15:30:05Z"
+}
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```bash Request: Failed Evaluation
+curl -X POST https://api.judge.example.com/api/video-evaluations/callback \
+  -H "Content-Type: application/json" \
+  -H "X-Webhook-Signature: sha256=def456..." \
+  -d '{
+    "evaluation_id": "eval_video_789",
+    "content_id": "cnt_video_012",
+    "status": "failed",
+    "error_info": {
+      "error_code": "VIDEO_PROCESSING_FAILED",
+      "error_message": "Unable to process video due to unsupported codec",
+      "retry_possible": false
+    },
+    "callback_metadata": {
+      "timestamp": "2024-01-15T15:35:00Z",
+      "source_service": "video-processor-v2",
+      "retry_count": 2
+    }
+  }'
+```
+
+```json Failed Evaluation Response (200)
+{
+  "received": true,
+  "evaluation_id": "eval_video_789",
+  "status_updated": true,
+  "processed_at": "2024-01-15T15:35:02Z"
+}
+```
+
+</CodeGroup>

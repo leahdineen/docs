@@ -1,0 +1,197 @@
+---
+title: 'Create Judge'
+api: 'POST /judges'
+description: 'Create a new evaluation judge'
+---
+
+## Overview
+
+Creates a new judge with specified evaluation criteria. Judges are used to evaluate content based on custom criteria you define.
+
+## Request Body
+
+<ParamField body="name" type="string" required maxLength="200">
+  Name of the judge
+</ParamField>
+
+<ParamField body="description" type="string" required maxLength="2000">
+  Detailed description of what this judge evaluates
+</ParamField>
+
+<ParamField body="content_type" type="string" required>
+  Type of content this judge evaluates
+  - `text` - Text content
+  - `video` - Video content
+  - `audio` - Audio content
+  - `image` - Image content
+</ParamField>
+
+<ParamField body="criteria" type="array" required minLength="1" maxLength="50">
+  List of evaluation criteria
+  
+  <Expandable title="criterion properties">
+    <ParamField body="name" type="string" required maxLength="200">
+      Criterion name (must be unique within the judge)
+    </ParamField>
+    
+    <ParamField body="description" type="string" required maxLength="1000">
+      Detailed description of what this criterion evaluates
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string" required>
+  Unique identifier for the judge
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Judge name
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Judge description
+</ResponseField>
+
+<ResponseField name="content_type" type="string" required>
+  Content type (text, video, audio, image)
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  Judge status
+  - `ready` - Ready for use
+  - `learning` - In learning mode
+  - `training` - Being trained
+</ResponseField>
+
+<ResponseField name="training_progress" type="integer" required>
+  Training progress percentage (0-100)
+</ResponseField>
+
+<ResponseField name="criteria" type="array" required>
+  List of criteria with IDs
+</ResponseField>
+
+<ResponseField name="created_at" type="datetime" required>
+  Creation timestamp
+</ResponseField>
+
+<ResponseField name="updated_at" type="datetime" required>
+  Last update timestamp
+</ResponseField>
+
+<ResponseField name="version_number" type="integer" required>
+  Current version number
+</ResponseField>
+
+<ResponseField name="is_active" type="boolean" required>
+  Whether the judge is active
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X POST https://api.judge.example.com/judges \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Content Quality Judge",
+    "description": "Evaluates content quality based on clarity, accuracy, and completeness",
+    "content_type": "text",
+    "criteria": [
+      {
+        "name": "Clarity",
+        "description": "How clear and easy to understand the content is"
+      },
+      {
+        "name": "Accuracy",
+        "description": "Factual correctness and precision of information"
+      },
+      {
+        "name": "Completeness",
+        "description": "Coverage of all relevant aspects of the topic"
+      }
+    ]
+  }'
+```
+
+```json Success Response (201)
+{
+  "id": "jdg_xyz789",
+  "name": "Content Quality Judge",
+  "description": "Evaluates content quality based on clarity, accuracy, and completeness",
+  "content_type": "text",
+  "status": "ready",
+  "training_progress": 0,
+  "criteria": [
+    {
+      "id": "crit_001",
+      "name": "Clarity",
+      "description": "How clear and easy to understand the content is",
+      "version_number": 1,
+      "is_active": true,
+      "parent_version_id": null
+    },
+    {
+      "id": "crit_002",
+      "name": "Accuracy",
+      "description": "Factual correctness and precision of information",
+      "version_number": 1,
+      "is_active": true,
+      "parent_version_id": null
+    },
+    {
+      "id": "crit_003",
+      "name": "Completeness",
+      "description": "Coverage of all relevant aspects of the topic",
+      "version_number": 1,
+      "is_active": true,
+      "parent_version_id": null
+    }
+  ],
+  "created_at": "2024-01-15T10:00:00Z",
+  "updated_at": "2024-01-15T10:00:00Z",
+  "version_number": 1,
+  "is_active": true
+}
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```bash Error: Duplicate Criteria Names
+curl -X POST https://api.judge.example.com/judges \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Invalid Judge",
+    "description": "This will fail",
+    "content_type": "text",
+    "criteria": [
+      {
+        "name": "Quality",
+        "description": "First quality criterion"
+      },
+      {
+        "name": "quality",
+        "description": "Duplicate name (case-insensitive)"
+      }
+    ]
+  }'
+```
+
+```json Error Response (400)
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Criterion names must be unique (case-insensitive)",
+    "field": "criteria"
+  }
+}
+```
+
+</CodeGroup>

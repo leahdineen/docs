@@ -1,33 +1,113 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'API Reference'
+description: 'Complete reference for the Judge System API'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Welcome to the Judge System API
 
-## Welcome
+The Judge System API enables you to create intelligent content evaluation systems with customizable criteria. Whether you're evaluating text, video, audio, or image content, our API provides the tools you need.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+## Base URL
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+All API requests are made to:
+
+```
+https://api.judge.example.com
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+Include your API key in the Authorization header for all requests:
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+```bash
+Authorization: Bearer YOUR_API_KEY
 ```
+
+## Response Format
+
+All responses are in JSON format with consistent structure:
+
+### Success Response
+```json
+{
+  "data": {
+    // Response data here
+  },
+  "status": "success",
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+### Error Response
+```json
+{
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human readable error message",
+    "details": {
+      // Additional error context
+    }
+  },
+  "status": "error",
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+## Status Codes
+
+| Code | Description |
+|------|-------------|
+| 200  | Success |
+| 201  | Created |
+| 202  | Accepted (async operation started) |
+| 400  | Bad Request |
+| 401  | Unauthorized |
+| 403  | Forbidden |
+| 404  | Not Found |
+| 429  | Rate Limited |
+| 500  | Internal Server Error |
+
+## Rate Limits
+
+API calls are rate limited per API key:
+
+- **Standard**: 100 requests per minute
+- **Premium**: 1000 requests per minute
+
+Rate limit headers are included in responses:
+
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1642248000
+```
+
+## Content Types
+
+The API supports evaluation of multiple content types:
+
+- **Text**: Articles, documents, social media posts
+- **Video**: MP4, AVI, MOV files
+- **Audio**: MP3, WAV, M4A files  
+- **Image**: JPG, PNG, GIF files
+
+## Judge System Workflow
+
+1. **Create Judges** - Define evaluation criteria for your content
+2. **Upload Content** - Submit content for evaluation
+3. **Run Evaluations** - Process content against judge criteria
+4. **Review Results** - Get detailed scores and feedback
+
+## SDKs and Libraries
+
+We provide official SDKs for popular programming languages:
+
+- **Python**: `pip install judge-api`
+- **JavaScript**: `npm install @judge/api`
+- **Go**: `go get github.com/judge/api-go`
+
+## Support
+
+- **Documentation**: [https://docs.judge.example.com](https://docs.judge.example.com)
+- **Support Email**: support@judge.example.com
+- **Status Page**: [https://status.judge.example.com](https://status.judge.example.com)

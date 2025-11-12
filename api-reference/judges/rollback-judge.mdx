@@ -1,0 +1,73 @@
+---
+title: 'Rollback Judge'
+api: 'POST /judges/{judge_id}/rollback'
+description: 'Rollback a judge to a previous version'
+---
+
+## Overview
+
+Rolls back a judge to a previous version, making that version the new active version.
+
+## Path Parameters
+
+<ParamField path="judge_id" type="string" required>
+  The unique identifier of the judge
+</ParamField>
+
+## Request Body
+
+<ParamField body="target_version" type="integer" required>
+  Version number to rollback to
+</ParamField>
+
+<ParamField body="reason" type="string" maxLength="500">
+  Reason for the rollback
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string" required>
+  Judge identifier
+</ResponseField>
+
+<ResponseField name="previous_version" type="integer" required>
+  Previous active version
+</ResponseField>
+
+<ResponseField name="new_version" type="integer" required>
+  New active version after rollback
+</ResponseField>
+
+<ResponseField name="rollback_reason" type="string">
+  Reason for rollback
+</ResponseField>
+
+<ResponseField name="rolled_back_at" type="datetime" required>
+  Rollback timestamp
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X POST https://api.judge.example.com/judges/jdg_xyz789/rollback \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "target_version": 1,
+    "reason": "Version 2 had performance issues"
+  }'
+```
+
+```json Success Response
+{
+  "id": "jdg_xyz789",
+  "previous_version": 2,
+  "new_version": 1,
+  "rollback_reason": "Version 2 had performance issues",
+  "rolled_back_at": "2024-01-15T11:30:00Z"
+}
+```
+
+</CodeGroup>

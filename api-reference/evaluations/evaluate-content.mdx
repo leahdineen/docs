@@ -1,0 +1,144 @@
+---
+title: 'Evaluate Content'
+api: 'POST /evaluations/single'
+description: 'Submit content for evaluation against a judge'
+---
+
+## Overview
+
+Evaluates a single content item against a specified judge's criteria. Returns evaluation scores, strengths, weaknesses, and suggestions. The evaluation is processed asynchronously.
+
+## Request Body
+
+<ParamField body="content_id" type="string" required>
+  ID of the content to evaluate
+</ParamField>
+
+<ParamField body="judge_id" type="string" required>
+  ID of the judge to use for evaluation
+</ParamField>
+
+<ParamField body="priority" type="string" default="normal">
+  Evaluation priority
+  - `low` - Lower priority processing
+  - `normal` - Standard processing
+  - `high` - Priority processing
+</ParamField>
+
+## Response
+
+<ResponseField name="evaluation_id" type="string" required>
+  Unique identifier for the evaluation
+</ResponseField>
+
+<ResponseField name="content_id" type="string" required>
+  ID of the evaluated content
+</ResponseField>
+
+<ResponseField name="judge_id" type="string" required>
+  ID of the judge used
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  Evaluation status
+  - `processing` - Evaluation in progress
+  - `completed` - Evaluation finished
+  - `failed` - Evaluation failed
+</ResponseField>
+
+<ResponseField name="overall_score" type="number">
+  Overall evaluation score (0-100)
+</ResponseField>
+
+<ResponseField name="criteria_scores" type="array">
+  Individual criteria scores
+  
+  <Expandable title="properties">
+    <ResponseField name="criterion_id" type="string" required>
+      Criterion identifier
+    </ResponseField>
+    
+    <ResponseField name="name" type="string" required>
+      Criterion name
+    </ResponseField>
+    
+    <ResponseField name="score" type="number" required>
+      Score for this criterion (0-100)
+    </ResponseField>
+    
+    <ResponseField name="feedback" type="string">
+      Detailed feedback for this criterion
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="summary" type="string">
+  Overall evaluation summary
+</ResponseField>
+
+<ResponseField name="strengths" type="array">
+  List of identified strengths
+</ResponseField>
+
+<ResponseField name="weaknesses" type="array">
+  List of identified weaknesses
+</ResponseField>
+
+<ResponseField name="suggestions" type="array">
+  List of improvement suggestions
+</ResponseField>
+
+<ResponseField name="evaluated_at" type="datetime">
+  Timestamp when evaluation completed
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X POST https://api.judge.example.com/evaluations/single \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content_id": "cnt_abc123",
+    "judge_id": "jdg_xyz789",
+    "priority": "normal"
+  }'
+```
+
+```json Success Response (202)
+{
+  "evaluation_id": "eval_def456",
+  "content_id": "cnt_abc123",
+  "judge_id": "jdg_xyz789",
+  "status": "processing",
+  "message": "Evaluation started successfully",
+  "estimated_completion_time": "2024-01-15T10:35:00Z"
+}
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```bash Error: Invalid Judge
+curl -X POST https://api.judge.example.com/evaluations/single \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content_id": "cnt_abc123",
+    "judge_id": "invalid_judge"
+  }'
+```
+
+```json Error Response (404)
+{
+  "error": {
+    "code": "JUDGE_NOT_FOUND",
+    "message": "Judge with ID 'invalid_judge' not found"
+  }
+}
+```
+
+</CodeGroup>

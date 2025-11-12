@@ -1,0 +1,80 @@
+---
+title: 'Get Judge Versions'
+api: 'GET /judges/{judge_id}/versions'
+description: 'List all versions of a judge'
+---
+
+## Overview
+
+Retrieves all versions of a judge, including version history and metadata.
+
+## Path Parameters
+
+<ParamField path="judge_id" type="string" required>
+  The unique identifier of the judge
+</ParamField>
+
+## Response
+
+<ResponseField name="versions" type="array" required>
+  Array of judge versions
+  
+  <Expandable title="version properties">
+    <ResponseField name="version_number" type="integer" required>
+      Version number
+    </ResponseField>
+    
+    <ResponseField name="is_active" type="boolean" required>
+      Whether this is the active version
+    </ResponseField>
+    
+    <ResponseField name="created_at" type="datetime" required>
+      Version creation timestamp
+    </ResponseField>
+    
+    <ResponseField name="changes_summary" type="string">
+      Summary of changes in this version
+    </ResponseField>
+    
+    <ResponseField name="criteria_count" type="integer" required>
+      Number of criteria in this version
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="current_version" type="integer" required>
+  Current active version number
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X GET https://api.judge.example.com/judges/jdg_xyz789/versions \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Success Response
+{
+  "versions": [
+    {
+      "version_number": 1,
+      "is_active": false,
+      "created_at": "2024-01-10T10:00:00Z",
+      "changes_summary": "Initial version",
+      "criteria_count": 2
+    },
+    {
+      "version_number": 2,
+      "is_active": true,
+      "created_at": "2024-01-14T15:30:00Z", 
+      "changes_summary": "Added engagement criterion",
+      "criteria_count": 3
+    }
+  ],
+  "current_version": 2
+}
+```
+
+</CodeGroup>

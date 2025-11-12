@@ -1,0 +1,88 @@
+---
+title: 'Get Judge Version'
+api: 'GET /judges/{judge_id}/versions/{version_number}'
+description: 'Get a specific version of a judge'
+---
+
+## Overview
+
+Retrieves a specific version of a judge with all its details and criteria.
+
+## Path Parameters
+
+<ParamField path="judge_id" type="string" required>
+  The unique identifier of the judge
+</ParamField>
+
+<ParamField path="version_number" type="integer" required>
+  The version number to retrieve
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string" required>
+  Judge identifier
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Judge name at this version
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Judge description at this version
+</ResponseField>
+
+<ResponseField name="content_type" type="string" required>
+  Content type (text, video, audio, image)
+</ResponseField>
+
+<ResponseField name="version_number" type="integer" required>
+  Version number
+</ResponseField>
+
+<ResponseField name="is_active" type="boolean" required>
+  Whether this is the active version
+</ResponseField>
+
+<ResponseField name="criteria" type="array" required>
+  Criteria for this version
+</ResponseField>
+
+<ResponseField name="created_at" type="datetime" required>
+  Version creation timestamp
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X GET https://api.judge.example.com/judges/jdg_xyz789/versions/1 \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Success Response
+{
+  "id": "jdg_xyz789",
+  "name": "Content Quality Judge",
+  "description": "Evaluates content quality",
+  "content_type": "text",
+  "version_number": 1,
+  "is_active": false,
+  "criteria": [
+    {
+      "id": "crit_001",
+      "name": "Clarity",
+      "description": "How clear and understandable the content is"
+    },
+    {
+      "id": "crit_002", 
+      "name": "Accuracy",
+      "description": "Factual correctness"
+    }
+  ],
+  "created_at": "2024-01-10T10:00:00Z"
+}
+```
+
+</CodeGroup>

@@ -1,0 +1,90 @@
+---
+title: 'Get Training Progress'
+api: 'GET /jobs/{job_id}/progress'
+description: 'Get real-time training progress'
+---
+
+## Overview
+
+Retrieves real-time progress information for a training job, including current phase, completion percentage, and performance metrics.
+
+## Path Parameters
+
+<ParamField path="job_id" type="string" required>
+  Unique identifier of the training job
+</ParamField>
+
+## Response
+
+<ResponseField name="job_id" type="string" required>
+  Training job ID
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  Current job status (preparing, training, validating, completed, failed)
+</ResponseField>
+
+<ResponseField name="progress" type="object" required>
+  Detailed progress information
+  
+  <Expandable title="progress properties">
+    <ResponseField name="overall_percentage" type="number" required>
+      Overall completion percentage (0-100)
+    </ResponseField>
+    
+    <ResponseField name="current_phase" type="string" required>
+      Current training phase
+    </ResponseField>
+    
+    <ResponseField name="current_epoch" type="integer">
+      Current training epoch (if training)
+    </ResponseField>
+    
+    <ResponseField name="total_epochs" type="integer">
+      Total planned epochs
+    </ResponseField>
+    
+    <ResponseField name="estimated_time_remaining" type="integer">
+      Estimated minutes remaining
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="current_metrics" type="object">
+  Current performance metrics (if available)
+</ResponseField>
+
+<ResponseField name="last_updated" type="datetime" required>
+  Progress last update timestamp
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X GET https://api.judge.example.com/jobs/train_job_123/progress \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Success Response (200)
+{
+  "job_id": "train_job_123",
+  "status": "training",
+  "progress": {
+    "overall_percentage": 67,
+    "current_phase": "training",
+    "current_epoch": 30,
+    "total_epochs": 45,
+    "estimated_time_remaining": 12
+  },
+  "current_metrics": {
+    "training_loss": 0.23,
+    "validation_loss": 0.27,
+    "accuracy": 89.2
+  },
+  "last_updated": "2024-01-15T18:20:00Z"
+}
+```
+
+</CodeGroup>
