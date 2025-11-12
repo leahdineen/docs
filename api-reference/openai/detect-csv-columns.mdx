@@ -119,8 +119,8 @@ Uses OpenAI to analyze CSV file structure and automatically detect column mappin
 <CodeGroup>
 
 ```bash Request
-curl -X POST https://api.judge.example.com/openai/detect-csv-columns \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/openai/detect-csv-columns \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "csv_sample": "title,post_content,author,published_date,category\n\"Introduction to AI\",\"Artificial Intelligence is transforming...\",\"John Doe\",\"2024-01-15\",\"Technology\"\n\"Marketing Tips\",\"Here are 10 proven marketing strategies...\",\"Jane Smith\",\"2024-01-14\",\"Business\"",

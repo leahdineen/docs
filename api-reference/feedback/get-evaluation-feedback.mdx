@@ -163,8 +163,8 @@ Retrieves all feedback that has been submitted for a specific evaluation. This i
 <CodeGroup>
 
 ```bash Request
-curl -X GET https://api.judge.example.com/feedback/evaluation/eval_abc123 \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET https://api.getpique.ai/feedback/evaluation/eval_abc123 \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Success Response (200)
@@ -240,8 +240,8 @@ curl -X GET https://api.judge.example.com/feedback/evaluation/eval_abc123 \
 <CodeGroup>
 
 ```bash Request: Filter by Feedback Type
-curl -X GET "https://api.judge.example.com/feedback/evaluation/eval_abc123?feedback_type=correction" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET "https://api.getpique.ai/feedback/evaluation/eval_abc123?feedback_type=correction" \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Filtered Response (200)
@@ -291,8 +291,8 @@ curl -X GET "https://api.judge.example.com/feedback/evaluation/eval_abc123?feedb
 <CodeGroup>
 
 ```bash Error: Evaluation Not Found
-curl -X GET https://api.judge.example.com/feedback/evaluation/eval_invalid \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET https://api.getpique.ai/feedback/evaluation/eval_invalid \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Error Response (404)

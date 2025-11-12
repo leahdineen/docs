@@ -159,8 +159,8 @@ Creates a new training job to improve judge performance based on accumulated fee
 <CodeGroup>
 
 ```bash Request: Incremental Training
-curl -X POST https://api.judge.example.com/training/jobs \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/training/jobs \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "judge_id": "jdg_xyz789",
@@ -209,8 +209,8 @@ curl -X POST https://api.judge.example.com/training/jobs \
 <CodeGroup>
 
 ```bash Request: Fine-tune Specific Criteria
-curl -X POST https://api.judge.example.com/training/jobs \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/training/jobs \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "judge_id": "jdg_xyz789",
@@ -254,8 +254,8 @@ curl -X POST https://api.judge.example.com/training/jobs \
 <CodeGroup>
 
 ```bash Error: Insufficient Feedback
-curl -X POST https://api.judge.example.com/training/jobs \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/training/jobs \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "judge_id": "jdg_new001",

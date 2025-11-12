@@ -51,8 +51,8 @@ Rolls back a judge to a previous version, making that version the new active ver
 <CodeGroup>
 
 ```bash Request
-curl -X POST https://api.judge.example.com/judges/jdg_xyz789/rollback \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/judges/jdg_xyz789/rollback \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "target_version": 1,

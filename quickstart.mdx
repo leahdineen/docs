@@ -14,8 +14,8 @@ Create a judge to evaluate content based on your criteria:
 <CodeGroup>
 
 ```bash cURL
-curl -X POST https://api.judge.example.com/judges \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/judges \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Content Quality Judge",
@@ -38,7 +38,7 @@ curl -X POST https://api.judge.example.com/judges \
 import requests
 
 headers = {
-    "Authorization": "Bearer YOUR_API_KEY",
+    "X-API-Key": "sk_org_xxxxxxxxx",
     "Content-Type": "application/json"
 }
 
@@ -59,7 +59,7 @@ data = {
 }
 
 response = requests.post(
-    "https://api.judge.example.com/judges",
+    "https://api.getpique.ai/judges",
     headers=headers,
     json=data
 )
@@ -79,8 +79,8 @@ Upload text content to evaluate:
 <CodeGroup>
 
 ```bash cURL
-curl -X POST https://api.judge.example.com/content/upload \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/content/upload \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -F "text_content=This is a sample article about artificial intelligence and its applications in modern business." \
   -F "name=AI Article" \
   -F "file_type=text"
@@ -96,8 +96,8 @@ files = {
 }
 
 response = requests.post(
-    "https://api.judge.example.com/content/upload",
-    headers={"Authorization": "Bearer YOUR_API_KEY"},
+    "https://api.getpique.ai/content/upload",
+    headers={"X-API-Key": "sk_org_xxxxxxxxx"},
     files=files
 )
 
@@ -114,8 +114,8 @@ Submit your content for evaluation:
 <CodeGroup>
 
 ```bash cURL
-curl -X POST https://api.judge.example.com/evaluations/single \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/evaluations/single \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "content_id": "cnt_abc123",
@@ -130,7 +130,7 @@ data = {
 }
 
 response = requests.post(
-    "https://api.judge.example.com/evaluations/single",
+    "https://api.getpique.ai/evaluations/single",
     headers=headers,
     json=data
 )
@@ -148,8 +148,8 @@ Retrieve the evaluation results:
 <CodeGroup>
 
 ```bash cURL
-curl -X GET https://api.judge.example.com/evaluations/eval_def456 \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET https://api.getpique.ai/evaluations/eval_def456 \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```python Python
@@ -159,8 +159,8 @@ import time
 time.sleep(10)
 
 response = requests.get(
-    f"https://api.judge.example.com/evaluations/{evaluation['evaluation_id']}",
-    headers={"Authorization": "Bearer YOUR_API_KEY"}
+    f"https://api.getpique.ai/evaluations/{evaluation['evaluation_id']}",
+    headers={"X-API-Key": "sk_org_xxxxxxxxx"}
 )
 
 result = response.json()

@@ -187,8 +187,8 @@ Evaluates social media content against platform-specific guidelines, content pol
 <CodeGroup>
 
 ```bash Request
-curl -X POST https://api.judge.example.com/evaluations/social-media \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/evaluations/social-media \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "content": "Check out this amazing new product! #innovation #tech #startup 🚀",
@@ -260,8 +260,8 @@ curl -X POST https://api.judge.example.com/evaluations/social-media \
 <CodeGroup>
 
 ```bash Error: Policy Violation Content
-curl -X POST https://api.judge.example.com/evaluations/social-media \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/evaluations/social-media \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "content": "This content contains inappropriate language and harassment",
@@ -320,8 +320,8 @@ curl -X POST https://api.judge.example.com/evaluations/social-media \
 <CodeGroup>
 
 ```bash Error: Invalid Platform
-curl -X POST https://api.judge.example.com/evaluations/social-media \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/evaluations/social-media \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "content": "Test content",

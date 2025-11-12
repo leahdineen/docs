@@ -57,8 +57,8 @@ Deletes an evaluation job and all associated results. This action is irreversibl
 <CodeGroup>
 
 ```bash Request: Delete Completed Job
-curl -X DELETE https://api.judge.example.com/evaluations/job_batch_456 \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X DELETE https://api.getpique.ai/evaluations/job_batch_456 \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Success Response (200)
@@ -77,8 +77,8 @@ curl -X DELETE https://api.judge.example.com/evaluations/job_batch_456 \
 <CodeGroup>
 
 ```bash Request: Force Delete Processing Job
-curl -X DELETE "https://api.judge.example.com/evaluations/job_processing_789?force=true" \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X DELETE "https://api.getpique.ai/evaluations/job_processing_789?force=true" \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Force Delete Response (200)
@@ -97,8 +97,8 @@ curl -X DELETE "https://api.judge.example.com/evaluations/job_processing_789?for
 <CodeGroup>
 
 ```bash Error: Job Not Found
-curl -X DELETE https://api.judge.example.com/evaluations/invalid_job_id \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X DELETE https://api.getpique.ai/evaluations/invalid_job_id \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Error Response (404)
@@ -115,8 +115,8 @@ curl -X DELETE https://api.judge.example.com/evaluations/invalid_job_id \
 <CodeGroup>
 
 ```bash Error: Cannot Delete Processing Job
-curl -X DELETE https://api.judge.example.com/evaluations/job_processing_789 \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X DELETE https://api.getpique.ai/evaluations/job_processing_789 \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Error Response (409)
@@ -135,8 +135,8 @@ curl -X DELETE https://api.judge.example.com/evaluations/job_processing_789 \
 <CodeGroup>
 
 ```bash Error: Insufficient Permissions
-curl -X DELETE https://api.judge.example.com/evaluations/job_other_org_123 \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X DELETE https://api.getpique.ai/evaluations/job_other_org_123 \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Error Response (403)

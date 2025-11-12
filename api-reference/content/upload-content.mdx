@@ -84,8 +84,8 @@ Uploads content to the system for evaluation. Supports text, video, audio, and i
 <CodeGroup>
 
 ```bash Text Upload
-curl -X POST https://api.judge.example.com/content/upload \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/content/upload \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -F "text_content=This is sample text content to evaluate" \
   -F "name=Sample Article" \
   -F "description=Article about API documentation" \
@@ -110,8 +110,8 @@ curl -X POST https://api.judge.example.com/content/upload \
 <CodeGroup>
 
 ```bash Video Upload
-curl -X POST https://api.judge.example.com/content/upload \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/content/upload \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -F "file=@video.mp4" \
   -F "name=Product Demo Video" \
   -F "description=Product demonstration" \
@@ -136,8 +136,8 @@ curl -X POST https://api.judge.example.com/content/upload \
 <CodeGroup>
 
 ```bash Error: Invalid File Type
-curl -X POST https://api.judge.example.com/content/upload \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/content/upload \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -F "file=@document.exe" \
   -F "name=Invalid File" \
   -F "file_type=text"

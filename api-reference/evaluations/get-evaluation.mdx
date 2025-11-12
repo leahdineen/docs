@@ -87,8 +87,8 @@ Retrieves the full details of a completed or in-progress evaluation.
 <CodeGroup>
 
 ```bash Request
-curl -X GET https://api.judge.example.com/evaluations/eval_def456 \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET https://api.getpique.ai/evaluations/eval_def456 \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Success Response
@@ -134,8 +134,8 @@ curl -X GET https://api.judge.example.com/evaluations/eval_def456 \
 <CodeGroup>
 
 ```bash Error: Not Found
-curl -X GET https://api.judge.example.com/evaluations/invalid_id \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET https://api.getpique.ai/evaluations/invalid_id \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Error Response (404)

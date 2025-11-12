@@ -150,8 +150,8 @@ Retrieves a list of evaluation jobs submitted by your organization using API key
 <CodeGroup>
 
 ```bash Request: List Recent Jobs
-curl -X GET "https://api.judge.example.com/evaluations?limit=10&sort_by=created_at&sort_order=desc" \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X GET "https://api.getpique.ai/evaluations?limit=10&sort_by=created_at&sort_order=desc" \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Success Response (200)
@@ -201,8 +201,8 @@ curl -X GET "https://api.judge.example.com/evaluations?limit=10&sort_by=created_
 <CodeGroup>
 
 ```bash Request: Filter Failed Jobs
-curl -X GET "https://api.judge.example.com/evaluations?status=failed&created_after=2024-01-14T00:00:00Z" \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X GET "https://api.getpique.ai/evaluations?status=failed&created_after=2024-01-14T00:00:00Z" \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Failed Jobs Response (200)
@@ -238,8 +238,8 @@ curl -X GET "https://api.judge.example.com/evaluations?status=failed&created_aft
 <CodeGroup>
 
 ```bash Error: Invalid Date Format
-curl -X GET "https://api.judge.example.com/evaluations?created_after=invalid-date" \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X GET "https://api.getpique.ai/evaluations?created_after=invalid-date" \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Error Response (400)

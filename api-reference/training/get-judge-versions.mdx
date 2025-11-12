@@ -133,8 +133,8 @@ Retrieves the version history for a judge, including all past versions, their pe
 <CodeGroup>
 
 ```bash Request
-curl -X GET "https://api.judge.example.com/judges/jdg_xyz789/versions?limit=10&include_metrics=true" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET "https://api.getpique.ai/judges/jdg_xyz789/versions?limit=10&include_metrics=true" \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Success Response (200)
@@ -200,8 +200,8 @@ curl -X GET "https://api.judge.example.com/judges/jdg_xyz789/versions?limit=10&i
 <CodeGroup>
 
 ```bash Error: Judge Not Found
-curl -X GET https://api.judge.example.com/judges/invalid_judge/versions \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET https://api.getpique.ai/judges/invalid_judge/versions \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Error Response (404)

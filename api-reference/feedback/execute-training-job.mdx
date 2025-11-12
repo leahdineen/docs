@@ -172,8 +172,8 @@ Starts execution of a previously created training job. Training jobs are created
 <CodeGroup>
 
 ```bash Request: Standard Execution
-curl -X POST https://api.judge.example.com/training-jobs/train_job_123/execute \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/training-jobs/train_job_123/execute \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "execution_override": {
@@ -210,7 +210,7 @@ curl -X POST https://api.judge.example.com/training-jobs/train_job_123/execute \
     ]
   },
   "monitoring_info": {
-    "progress_url": "https://api.judge.example.com/training/jobs/train_job_123/progress",
+    "progress_url": "https://api.getpique.ai/training/jobs/train_job_123/progress",
     "webhook_configured": true,
     "log_retention_days": 30
   },
@@ -224,8 +224,8 @@ curl -X POST https://api.judge.example.com/training-jobs/train_job_123/execute \
 <CodeGroup>
 
 ```bash Request: Minimal Resources
-curl -X POST https://api.judge.example.com/training-jobs/train_job_456/execute \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/training-jobs/train_job_456/execute \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "execution_override": {
@@ -256,7 +256,7 @@ curl -X POST https://api.judge.example.com/training-jobs/train_job_456/execute \
     "estimated_completion_time": "2024-01-15T14:30:00Z"
   },
   "monitoring_info": {
-    "progress_url": "https://api.judge.example.com/training/jobs/train_job_456/progress",
+    "progress_url": "https://api.getpique.ai/training/jobs/train_job_456/progress",
     "webhook_configured": false,
     "log_retention_days": 7
   },
@@ -270,8 +270,8 @@ curl -X POST https://api.judge.example.com/training-jobs/train_job_456/execute \
 <CodeGroup>
 
 ```bash Error: Job Already Executed
-curl -X POST https://api.judge.example.com/training-jobs/train_job_running/execute \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/training-jobs/train_job_running/execute \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -293,8 +293,8 @@ curl -X POST https://api.judge.example.com/training-jobs/train_job_running/execu
 <CodeGroup>
 
 ```bash Error: Cost Acknowledgment Required
-curl -X POST https://api.judge.example.com/training-jobs/train_job_expensive/execute \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/training-jobs/train_job_expensive/execute \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "execution_override": {

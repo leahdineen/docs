@@ -172,8 +172,8 @@ Initiates an automated retraining run for a judge based on accumulated feedback.
 <CodeGroup>
 
 ```bash Request: Manual Retraining
-curl -X POST https://api.judge.example.com/retraining/runs \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/retraining/runs \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "judge_id": "jdg_xyz789",
@@ -210,7 +210,7 @@ curl -X POST https://api.judge.example.com/retraining/runs \
   },
   "estimated_duration": 25,
   "progress_tracking": {
-    "progress_url": "https://api.judge.example.com/retraining/runs/retrain_run_123/progress",
+    "progress_url": "https://api.getpique.ai/retraining/runs/retrain_run_123/progress",
     "webhook_configured": true,
     "expected_milestones": [
       {"phase": "feedback_analysis", "estimated_time": "2024-01-15T12:40:00Z"},
@@ -229,8 +229,8 @@ curl -X POST https://api.judge.example.com/retraining/runs \
 <CodeGroup>
 
 ```bash Request: Threshold-Triggered Retraining
-curl -X POST https://api.judge.example.com/retraining/runs \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/retraining/runs \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "judge_id": "jdg_abc456",
@@ -259,7 +259,7 @@ curl -X POST https://api.judge.example.com/retraining/runs \
   },
   "estimated_duration": 18,
   "progress_tracking": {
-    "progress_url": "https://api.judge.example.com/retraining/runs/retrain_run_456/progress",
+    "progress_url": "https://api.getpique.ai/retraining/runs/retrain_run_456/progress",
     "webhook_configured": false,
     "expected_milestones": [
       {"phase": "feedback_analysis", "estimated_time": "2024-01-15T12:45:00Z"},
@@ -277,8 +277,8 @@ curl -X POST https://api.judge.example.com/retraining/runs \
 <CodeGroup>
 
 ```bash Error: Insufficient Feedback
-curl -X POST https://api.judge.example.com/retraining/runs \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/retraining/runs \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "judge_id": "jdg_new001",
@@ -306,8 +306,8 @@ curl -X POST https://api.judge.example.com/retraining/runs \
 <CodeGroup>
 
 ```bash Error: Retraining Already in Progress
-curl -X POST https://api.judge.example.com/retraining/runs \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/retraining/runs \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "judge_id": "jdg_xyz789",

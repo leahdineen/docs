@@ -105,8 +105,8 @@ Retrieves complete details of a judge including its criteria and analytics.
 <CodeGroup>
 
 ```bash Request
-curl -X GET https://api.judge.example.com/judges/jdg_xyz789 \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET https://api.getpique.ai/judges/jdg_xyz789 \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Success Response
@@ -152,8 +152,8 @@ curl -X GET https://api.judge.example.com/judges/jdg_xyz789 \
 <CodeGroup>
 
 ```bash Error: Not Found
-curl -X GET https://api.judge.example.com/judges/invalid_id \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET https://api.getpique.ai/judges/invalid_id \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Error Response (404)

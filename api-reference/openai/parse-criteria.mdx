@@ -103,8 +103,8 @@ Uses OpenAI to parse natural language descriptions into structured evaluation cr
 <CodeGroup>
 
 ```bash Request
-curl -X POST https://api.judge.example.com/openai/parse-criteria \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/openai/parse-criteria \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "description": "I need to evaluate blog posts for quality. They should be well-written with clear structure, factually accurate, engaging for readers, and include proper grammar and spelling. The content should be original and provide value to the target audience.",

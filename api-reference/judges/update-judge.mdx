@@ -57,8 +57,8 @@ Updates an existing judge's name, description, or criteria. Creates a new versio
 <CodeGroup>
 
 ```bash Request
-curl -X PUT https://api.judge.example.com/judges/jdg_xyz789 \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X PUT https://api.getpique.ai/judges/jdg_xyz789 \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Enhanced Content Quality Judge",
@@ -92,8 +92,8 @@ curl -X PUT https://api.judge.example.com/judges/jdg_xyz789 \
 <CodeGroup>
 
 ```bash Error: Judge Not Found
-curl -X PUT https://api.judge.example.com/judges/invalid_id \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X PUT https://api.getpique.ai/judges/invalid_id \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Updated Judge"

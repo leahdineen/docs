@@ -109,8 +109,8 @@ Checks the connectivity and status of OpenAI services integrated with the Judge 
 <CodeGroup>
 
 ```bash Request
-curl -X GET https://api.judge.example.com/openai/status \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET https://api.getpique.ai/openai/status \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Success Response (200)
@@ -164,8 +164,8 @@ curl -X GET https://api.judge.example.com/openai/status \
 <CodeGroup>
 
 ```bash Degraded Service Response
-curl -X GET https://api.judge.example.com/openai/status \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET https://api.getpique.ai/openai/status \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Degraded Response (200)

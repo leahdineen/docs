@@ -164,8 +164,8 @@ Retrieves the status, progress, and results of a batch evaluation job submitted 
 <CodeGroup>
 
 ```bash Request: Get Completed Job
-curl -X GET "https://api.judge.example.com/evaluations/job_batch_456?include_results=true&results_limit=10" \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X GET "https://api.getpique.ai/evaluations/job_batch_456?include_results=true&results_limit=10" \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Success Response (200)
@@ -236,8 +236,8 @@ curl -X GET "https://api.judge.example.com/evaluations/job_batch_456?include_res
 <CodeGroup>
 
 ```bash Request: Get Processing Job
-curl -X GET "https://api.judge.example.com/evaluations/job_batch_789" \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X GET "https://api.getpique.ai/evaluations/job_batch_789" \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Processing Response (200)
@@ -260,8 +260,8 @@ curl -X GET "https://api.judge.example.com/evaluations/job_batch_789" \
 <CodeGroup>
 
 ```bash Error: Job Not Found
-curl -X GET "https://api.judge.example.com/evaluations/invalid_job_id" \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X GET "https://api.getpique.ai/evaluations/invalid_job_id" \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Error Response (404)
@@ -278,8 +278,8 @@ curl -X GET "https://api.judge.example.com/evaluations/invalid_job_id" \
 <CodeGroup>
 
 ```bash Request: Failed Job
-curl -X GET "https://api.judge.example.com/evaluations/job_failed_123" \
-  -H "X-API-Key: YOUR_API_KEY"
+curl -X GET "https://api.getpique.ai/evaluations/job_failed_123" \
+  -H "X-API-Key: sk_org_xxxxxxxxx"
 ```
 
 ```json Failed Job Response (200)

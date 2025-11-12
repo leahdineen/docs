@@ -108,8 +108,8 @@ Submits multiple content items for batch evaluation using API key authentication
 <CodeGroup>
 
 ```bash Request
-curl -X POST https://api.judge.example.com/api-key/evaluations/batch \
-  -H "X-API-Key: YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/api-key/evaluations/batch \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "judge_id": "jdg_xyz789",
@@ -162,7 +162,7 @@ curl -X POST https://api.judge.example.com/api-key/evaluations/batch \
 <CodeGroup>
 
 ```bash Error: Invalid API Key
-curl -X POST https://api.judge.example.com/api-key/evaluations/batch \
+curl -X POST https://api.getpique.ai/api-key/evaluations/batch \
   -H "X-API-Key: invalid_key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -185,8 +185,8 @@ curl -X POST https://api.judge.example.com/api-key/evaluations/batch \
 <CodeGroup>
 
 ```bash Error: Too Many Items
-curl -X POST https://api.judge.example.com/api-key/evaluations/batch \
-  -H "X-API-Key: YOUR_API_KEY" \
+curl -X POST https://api.getpique.ai/api-key/evaluations/batch \
+  -H "X-API-Key: sk_org_xxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
     "judge_id": "jdg_xyz789",
