@@ -18,12 +18,12 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:support@example.com"
+      "url": "mailto:support@judge.com"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.example.com"
+    "name": "Dashboard", 
+    "url": "https://app.judge.com"
   },
   "tabs": [
     {
@@ -35,12 +35,12 @@
     {
       "name": "Documentation",
       "icon": "book-open-cover",
-      "url": "https://docs.example.com"
+      "url": "https://docs.judge.com"
     },
     {
       "name": "GitHub",
       "icon": "github",
-      "url": "https://github.com/yourusername/judge"
+      "url": "https://github.com/judge-system/judge"
     }
   ],
   "navigation": [
@@ -48,8 +48,7 @@
       "group": "Get Started",
       "pages": [
         "introduction",
-        "quickstart",
-        "authentication"
+        "quickstart"
       ]
     },
     {
@@ -186,7 +185,7 @@
     }
   ],
   "footerSocials": {
-    "github": "https://github.com/yourusername/judge",
-    "linkedin": "https://www.linkedin.com/company/yourcompany"
+    "github": "https://github.com/judge-system/judge",
+    "linkedin": "https://www.linkedin.com/company/judge-system"
   }
 }

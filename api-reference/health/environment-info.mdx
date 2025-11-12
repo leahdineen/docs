@@ -1,0 +1,62 @@
+---
+title: 'Environment Information'
+api: 'GET /health/environment'
+description: 'Get current environment information'
+---
+
+## Overview
+
+Returns information about the current environment configuration. Useful for verifying deployment environment and debugging configuration issues.
+
+## Response
+
+<ResponseField name="environment" type="string" required>
+  Current environment name
+  - `development` - Development environment
+  - `staging` - Staging environment  
+  - `production` - Production environment
+</ResponseField>
+
+<ResponseField name="timestamp" type="datetime" required>
+  Current server timestamp in ISO format
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Human-readable environment description
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash Request
+curl -X GET https://api.judge.example.com/health/environment \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Success Response
+{
+  "environment": "production",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "message": "Running in production mode"
+}
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```bash Development Environment
+curl -X GET https://api.judge.example.com/health/environment \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json Development Response
+{
+  "environment": "development",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "message": "Running in development mode"
+}
+```
+
+</CodeGroup>
