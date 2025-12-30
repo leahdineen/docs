@@ -5,7 +5,7 @@
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "colors": {
     "primary": "#0D9373",
     "light": "#07C983",
@@ -14,16 +14,6 @@
       "from": "#0D9373",
       "to": "#07C983"
     }
-  },
-  "topbarLinks": [
-    {
-      "name": "Support",
-      "url": "mailto:support@judge.app"
-    }
-  ],
-  "topbarCtaButton": {
-    "name": "Dashboard", 
-    "url": "https://app.judge.app"
   },
   "tabs": [
     {
@@ -59,9 +49,5 @@
         "api-reference/evaluations/social-media"
       ]
     }
-  ],
-  "footerSocials": {
-    "github": "https://github.com/judge-system",
-    "linkedin": "https://www.linkedin.com/company/judge-system"
-  }
+  ]
 }
