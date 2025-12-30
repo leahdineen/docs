@@ -1,0 +1,98 @@
+---
+title: 'Create Reference Content Upload URL'
+api: 'POST /v1/judges/reference_content'
+description: 'Generate a pre-signed upload URL for judge reference content'
+---
+
+## Authentication
+
+**Required:** API Key authentication via `X-API-Key` header
+
+## Request Body
+
+<ParamField body="file_extension" type="string" required>
+  The file extension of the content to upload. Must be between 1-10 characters.
+  
+  **Examples:** `mp4`, `jpg`, `png`, `wav`, `pdf`
+</ParamField>
+
+## Request Example
+
+```json
+{
+  "file_extension": "mp4"
+}
+```
+
+## Response
+
+<ResponseField name="upload_url" type="string">
+  A pre-signed GCS (Google Cloud Storage) URL for uploading the reference content. 
+  
+  This URL is valid for a limited time (typically 1 hour) and should be used with a PUT request to upload the file directly.
+</ResponseField>
+
+<ResponseField name="gcs_uri" type="string">
+  The GCS URI where the file will be stored. This can be used to reference the file in subsequent API calls.
+  
+  **Format:** `gs://bucket-name/path/to/file`
+</ResponseField>
+
+## Response Example
+
+```json
+{
+  "upload_url": "https://storage.googleapis.com/judge-artifacts/org_123/reference_uploads/abc123/xyz789.mp4?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=...",
+  "gcs_uri": "gs://judge-artifacts/org_123/reference_uploads/abc123/xyz789.mp4"
+}
+```
+
+## How to Upload Content
+
+After receiving the response, use the `upload_url` to upload your file:
+
+```bash
+curl -X PUT \
+  -H "Content-Type: video/mp4" \
+  --data-binary @your-file.mp4 \
+  "UPLOAD_URL_FROM_RESPONSE"
+```
+
+Or using JavaScript:
+
+```javascript
+const file = // your file object
+const response = await fetch(uploadUrl, {
+  method: 'PUT',
+  body: file,
+  headers: {
+    'Content-Type': file.type
+  }
+});
+```
+
+## Important Notes
+
+1. The upload URL expires after a limited time (typically 1 hour)
+2. The file must be uploaded using a PUT request
+3. Set the appropriate `Content-Type` header when uploading
+4. The maximum file size depends on your organization's limits
+5. The `gcs_uri` returned can be used to reference this content in other API calls
+
+## Error Responses
+
+<ResponseField name="400" type="Bad Request">
+  Invalid file extension or request format
+</ResponseField>
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API key
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Organization does not have permission to upload reference content
+</ResponseField>
+
+<ResponseField name="500" type="Internal Server Error">
+  Failed to generate upload URL due to server error
+</ResponseField>

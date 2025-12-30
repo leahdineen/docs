@@ -1,0 +1,192 @@
+---
+title: 'Submit Social Media Evaluation'
+api: 'POST /v1/evaluations/social-media'
+description: 'Submit social media video URLs for evaluation'
+---
+
+## Authentication
+
+**Required:** API Key authentication via `X-API-Key` header
+
+## Overview
+
+This endpoint allows you to submit social media video URLs for evaluation. The system will automatically download the videos and process them through your specified judge.
+
+### Processing Flow
+
+1. API creates evaluation job records for each video with status `awaiting_upload`
+2. Cloud Tasks queues download tasks for each video
+3. Download worker downloads videos and uploads to GCS
+4. GCS fires OBJECT_FINALIZE event to Pub/Sub
+5. Pub/Sub triggers video processor
+6. Video processor processes each video and stores results
+7. Webhook notification sent when processing completes (if configured)
+
+## Request Body
+
+<ParamField body="judge_id" type="string" required>
+  The ID of the judge to use for evaluation. Must be a video-type judge.
+</ParamField>
+
+<ParamField body="video_urls" type="array" required>
+  List of social media video URLs to process. 
+  
+  **Constraints:**
+  - Minimum 1 URL
+  - Maximum 20 URLs per request
+  - Must be valid HTTP/HTTPS URLs
+  
+  **Supported platforms:** Most major social media platforms including YouTube, TikTok, Instagram, Twitter/X, Facebook, etc.
+</ParamField>
+
+<ParamField body="webhook_url" type="string">
+  Optional webhook URL to override your organization's default webhook. 
+  
+  If provided, this URL will receive notifications for this batch. The webhook will still use your organization's webhook secret for request signing.
+</ParamField>
+
+## Request Example
+
+```json
+{
+  "judge_id": "judge_abc123",
+  "video_urls": [
+    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "https://www.tiktok.com/@username/video/123456789",
+    "https://www.instagram.com/reel/ABC123/"
+  ],
+  "webhook_url": "https://api.example.com/webhooks/evaluation-complete"
+}
+```
+
+## Response
+
+<ResponseField name="batch_id" type="string">
+  Unique identifier for this batch submission
+</ResponseField>
+
+<ResponseField name="jobs" type="array">
+  Array of job information for each submitted video
+  
+  <Expandable title="Job Information">
+    <ResponseField name="job_id" type="string">
+      Unique identifier for this evaluation job
+    </ResponseField>
+    
+    <ResponseField name="url" type="string">
+      The original video URL submitted
+    </ResponseField>
+    
+    <ResponseField name="status" type="string">
+      Initial status of the job (will be `awaiting_upload`)
+    </ResponseField>
+    
+    <ResponseField name="error_message" type="string">
+      Error message if the job failed to create (null if successful)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total_videos" type="integer">
+  Total number of videos submitted in this batch
+</ResponseField>
+
+<ResponseField name="webhook_id" type="string">
+  ID of the webhook that will be used for notifications (if configured)
+</ResponseField>
+
+## Response Example
+
+```json
+{
+  "batch_id": "batch_hJ8kLm3nP9qR2vXy",
+  "jobs": [
+    {
+      "job_id": "job_aB3cD4eF5gH6iJ7k",
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "status": "awaiting_upload",
+      "error_message": null
+    },
+    {
+      "job_id": "job_lM8nO9pQ0rS1tU2v",
+      "url": "https://www.tiktok.com/@username/video/123456789",
+      "status": "awaiting_upload",
+      "error_message": null
+    },
+    {
+      "job_id": "job_wX3yZ4aB5cD6eF7g",
+      "url": "https://www.instagram.com/reel/ABC123/",
+      "status": "awaiting_upload",
+      "error_message": null
+    }
+  ],
+  "total_videos": 3,
+  "webhook_id": "webhook_xyz789"
+}
+```
+
+## Status Codes
+
+- **202 Accepted** - Request accepted and videos queued for processing
+- **400 Bad Request** - Invalid request parameters
+- **401 Unauthorized** - Missing or invalid API key
+- **404 Not Found** - Judge not found or not accessible
+- **500 Internal Server Error** - Server error
+
+## Checking Evaluation Status
+
+After submission, you can check the status of individual jobs using:
+
+```
+GET /v1/evaluations/{job_id}
+```
+
+Each job will progress through these statuses:
+- `awaiting_upload` - Video download pending
+- `processing` - Video being evaluated
+- `completed` - Evaluation finished successfully
+- `failed` - Evaluation failed (check error_message)
+
+## Webhook Notifications
+
+If configured, your webhook will receive a POST request when each video completes processing:
+
+```json
+{
+  "job_id": "job_aB3cD4eF5gH6iJ7k",
+  "batch_id": "batch_hJ8kLm3nP9qR2vXy",
+  "status": "completed",
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "overall_score": 85.5,
+  "results": [...],
+  "completed_at": "2024-01-15T12:45:00Z"
+}
+```
+
+The webhook request will include an `X-Webhook-Signature` header for request validation using HMAC-SHA256.
+
+## Rate Limits
+
+- Maximum 20 videos per request
+- Recommended: Batch multiple videos in a single request rather than making individual requests
+
+## Error Responses
+
+<ResponseField name="400" type="Bad Request">
+  - Judge is not of type 'video'
+  - Invalid video URLs
+  - Too many URLs (exceeds 20)
+  - Empty URL list
+</ResponseField>
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API key
+</ResponseField>
+
+<ResponseField name="404" type="Not Found">
+  Judge not found or not accessible by your organization
+</ResponseField>
+
+<ResponseField name="500" type="Internal Server Error">
+  Failed to create evaluation jobs due to server error
+</ResponseField>

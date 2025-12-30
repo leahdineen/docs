@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Judge System API",
+  "name": "Judge API",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
@@ -18,29 +18,17 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:support@judge.com"
+      "url": "mailto:support@judge.app"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard", 
-    "url": "https://app.judge.com"
+    "url": "https://app.judge.app"
   },
   "tabs": [
     {
       "name": "API Reference",
       "url": "api-reference"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://docs.judge.com"
-    },
-    {
-      "name": "GitHub",
-      "icon": "github",
-      "url": "https://github.com/judge-system/judge"
     }
   ],
   "navigation": [
@@ -54,138 +42,26 @@
     {
       "group": "API Documentation",
       "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "System",
-      "pages": [
-        "api-reference/health/health-check",
-        "api-reference/health/database-health",
-        "api-reference/health/environment-info",
-        "api-reference/health/system-stats"
+        "api-reference/overview"
       ]
     },
     {
       "group": "Judges",
       "pages": [
         "api-reference/judges/create-judge",
-        "api-reference/judges/get-judge",
-        "api-reference/judges/list-judges",
-        "api-reference/judges/update-judge",
-        "api-reference/judges/delete-judge",
-        "api-reference/judges/get-judge-versions",
-        "api-reference/judges/get-judge-version",
-        "api-reference/judges/compare-versions",
-        "api-reference/judges/rollback-judge"
+        "api-reference/judges/create-reference-content"
       ]
     },
     {
       "group": "Evaluations",
       "pages": [
-        "api-reference/evaluations/evaluate-content",
-        "api-reference/evaluations/get-evaluation",
-        "api-reference/evaluations/list-evaluations",
-        "api-reference/evaluations/get-video-detections",
-        "api-reference/evaluations/social-media-evaluate",
-        "api-reference/evaluations/api-key-evaluate",
-        "api-reference/evaluations/api-key-get-evaluation",
-        "api-reference/evaluations/api-key-list-evaluations",
-        "api-reference/evaluations/api-key-delete-evaluation"
-      ]
-    },
-    {
-      "group": "Content",
-      "pages": [
-        "api-reference/content/upload-content",
-        "api-reference/content/get-content",
-        "api-reference/content/list-content",
-        "api-reference/content/delete-content",
-        "api-reference/content/get-media",
-        "api-reference/content/add-notes",
-        "api-reference/content/get-notes"
-      ]
-    },
-    {
-      "group": "Batches",
-      "pages": [
-        "api-reference/batches/create-batch",
-        "api-reference/batches/batch-evaluate",
-        "api-reference/batches/get-batch",
-        "api-reference/batches/list-batches",
-        "api-reference/batches/delete-batch"
-      ]
-    },
-    {
-      "group": "Feedback",
-      "pages": [
-        "api-reference/feedback/submit-feedback",
-        "api-reference/feedback/get-evaluation-feedback",
-        "api-reference/feedback/submit-batch-feedback",
-        "api-reference/feedback/create-training-job",
-        "api-reference/feedback/get-training-job",
-        "api-reference/feedback/execute-training-job"
-      ]
-    },
-    {
-      "group": "Training",
-      "pages": [
-        "api-reference/training/start-retraining",
-        "api-reference/training/get-judge-versions",
-        "api-reference/training/get-judge-version",
-        "api-reference/training/compare-versions",
-        "api-reference/training/rollback-judge",
-        "api-reference/training/start-training-job",
-        "api-reference/training/get-feedback-summary",
-        "api-reference/training/get-change-summary",
-        "api-reference/training/get-training-progress"
-      ]
-    },
-    {
-      "group": "Organizations & API Keys",
-      "pages": [
-        "api-reference/organizations/create-organization",
-        "api-reference/organizations/get-organization",
-        "api-reference/organizations/create-api-key",
-        "api-reference/organizations/list-api-keys",
-        "api-reference/organizations/delete-api-key"
-      ]
-    },
-    {
-      "group": "Configuration",
-      "pages": [
-        "api-reference/config/get-openai-config",
-        "api-reference/config/update-openai-config",
-        "api-reference/config/get-judge-analytics",
-        "api-reference/config/get-system-analytics"
-      ]
-    },
-    {
-      "group": "OpenAI Utilities",
-      "pages": [
-        "api-reference/openai/parse-criteria",
-        "api-reference/openai/detect-csv-columns",
-        "api-reference/openai/get-status"
-      ]
-    },
-    {
-      "group": "API Key Endpoints",
-      "pages": [
-        "api-reference/api-key/create-judge",
-        "api-reference/api-key/list-judges",
-        "api-reference/api-key/get-judge",
-        "api-reference/api-key/delete-judge"
-      ]
-    },
-    {
-      "group": "Video Processing",
-      "pages": [
-        "api-reference/video/callback-endpoint"
+        "api-reference/evaluations/presigned-upload",
+        "api-reference/evaluations/social-media"
       ]
     }
   ],
   "footerSocials": {
-    "github": "https://github.com/judge-system/judge",
+    "github": "https://github.com/judge-system",
     "linkedin": "https://www.linkedin.com/company/judge-system"
   }
 }

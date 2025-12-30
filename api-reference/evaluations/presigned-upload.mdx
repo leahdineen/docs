@@ -1,0 +1,163 @@
+---
+title: 'Request Presigned Upload URL'
+api: 'POST /v1/evaluations/presigned-upload'
+description: 'Request a pre-signed upload URL for content evaluation (event-driven flow)'
+---
+
+## Authentication
+
+**Required:** API Key authentication via `X-API-Key` header
+
+## Overview
+
+This endpoint initiates an event-driven evaluation flow:
+
+1. API creates evaluation job record with status `awaiting_upload`
+2. API generates pre-signed GCS upload URL
+3. Client uploads content directly to GCS using PUT request
+4. GCS triggers Cloud Pub/Sub event on upload completion
+5. Video processor receives event and processes content
+6. Results stored in evaluation results table
+7. Optional webhook notification sent to client
+
+## Request Body
+
+<ParamField body="judge_id" type="string" required>
+  The ID of the judge to use for evaluation
+</ParamField>
+
+<ParamField body="content_type" type="string" required>
+  The type of content being uploaded
+  
+  **Allowed values:** `video`, `image`, `audio`
+</ParamField>
+
+<ParamField body="filename" type="string" required>
+  The original filename of the content. Must be between 1-255 characters.
+</ParamField>
+
+<ParamField body="file_size_bytes" type="integer" required>
+  The size of the file in bytes. Maximum 5GB (5,368,709,120 bytes).
+</ParamField>
+
+<ParamField body="title" type="string">
+  Optional title for the content
+</ParamField>
+
+<ParamField body="description" type="string">
+  Optional description for the content
+</ParamField>
+
+## Request Example
+
+```json
+{
+  "judge_id": "judge_abc123",
+  "content_type": "video",
+  "filename": "safety_test_video.mp4",
+  "file_size_bytes": 52428800,
+  "title": "Product Demo Video",
+  "description": "Marketing video for new product launch"
+}
+```
+
+## Response
+
+<ResponseField name="job_id" type="string">
+  Unique identifier for the evaluation job. Use this to track the evaluation status.
+</ResponseField>
+
+<ResponseField name="upload_url" type="string">
+  Pre-signed GCS upload URL. Use this URL with a PUT request to upload your content.
+  
+  **Important:** This URL expires after the time specified in `expires_at`
+</ResponseField>
+
+<ResponseField name="upload_headers" type="object">
+  Headers that must be included when uploading to the `upload_url`
+  
+  **Typically includes:**
+  - Content-Type headers
+  - Any required authentication headers
+</ResponseField>
+
+<ResponseField name="expires_at" type="string">
+  ISO 8601 timestamp indicating when the upload URL expires (typically 1 hour from creation)
+</ResponseField>
+
+## Response Example
+
+```json
+{
+  "job_id": "job_xKt9mNp2qRs3vWy7",
+  "upload_url": "https://storage.googleapis.com/judge-content/org_123/pending/job_xKt9mNp2qRs3vWy7/safety_test_video.mp4?X-Goog-Algorithm=GOOG4-RSA-SHA256&...",
+  "upload_headers": {
+    "Content-Type": "video/mp4"
+  },
+  "expires_at": "2024-01-15T11:30:00Z"
+}
+```
+
+## Uploading Content
+
+After receiving the response, upload your file using the provided URL:
+
+```bash
+curl -X PUT \
+  -H "Content-Type: video/mp4" \
+  --data-binary @your-video.mp4 \
+  "UPLOAD_URL_FROM_RESPONSE"
+```
+
+Or using JavaScript:
+
+```javascript
+const file = // your file object
+const response = await fetch(uploadUrl, {
+  method: 'PUT',
+  body: file,
+  headers: uploadHeaders // from the response
+});
+```
+
+## Checking Evaluation Status
+
+After uploading, you can check the evaluation status using:
+
+```
+GET /v1/evaluations/{job_id}
+```
+
+The evaluation will go through these statuses:
+- `awaiting_upload` - Waiting for file upload
+- `processing` - Content is being evaluated
+- `completed` - Evaluation finished successfully
+- `failed` - Evaluation failed (check error_message)
+
+## Webhook Notifications
+
+If your organization has configured a webhook, you'll receive a notification when the evaluation completes. The webhook payload will include:
+- Job ID
+- Evaluation status
+- Results (if successful)
+- Error message (if failed)
+
+## Error Responses
+
+<ResponseField name="400" type="Bad Request">
+  - Invalid content type (must be video, image, or audio)
+  - File size exceeds 5GB limit
+  - Invalid request parameters
+</ResponseField>
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API key
+</ResponseField>
+
+<ResponseField name="404" type="Not Found">
+  Judge not found or not accessible by your organization
+</ResponseField>
+
+<ResponseField name="500" type="Internal Server Error">
+  Failed to create upload URL due to server error
+</ResponseField>
