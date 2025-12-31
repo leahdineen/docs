@@ -1,5 +1,5 @@
 ---
-title: 'Submit Social Media Evaluation'
+title: 'Social Media URLs'
 api: 'POST /v1/evaluations/social-media'
 description: 'Submit social media video URLs for evaluation'
 ---
@@ -11,16 +11,6 @@ description: 'Submit social media video URLs for evaluation'
 ## Overview
 
 This endpoint allows you to submit social media video URLs for evaluation. The system will automatically download the videos and process them through your specified judge.
-
-### Processing Flow
-
-1. API creates evaluation job records for each video with status `awaiting_upload`
-2. Cloud Tasks queues download tasks for each video
-3. Download worker downloads videos and uploads to GCS
-4. GCS fires OBJECT_FINALIZE event to Pub/Sub
-5. Pub/Sub triggers video processor
-6. Video processor processes each video and stores results
-7. Webhook notification sent when processing completes (if configured)
 
 ## Request Body
 
@@ -35,8 +25,8 @@ This endpoint allows you to submit social media video URLs for evaluation. The s
   - Minimum 1 URL
   - Maximum 20 URLs per request
   - Must be valid HTTP/HTTPS URLs
-  
-  **Supported platforms:** Most major social media platforms including YouTube, TikTok, Instagram, Twitter/X, Facebook, etc.
+
+  **Note: ** videos may fail to be evaluated due to bot detection from the hosting website. It is recommended to use the direct upload api whenever possible.
 </ParamField>
 
 <ParamField body="webhook_url" type="string">
@@ -58,8 +48,7 @@ curl -X POST "https://api.getpique.ai/v1/evaluations/social-media" \
       "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "https://www.tiktok.com/@username/video/123456789",
       "https://www.instagram.com/reel/ABC123/"
-    ],
-    "webhook_url": "https://api.getpique.ai/webhooks/evaluation-complete"
+    ]
   }'
 ```
 
@@ -71,8 +60,7 @@ curl -X POST "https://api.getpique.ai/v1/evaluations/social-media" \
     "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     "https://www.tiktok.com/@username/video/123456789",
     "https://www.instagram.com/reel/ABC123/"
-  ],
-  "webhook_url": "https://api.getpique.ai/webhooks/evaluation-complete"
+  ]
 }
 ```
 
@@ -149,21 +137,6 @@ curl -X POST "https://api.getpique.ai/v1/evaluations/social-media" \
 - **401 Unauthorized** - Missing or invalid API key
 - **404 Not Found** - Judge not found or not accessible
 - **500 Internal Server Error** - Server error
-
-## Checking Evaluation Status
-
-After submission, you can check the status of individual jobs using:
-
-```bash
-curl -H "X-API-Key: pk_your_api_key_here" \
-  https://api.getpique.ai/v1/evaluations/{job_id}
-```
-
-Each job will progress through these statuses:
-- `awaiting_upload` - Video download pending
-- `processing` - Video being evaluated
-- `completed` - Evaluation finished successfully
-- `failed` - Evaluation failed (check error_message)
 
 ## Webhook Notifications
 

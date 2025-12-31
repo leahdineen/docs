@@ -1,7 +1,7 @@
 ---
-title: 'Request Presigned Upload URL'
+title: 'Direct Upload'
 api: 'POST /v1/evaluations/presigned-upload'
-description: 'Request a pre-signed upload URL for content evaluation (event-driven flow)'
+description: 'Request a pre-signed upload URL for content evaluation'
 ---
 
 ## Authentication
@@ -15,10 +15,8 @@ This endpoint initiates an event-driven evaluation flow:
 1. API creates evaluation job record with status `awaiting_upload`
 2. API generates pre-signed GCS upload URL
 3. Client uploads content directly to GCS using PUT request
-4. GCS triggers Cloud Pub/Sub event on upload completion
-5. Video processor receives event and processes content
-6. Results stored in evaluation results table
-7. Optional webhook notification sent to client
+4. Evaluation triggered on upload completion
+5. Webhook notification sent to client
 
 ## Request Body
 
@@ -37,7 +35,7 @@ This endpoint initiates an event-driven evaluation flow:
 </ParamField>
 
 <ParamField body="file_size_bytes" type="integer" required>
-  The size of the file in bytes. Maximum 5GB (5,368,709,120 bytes).
+  The size of the file in bytes.
 </ParamField>
 
 <ParamField body="title" type="string">
@@ -46,6 +44,12 @@ This endpoint initiates an event-driven evaluation flow:
 
 <ParamField body="description" type="string">
   Optional description for the content
+</ParamField>
+
+<ParamField body="webhook_url" type="string">
+  Optional webhook URL to override your organization's default webhook. 
+  
+  If provided, this URL will receive notifications for this batch. The webhook will still use your organization's webhook secret for request signing.
 </ParamField>
 
 ## Request Example
@@ -119,41 +123,14 @@ curl -X POST "https://api.getpique.ai/v1/evaluations/presigned-upload" \
 After receiving the response, upload your file using the provided URL:
 
 ```bash
-curl -X PUT \
+curl -X PUT "<UPLOAD_URL_FROM_RESPONSE>"\
   -H "Content-Type: video/mp4" \
   --data-binary @your-video.mp4 \
-  "UPLOAD_URL_FROM_RESPONSE"
 ```
-
-Or using JavaScript:
-
-```javascript
-const file = // your file object
-const response = await fetch(uploadUrl, {
-  method: 'PUT',
-  body: file,
-  headers: uploadHeaders // from the response
-});
-```
-
-## Checking Evaluation Status
-
-After uploading, you can check the evaluation status using:
-
-```bash
-curl -H "X-API-Key: pk_your_api_key_here" \
-  https://api.getpique.ai/v1/evaluations/{job_id}
-```
-
-The evaluation will go through these statuses:
-- `awaiting_upload` - Waiting for file upload
-- `processing` - Content is being evaluated
-- `completed` - Evaluation finished successfully
-- `failed` - Evaluation failed (check error_message)
 
 ## Webhook Notifications
 
-If your organization has configured a webhook, you'll receive a notification when the evaluation completes. The webhook payload will include:
+If your organization has configured a webhook (contact Pique to set a default webhook for your organization), you'll receive a notification when the evaluation completes. The webhook payload will include:
 - Job ID
 - Evaluation status
 - Results (if successful)
@@ -163,7 +140,6 @@ If your organization has configured a webhook, you'll receive a notification whe
 
 ### 400 Bad Request
 - Invalid content type (must be video, image, or audio)
-- File size exceeds 5GB limit
 - Invalid request parameters
 
 ### 401 Unauthorized

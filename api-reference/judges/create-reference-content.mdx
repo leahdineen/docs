@@ -74,8 +74,7 @@ curl -X PUT "<UPLOAD_URL_FROM_RESPONSE>" \
 1. The upload URL expires after a limited time (typically 1 hour)
 2. The file must be uploaded using a PUT request
 3. Set the appropriate `Content-Type` header when uploading
-4. The maximum file size depends on your organization's limits
-5. The `gcs_uri` returned can be used to reference this content when creating a judge
+4. The `gcs_uri` returned should be used to reference this content when creating a judge
 
 ## Error Responses
 
