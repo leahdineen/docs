@@ -7,15 +7,6 @@ description: 'Available detectors and their configurations'
 
 Detectors are the building blocks of judges. Each detector analyzes specific aspects of content and can be configured with custom parameters. When creating a judge, you specify which detectors to use and their configurations.
 
-## Detector Types
-
-Detectors are categorized by their analysis approach:
-
-- **Heuristic** - Rule-based analysis using deterministic algorithms
-- **AI Vision** - Computer vision and image analysis using AI models
-- **AI Text** - Natural language processing and text analysis
-- **AI Audio** - Audio processing and speech analysis
-
 ## Configuration Format
 
 When creating a judge using the v1 endpoint, detectors are configured in the `detectors` array:
@@ -46,61 +37,60 @@ When creating a judge using the v1 endpoint, detectors are configured in the `de
 
 ### Content Quality Detectors
 
-| Detector | Type | Description |
-|----------|------|-------------|
-| `video_quality` | Heuristic | Validates video technical specifications |
-| `video_specs` | Heuristic | Checks video dimensions, duration, and frame rate |
-| `image_specs` | Heuristic | Validates image dimensions and aspect ratios |
-| `image_sharpness` | Heuristic | Detects blurry or out-of-focus images |
-| `audio_noise` | Heuristic | Detects background noise and audio quality issues |
-| `lighting` | Heuristic | Analyzes lighting quality in visual content |
+| Detector | Description |
+|----------|-------------|
+| `audio_noise` | Detects background noise and audio quality issues |
+| `image_sharpness` | Detects blurry or out-of-focus images |
+| `image_specs` | Validates image dimensions and aspect ratios |
+| `lighting` | Analyzes lighting quality in visual content |
+| `video_quality` | Validates video technical specifications |
+| `video_specs` | Checks video dimensions, duration, and frame rate |
 
 ### Content Matching Detectors
 
-| Detector | Type | Description |
-|----------|------|-------------|
-| `video_matching` | Heuristic | Matches video against reference content |
-| `audio_matching` | Heuristic | Matches audio against reference content |
-| `splitscreen_video_matching` | Heuristic | Matches split-screen video content |
-| `video_matching_description` | AI Vision | Matches video against text description |
+| Detector | Description |
+|----------|-------------|
+| `audio_matching` | Matches audio against reference content |
+| `splitscreen_video_matching` | Matches split-screen video content |
+| `video_matching` | Matches video against reference content |
+| `video_matching_description` | Matches video against text description |
 
 ### Content Analysis Detectors
 
-| Detector | Type | Description |
-|----------|------|-------------|
-| `transcription` | Heuristic | Transcribes audio content |
-| `transcript_policy` | AI Text | Checks transcript against policy guidelines |
-| `transcript_product` | AI Text | Detects product mentions in transcripts |
-| `language` | AI Text | Detects and validates content language |
-| `sentiment` | AI Text | Analyzes emotional tone and sentiment |
-| `content_quality` | AI Text | Evaluates overall content quality |
+| Detector | Description |
+|----------|-------------|
+| `content_quality` | Evaluates overall content quality |
+| `language` | Detects and validates content language |
+| `sentiment` | Analyzes emotional tone and sentiment |
+| `transcription` | Transcribes audio content |
+| `transcript_policy` | Checks transcript against policy guidelines |
+| `transcript_product` | Detects product mentions in transcripts |
 
 ### Visual Analysis Detectors
 
-| Detector | Type | Description |
-|----------|------|-------------|
-| `background` | AI Vision | Analyzes background elements |
-| `framing` | AI Vision | Evaluates shot composition and framing |
-| `overlays` | AI Vision | Detects text overlays and graphics |
-| `logo` | AI Vision | Detects and validates logos |
-| `wardrobe` | AI Vision | Analyzes clothing and appearance |
-| `product_application` | AI Vision | Detects product usage demonstrations |
-| `subtitles` | AI Vision | Detects subtitle presence |
-| `image_ip_infringement` | AI Vision | Checks for potential IP violations |
+| Detector | Description |
+|----------|-------------|
+| `background` | Analyzes background elements |
+| `framing` | Evaluates shot composition and framing |
+| `image_ip_infringement` | Checks for potential IP violations |
+| `overlays` | Detects text overlays and graphics |
+| `product_application` | Detects product usage demonstrations |
+| `subtitles` | Detects subtitle presence |
+| `wardrobe` | Analyzes clothing and appearance |
 
 ### Audio Analysis Detectors
 
-| Detector | Type | Description |
-|----------|------|-------------|
-| `pronunciation` | AI Audio | Checks brand/product name pronunciation |
-| `voice_over` | AI Audio | Detects voice-over narration |
+| Detector | Description |
+|----------|-------------|
+| `pronunciation` | Checks brand/product name pronunciation |
+| `voice_over` | Detects voice-over narration |
 
 ### Metadata Detectors
 
-| Detector | Type | Description |
-|----------|------|-------------|
-| `metadata` | AI Text | Analyzes hashtags and social media metadata |
-| `transition_detection` | Heuristic | Detects scene transitions and cuts |
+| Detector | Description |
+|----------|-------------|
+| `metadata` | Analyzes hashtags and social media metadata |
+| `transition_detection` | Detects scene transitions and cuts |
 
 ## Reference Content
 
