@@ -172,21 +172,17 @@ The webhook request will include an `X-Webhook-Signature` header for request val
 
 ## Error Responses
 
-<ResponseField name="400" type="Bad Request">
-  - Judge is not of type 'video'
-  - Invalid video URLs
-  - Too many URLs (exceeds 20)
-  - Empty URL list
-</ResponseField>
+### 400 Bad Request
+- Judge is not of type 'video'
+- Invalid video URLs
+- Too many URLs (exceeds 20)
+- Empty URL list
 
-<ResponseField name="401" type="Unauthorized">
-  Missing or invalid API key
-</ResponseField>
+### 401 Unauthorized
+Missing or invalid API key
 
-<ResponseField name="404" type="Not Found">
-  Judge not found or not accessible by your organization
-</ResponseField>
+### 404 Not Found
+Judge not found or not accessible by your organization
 
-<ResponseField name="500" type="Internal Server Error">
-  Failed to create evaluation jobs due to server error
-</ResponseField>
+### 500 Internal Server Error
+Failed to create evaluation jobs due to server error

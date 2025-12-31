@@ -33,7 +33,7 @@ description: 'Generate a pre-signed upload URL for judge reference content'
 </ResponseField>
 
 <ResponseField name="gcs_uri" type="string">
-  The GCS URI where the file will be stored. This can be used to reference the file in subsequent API calls.
+  The GCS URI where the file will be stored. This can be used to reference the file in subsequent API call to create a judge.
   
   **Format:** `gs://bucket-name/path/to/file`
 </ResponseField>
@@ -52,24 +52,11 @@ description: 'Generate a pre-signed upload URL for judge reference content'
 After receiving the response, use the `upload_url` to upload your file:
 
 ```bash
-curl -X PUT \
+curl -X PUT "<UPLOAD_URL_FROM_RESPONSE>" \
   -H "Content-Type: video/mp4" \
   --data-binary @your-file.mp4 \
-  "UPLOAD_URL_FROM_RESPONSE"
 ```
 
-Or using JavaScript:
-
-```javascript
-const file = // your file object
-const response = await fetch(uploadUrl, {
-  method: 'PUT',
-  body: file,
-  headers: {
-    'Content-Type': file.type
-  }
-});
-```
 
 ## Important Notes
 
@@ -77,22 +64,18 @@ const response = await fetch(uploadUrl, {
 2. The file must be uploaded using a PUT request
 3. Set the appropriate `Content-Type` header when uploading
 4. The maximum file size depends on your organization's limits
-5. The `gcs_uri` returned can be used to reference this content in other API calls
+5. The `gcs_uri` returned can be used to reference this content when creating a judge
 
 ## Error Responses
 
-<ResponseField name="400" type="Bad Request">
-  Invalid file extension or request format
-</ResponseField>
+### 400 Bad Request
+Invalid file extension or request format
 
-<ResponseField name="401" type="Unauthorized">
-  Missing or invalid API key
-</ResponseField>
+### 401 Unauthorized
+Missing or invalid API key
 
-<ResponseField name="403" type="Forbidden">
-  Organization does not have permission to upload reference content
-</ResponseField>
+### 403 Forbidden
+Organization does not have permission to upload reference content
 
-<ResponseField name="500" type="Internal Server Error">
-  Failed to generate upload URL due to server error
-</ResponseField>
+### 500 Internal Server Error
+Failed to generate upload URL due to server error

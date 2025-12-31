@@ -1,8 +1,15 @@
 ---
 title: 'Create Judge'
 api: 'POST /v1/judges'
-description: 'Create a new judge with evaluation criteria'
+description: 'Create a new judge with detectors or evaluation criteria'
 ---
+
+## Overview
+
+There are two ways to create a judge:
+
+1. **With Detectors (Recommended)** - Specify detectors and their configurations directly
+2. **With Criteria (Legacy)** - Specify evaluation criteria that auto-generate detector configs
 
 ## Authentication
 
@@ -10,7 +17,107 @@ This endpoint supports dual authentication:
 - **Bearer Token**: Auth0 JWT token in the `Authorization` header
 - **API Key**: Organization API key in the `X-API-Key` header
 
-## Request Body
+## Create Judge with Detectors (Recommended)
+
+### Request Body
+
+<ParamField body="name" type="string" required>
+  The name of the judge. Must be between 1-200 characters.
+</ParamField>
+
+<ParamField body="description" type="string" required>
+  A description of what this judge evaluates. Must be between 1-2000 characters.
+</ParamField>
+
+<ParamField body="content_type" type="string" required>
+  The type of content this judge will evaluate.
+  
+  **Allowed values:** `video`, `image`, `audio`, `text`
+</ParamField>
+
+<ParamField body="detectors" type="array" required>
+  An array of detector configurations. Must contain 1-50 detectors.
+  
+  <Expandable title="Detector Configuration">
+    <ParamField body="detector_name" type="string" required>
+      The name of the detector. Must be a valid detector name.
+      
+      See [Detector Configuration Reference](/api-reference/detectors/configuration-reference) for available detectors.
+    </ParamField>
+    
+    <ParamField body="config" type="object" required>
+      Configuration object for the detector. Required keys depend on the detector type.
+      
+      See [Detector Configuration Reference](/api-reference/detectors/configuration-reference) for detector-specific configurations.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Request Example with Detectors
+
+```json
+{
+  "name": "Video Quality Judge",
+  "description": "Evaluates video technical quality and content",
+  "content_type": "video",
+  "detectors": [
+    {
+      "detector_name": "video_specs",
+      "config": {
+        "min_width": 1920,
+        "min_height": 1080,
+        "min_duration_sec": 15,
+        "max_duration_sec": 60,
+        "min_fps": 24
+      }
+    },
+    {
+      "detector_name": "audio_noise",
+      "config": {}
+    },
+    {
+      "detector_name": "transcript_product",
+      "config": {
+        "brand_name": "Acme Corp",
+        "product_name": "Super Widget"
+      }
+    }
+  ]
+}
+```
+
+### Example with Reference Content
+
+For detectors that require reference content (like `video_matching`), first upload the reference content:
+
+1. Upload reference content using `/v1/judges/reference_content`
+2. Use the returned `gcs_uri` in the detector config:
+
+```json
+{
+  "name": "Content Matching Judge",
+  "description": "Matches videos against reference content",
+  "content_type": "video",
+  "detectors": [
+    {
+      "detector_name": "video_matching",
+      "config": {
+        "reference_video": "gs://judge-artifacts/org_123/reference_uploads/abc/reference.mp4"
+      }
+    },
+    {
+      "detector_name": "audio_matching",
+      "config": {
+        "reference_audio": "gs://judge-artifacts/org_123/reference_uploads/def/audio.mp3"
+      }
+    }
+  ]
+}
+```
+
+## Create Judge with Criteria (Legacy)
+
+### Request Body
 
 <ParamField body="name" type="string" required>
   The name of the judge. Must be between 1-200 characters.
@@ -44,7 +151,7 @@ This endpoint supports dual authentication:
   </Expandable>
 </ParamField>
 
-## Request Example
+### Request Example with Criteria
 
 ```json
 {
@@ -67,6 +174,34 @@ This endpoint supports dual authentication:
 ```
 
 ## Response
+
+### Response for Detector-based Creation
+
+<ResponseField name="id" type="string">
+  The unique identifier of the created judge
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the judge
+  
+  **Possible values:**
+  - `pending` - Judge is being prepared (reference content preprocessing)
+  - `ready` - Judge is ready to use
+  - `failed` - Judge creation failed
+</ResponseField>
+
+### Response Example (Detectors)
+
+```json
+{
+  "id": "judge_abc123",
+  "status": "ready"
+}
+```
+
+Note: If the judge includes detectors that require preprocessing (like `video_matching` or `audio_matching`), the status will be `pending` until preprocessing completes.
+
+### Response for Criteria-based Creation
 
 <ResponseField name="id" type="string">
   The unique identifier of the created judge
@@ -136,7 +271,7 @@ This endpoint supports dual authentication:
   Whether this judge is currently active
 </ResponseField>
 
-## Response Example
+### Response Example (Criteria)
 
 ```json
 {
@@ -171,18 +306,14 @@ This endpoint supports dual authentication:
 
 ## Error Responses
 
-<ResponseField name="400" type="Bad Request">
-  Invalid request body or validation errors
-</ResponseField>
+### 400 Bad Request
+Invalid request body or validation errors
 
-<ResponseField name="401" type="Unauthorized">
-  Missing or invalid authentication
-</ResponseField>
+### 401 Unauthorized
+Missing or invalid authentication
 
-<ResponseField name="403" type="Forbidden">
-  Insufficient permissions
-</ResponseField>
+### 403 Forbidden
+Insufficient permissions
 
-<ResponseField name="500" type="Internal Server Error">
-  Failed to create judge due to server error
-</ResponseField>
+### 500 Internal Server Error
+Failed to create judge due to server error

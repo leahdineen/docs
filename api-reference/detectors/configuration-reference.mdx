@@ -1,0 +1,396 @@
+---
+title: 'Detector Configuration Reference'
+description: 'Detailed configuration options for each detector'
+---
+
+## Video Quality Detectors
+
+### video_specs
+
+Validates video technical specifications.
+
+<ParamField body="config.min_width" type="integer">
+  Minimum video width in pixels
+</ParamField>
+
+<ParamField body="config.max_width" type="integer">
+  Maximum video width in pixels
+</ParamField>
+
+<ParamField body="config.min_height" type="integer">
+  Minimum video height in pixels
+</ParamField>
+
+<ParamField body="config.max_height" type="integer">
+  Maximum video height in pixels
+</ParamField>
+
+<ParamField body="config.allowed_aspect_ratios" type="array">
+  List of allowed aspect ratios (e.g., ["16:9", "9:16", "1:1"])
+</ParamField>
+
+<ParamField body="config.min_duration_sec" type="number">
+  Minimum video duration in seconds
+</ParamField>
+
+<ParamField body="config.max_duration_sec" type="number">
+  Maximum video duration in seconds
+</ParamField>
+
+<ParamField body="config.min_fps" type="number">
+  Minimum frames per second
+</ParamField>
+
+<ParamField body="config.max_fps" type="number">
+  Maximum frames per second
+</ParamField>
+
+**Example:**
+```json
+{
+  "detector_name": "video_specs",
+  "config": {
+    "min_width": 1920,
+    "min_height": 1080,
+    "min_duration_sec": 15,
+    "max_duration_sec": 60,
+    "min_fps": 24
+  }
+}
+```
+
+### video_quality
+
+Checks video quality metrics.
+
+<ParamField body="config.expected_aspect_ratios" type="array">
+  Expected aspect ratios
+</ParamField>
+
+<ParamField body="config.check_aspect_ratio" type="boolean">
+  Whether to check aspect ratio consistency
+</ParamField>
+
+<ParamField body="config.min_width" type="integer">
+  Minimum width in pixels
+</ParamField>
+
+<ParamField body="config.min_height" type="integer">
+  Minimum height in pixels
+</ParamField>
+
+## Image Detectors
+
+### image_specs
+
+Validates image specifications.
+
+<ParamField body="config.allowed_aspect_ratios" type="array">
+  List of allowed aspect ratios
+</ParamField>
+
+<ParamField body="config.min_width" type="integer">
+  Minimum image width in pixels
+</ParamField>
+
+<ParamField body="config.min_height" type="integer">
+  Minimum image height in pixels
+</ParamField>
+
+<ParamField body="config.min_megapixels" type="number">
+  Minimum image size in megapixels
+</ParamField>
+
+## Content Matching Detectors
+
+### video_matching
+
+Matches video against reference content. **Requires preprocessing.**
+
+<ParamField body="config.reference_video" type="string" required>
+  GCS URI of reference video (gs://bucket/path/to/video.mp4)
+  
+  **Allowed extensions:** mp4, mov, avi, mkv, webm
+</ParamField>
+
+**Example:**
+```json
+{
+  "detector_name": "video_matching",
+  "config": {
+    "reference_video": "gs://judge-artifacts/org_123/reference_uploads/abc/video.mp4"
+  }
+}
+```
+
+### audio_matching
+
+Matches audio against reference content. **Requires preprocessing.**
+
+<ParamField body="config.reference_audio" type="string" required>
+  GCS URI of reference audio (gs://bucket/path/to/audio.mp3)
+  
+  **Allowed extensions:** mp3, wav, aac, flac
+</ParamField>
+
+### splitscreen_video_matching
+
+Matches split-screen video content. **Requires preprocessing.**
+
+<ParamField body="config.source_video_reference" type="string">
+  GCS URI of source video reference
+  
+  **Allowed extensions:** mp4, mov, avi, mkv, webm
+</ParamField>
+
+<ParamField body="config.source_video_description" type="string">
+  Text description of source video
+</ParamField>
+
+<ParamField body="config.bottom_content_reference" type="string">
+  GCS URI of bottom content reference
+  
+  **Allowed extensions:** mp4, mov, avi, mkv, webm
+</ParamField>
+
+<ParamField body="config.top_content_description" type="string">
+  Text description of top content
+</ParamField>
+
+**Note:** At least one reference video must be provided.
+
+### video_matching_description
+
+Matches video against text description.
+
+<ParamField body="config.content_description" type="string" required>
+  Text description of expected content
+</ParamField>
+
+## Text Analysis Detectors
+
+### language
+
+Validates content language.
+
+<ParamField body="config.accepted_languages" type="array" required>
+  List of accepted language codes (e.g., ["en", "es", "fr"])
+</ParamField>
+
+### transcript_policy
+
+Checks transcript against policy guidelines.
+
+<ParamField body="config.talking_points" type="array">
+  List of required talking points
+</ParamField>
+
+<ParamField body="config.language_to_avoid" type="array">
+  List of prohibited words or phrases
+</ParamField>
+
+<ParamField body="config.min_talking_points" type="integer">
+  Minimum number of talking points required
+</ParamField>
+
+<ParamField body="config.max_language_to_avoid" type="integer">
+  Maximum allowed violations
+</ParamField>
+
+### transcript_product
+
+Detects product mentions.
+
+<ParamField body="config.brand_name" type="string">
+  Brand name to detect
+</ParamField>
+
+<ParamField body="config.product_name" type="string">
+  Product name to detect
+</ParamField>
+
+### sentiment
+
+Analyzes emotional tone.
+
+<ParamField body="config.desired_sentiment" type="array">
+  List of desired sentiments (e.g., ["positive", "enthusiastic"])
+</ParamField>
+
+<ParamField body="config.undesired_sentiment" type="array">
+  List of undesired sentiments (e.g., ["negative", "angry"])
+</ParamField>
+
+<ParamField body="config.prohibited_content_types" type="array">
+  List of prohibited content types
+</ParamField>
+
+## Visual Analysis Detectors
+
+### logo
+
+Detects and validates logos.
+
+<ParamField body="config.acceptable_logos" type="array" required>
+  List of acceptable logo identifiers
+</ParamField>
+
+### overlays
+
+Detects text overlays and graphics.
+
+<ParamField body="config.categories" type="array">
+  Categories of overlays to detect
+</ParamField>
+
+<ParamField body="config.exclude_from_overlays" type="array">
+  Elements to exclude from overlay detection
+</ParamField>
+
+### wardrobe
+
+Analyzes clothing and appearance.
+
+<ParamField body="config.wardrobe_rules" type="array">
+  List of wardrobe requirements
+</ParamField>
+
+<ParamField body="config.beauty_rules" type="array">
+  List of beauty/appearance requirements
+</ParamField>
+
+<ParamField body="config.max_violations" type="integer">
+  Maximum allowed violations
+</ParamField>
+
+### product_application
+
+Detects product usage demonstrations.
+
+<ParamField body="config.require_application" type="boolean">
+  Whether product application demonstration is required
+</ParamField>
+
+### subtitles
+
+Detects subtitle presence.
+
+<ParamField body="config.require_subtitles" type="boolean">
+  Whether subtitles are required
+</ParamField>
+
+### image_ip_infringement
+
+Checks for potential IP violations.
+
+<ParamField body="config.allowed_terms" type="array">
+  List of allowed trademarked terms
+</ParamField>
+
+## Audio Analysis Detectors
+
+### pronunciation
+
+Checks brand/product name pronunciation.
+
+<ParamField body="config.brand_name" type="string">
+  Brand name to check
+</ParamField>
+
+<ParamField body="config.product_name" type="string">
+  Product name to check
+</ParamField>
+
+<ParamField body="config.brand_cue" type="string">
+  Phonetic cue for brand name
+</ParamField>
+
+<ParamField body="config.product_cue" type="string">
+  Phonetic cue for product name
+</ParamField>
+
+<ParamField body="config.brand_audio_url" type="string">
+  GCS URI of reference audio for brand name
+  
+  **Allowed extensions:** mp3, wav, aac, flac, m4a
+</ParamField>
+
+<ParamField body="config.product_audio_url" type="string">
+  GCS URI of reference audio for product name
+  
+  **Allowed extensions:** mp3, wav, aac, flac, m4a
+</ParamField>
+
+### voice_over
+
+Detects voice-over narration.
+
+<ParamField body="config.fail_if_voice_over" type="boolean">
+  Whether to fail if voice-over is detected
+</ParamField>
+
+### transcription
+
+Transcribes audio content.
+
+<ParamField body="config.language" type="string">
+  Language code for transcription (e.g., "en", "es")
+</ParamField>
+
+## Metadata Detectors
+
+### metadata
+
+Analyzes hashtags and social media metadata.
+
+<ParamField body="config.suggested_hashtags" type="array">
+  List of suggested hashtags
+</ParamField>
+
+<ParamField body="config.required_hashtags" type="array">
+  List of required hashtags
+</ParamField>
+
+<ParamField body="config.required_social_tags" type="array">
+  List of required social media tags
+</ParamField>
+
+<ParamField body="config.required_social_tags_mode" type="string">
+  Mode for social tag requirements ("all" or "any")
+</ParamField>
+
+<ParamField body="config.topic_keywords" type="array">
+  List of topic keywords to detect
+</ParamField>
+
+<ParamField body="config.enable_topic_analysis" type="boolean">
+  Whether to enable topic analysis
+</ParamField>
+
+### transition_detection
+
+Detects scene transitions and cuts.
+
+<ParamField body="config.max_transitions" type="integer">
+  Maximum allowed scene transitions
+</ParamField>
+
+## Detectors Without Configuration
+
+The following detectors work with default settings and don't require configuration:
+
+- **audio_noise** - Detects background noise and audio quality issues
+- **background** - Analyzes background elements
+- **content_quality** - Evaluates overall content quality
+- **framing** - Evaluates shot composition and framing
+- **image_sharpness** - Detects blurry or out-of-focus images
+- **lighting** - Analyzes lighting quality
+
+These can be included with an empty config object:
+
+```json
+{
+  "detector_name": "audio_noise",
+  "config": {}
+}
+```

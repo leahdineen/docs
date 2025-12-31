@@ -1,0 +1,133 @@
+---
+title: 'Detectors Overview'
+description: 'Available detectors and their configurations'
+---
+
+## Introduction
+
+Detectors are the building blocks of judges. Each detector analyzes specific aspects of content and can be configured with custom parameters. When creating a judge, you specify which detectors to use and their configurations.
+
+## Detector Types
+
+Detectors are categorized by their analysis approach:
+
+- **Heuristic** - Rule-based analysis using deterministic algorithms
+- **AI Vision** - Computer vision and image analysis using AI models
+- **AI Text** - Natural language processing and text analysis
+- **AI Audio** - Audio processing and speech analysis
+
+## Configuration Format
+
+When creating a judge using the v1 endpoint, detectors are configured in the `detectors` array:
+
+```json
+{
+  "name": "My Judge",
+  "description": "Judge description",
+  "content_type": "video",
+  "detectors": [
+    {
+      "detector_name": "video_specs",
+      "config": {
+        "min_width": 1920,
+        "min_height": 1080,
+        "min_fps": 24
+      }
+    },
+    {
+      "detector_name": "audio_noise",
+      "config": {}
+    }
+  ]
+}
+```
+
+## Available Detectors
+
+### Content Quality Detectors
+
+| Detector | Type | Description |
+|----------|------|-------------|
+| `video_quality` | Heuristic | Validates video technical specifications |
+| `video_specs` | Heuristic | Checks video dimensions, duration, and frame rate |
+| `image_specs` | Heuristic | Validates image dimensions and aspect ratios |
+| `image_sharpness` | Heuristic | Detects blurry or out-of-focus images |
+| `audio_noise` | Heuristic | Detects background noise and audio quality issues |
+| `lighting` | Heuristic | Analyzes lighting quality in visual content |
+
+### Content Matching Detectors
+
+| Detector | Type | Description |
+|----------|------|-------------|
+| `video_matching` | Heuristic | Matches video against reference content |
+| `audio_matching` | Heuristic | Matches audio against reference content |
+| `splitscreen_video_matching` | Heuristic | Matches split-screen video content |
+| `video_matching_description` | AI Vision | Matches video against text description |
+
+### Content Analysis Detectors
+
+| Detector | Type | Description |
+|----------|------|-------------|
+| `transcription` | Heuristic | Transcribes audio content |
+| `transcript_policy` | AI Text | Checks transcript against policy guidelines |
+| `transcript_product` | AI Text | Detects product mentions in transcripts |
+| `language` | AI Text | Detects and validates content language |
+| `sentiment` | AI Text | Analyzes emotional tone and sentiment |
+| `content_quality` | AI Text | Evaluates overall content quality |
+
+### Visual Analysis Detectors
+
+| Detector | Type | Description |
+|----------|------|-------------|
+| `background` | AI Vision | Analyzes background elements |
+| `framing` | AI Vision | Evaluates shot composition and framing |
+| `overlays` | AI Vision | Detects text overlays and graphics |
+| `logo` | AI Vision | Detects and validates logos |
+| `wardrobe` | AI Vision | Analyzes clothing and appearance |
+| `product_application` | AI Vision | Detects product usage demonstrations |
+| `subtitles` | AI Vision | Detects subtitle presence |
+| `image_ip_infringement` | AI Vision | Checks for potential IP violations |
+
+### Audio Analysis Detectors
+
+| Detector | Type | Description |
+|----------|------|-------------|
+| `pronunciation` | AI Audio | Checks brand/product name pronunciation |
+| `voice_over` | AI Audio | Detects voice-over narration |
+
+### Metadata Detectors
+
+| Detector | Type | Description |
+|----------|------|-------------|
+| `metadata` | AI Text | Analyzes hashtags and social media metadata |
+| `transition_detection` | Heuristic | Detects scene transitions and cuts |
+
+## Reference Content
+
+Some detectors require reference content (e.g., reference videos, audio files) for comparison. Reference content must be uploaded to Google Cloud Storage and provided as `gs://` URIs.
+
+### Detectors Requiring Reference Content
+
+- **audio_matching** - Requires `reference_audio`
+- **video_matching** - Requires `reference_video`
+- **splitscreen_video_matching** - Requires at least one of `source_video_reference` or `bottom_content_reference`
+- **pronunciation** - Optional `brand_audio_url` and `product_audio_url`
+
+### Uploading Reference Content
+
+1. Use the `/v1/judges/reference_content` endpoint to get a pre-signed upload URL
+2. Upload your reference file to the provided URL
+3. Use the returned `gcs_uri` in your detector configuration
+
+## Configuration Validation
+
+- Detector names must be valid (from the list above)
+- Required configuration keys must be provided for each detector
+- Reference content URIs must use the `gs://` scheme
+- File extensions for reference content must match allowed types
+
+## Next Steps
+
+- See individual detector documentation for detailed configuration options
+- Check the [Create Judge](/api-reference/judges/create-judge) endpoint for full examples
+- Review detector-specific configuration schemas for required and optional parameters

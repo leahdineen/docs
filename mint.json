@@ -15,6 +15,11 @@
       "to": "#07C983"
     }
   },
+  "api": {
+    "playground": {
+      "mode": "hide"
+    }
+  },
   "tabs": [
     {
       "name": "API Reference",
@@ -40,6 +45,13 @@
       "pages": [
         "api-reference/judges/create-judge",
         "api-reference/judges/create-reference-content"
+      ]
+    },
+    {
+      "group": "Detectors",
+      "pages": [
+        "api-reference/detectors/overview",
+        "api-reference/detectors/configuration-reference"
       ]
     },
     {
