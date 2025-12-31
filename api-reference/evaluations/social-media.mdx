@@ -154,7 +154,17 @@ If configured, your webhook will receive a POST request when each video complete
 }
 ```
 
-The webhook request will include an `X-Webhook-Signature` header for request validation using HMAC-SHA256.
+### Webhook Endpoint Implementation Guidelines
+Expected Response: Your webhook endpoint should return a 200 OK response. Any other status code will be considered a failure and may trigger retries.
+
+Timeout: Webhook requests timeout after 10 seconds. Ensure your endpoint responds within this time.
+
+Retries: Pique will retry failed webhook deliveries with exponential backoff. Implement idempotent processing using the `job_id`.
+
+Signing:
+- Header: X-Pique-Signature: t=<unix timestamp seconds>,v1=<hex hmac>,alg=sha256
+- Message for signing: message = f"{timestamp}.{raw_body}" (UTF-8 bytes)
+- Algorithm: HMAC(secret, message, SHA256)
 
 ## Rate Limits
 

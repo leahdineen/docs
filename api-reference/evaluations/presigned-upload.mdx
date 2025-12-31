@@ -47,7 +47,7 @@ This endpoint initiates an event-driven evaluation flow:
 </ParamField>
 
 <ParamField body="webhook_url" type="string">
-  Optional webhook URL to override your organization's default webhook. 
+  Optional webhook URL to override your organization's default webhook. Intended for easier sandbox testing
   
   If provided, this URL will receive notifications for this batch. The webhook will still use your organization's webhook secret for request signing.
 </ParamField>
@@ -130,11 +130,31 @@ curl -X PUT "<UPLOAD_URL_FROM_RESPONSE>"\
 
 ## Webhook Notifications
 
-If your organization has configured a webhook (contact Pique to set a default webhook for your organization), you'll receive a notification when the evaluation completes. The webhook payload will include:
-- Job ID
-- Evaluation status
-- Results (if successful)
-- Error message (if failed)
+If configured, your webhook will receive a POST request when each video completes processing:
+
+```json
+{
+  "job_id": "job_aB3cD4eF5gH6iJ7k",
+  "batch_id": "batch_hJ8kLm3nP9qR2vXy",
+  "status": "completed",
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "overall_score": 85.5,
+  "results": [...],
+  "completed_at": "2024-01-15T12:45:00Z"
+}
+```
+
+### Webhook Endpoint Implementation Guidelines
+Expected Response: Your webhook endpoint should return a 200 OK response. Any other status code will be considered a failure and may trigger retries.
+
+Timeout: Webhook requests timeout after 10 seconds. Ensure your endpoint responds within this time.
+
+Retries: Pique will retry failed webhook deliveries with exponential backoff. Implement idempotent processing using the `job_id`.
+
+Signing:
+- Header: X-Pique-Signature: t=<unix timestamp seconds>,v1=<hex hmac>,alg=sha256
+- Message for signing: message = f"{timestamp}.{raw_body}" (UTF-8 bytes)
+- Algorithm: HMAC(secret, message, SHA256)
 
 ## Error Responses
 
