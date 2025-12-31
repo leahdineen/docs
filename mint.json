@@ -28,13 +28,6 @@
   ],
   "navigation": [
     {
-      "group": "Get Started",
-      "pages": [
-        "introduction",
-        "quickstart"
-      ]
-    },
-    {
       "group": "API Documentation",
       "pages": [
         "api-reference/overview"

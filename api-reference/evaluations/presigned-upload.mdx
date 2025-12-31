@@ -50,6 +50,22 @@ This endpoint initiates an event-driven evaluation flow:
 
 ## Request Example
 
+### cURL
+```bash
+curl -X POST "https://api.getpique.ai/v1/evaluations/presigned-upload" \
+  -H "X-API-Key: pk_your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "judge_id": "judge_abc123",
+    "content_type": "video",
+    "filename": "safety_test_video.mp4",
+    "file_size_bytes": 52428800,
+    "title": "Product Demo Video",
+    "description": "Marketing video for new product launch"
+  }'
+```
+
+### JSON Body
 ```json
 {
   "judge_id": "judge_abc123",
@@ -124,8 +140,9 @@ const response = await fetch(uploadUrl, {
 
 After uploading, you can check the evaluation status using:
 
-```
-GET /v1/evaluations/{job_id}
+```bash
+curl -H "X-API-Key: pk_your_api_key_here" \
+  https://api.getpique.ai/v1/evaluations/{job_id}
 ```
 
 The evaluation will go through these statuses:

@@ -18,6 +18,17 @@ description: 'Generate a pre-signed upload URL for judge reference content'
 
 ## Request Example
 
+### cURL
+```bash
+curl -X POST "https://api.getpique.ai/v1/judges/reference_content" \
+  -H "X-API-Key: pk_your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "file_extension": "mp4"
+  }'
+```
+
+### JSON Body
 ```json
 {
   "file_extension": "mp4"

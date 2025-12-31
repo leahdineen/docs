@@ -5,9 +5,6 @@ description: 'Create a new judge with detectors'
 ---
 
 ## Authentication
-
-This endpoint supports dual authentication:
-- **Bearer Token**: Auth0 JWT token in the `Authorization` header
 - **API Key**: Organization API key in the `X-API-Key` header
 
 ## Request Body
@@ -27,7 +24,7 @@ This endpoint supports dual authentication:
 </ParamField>
 
 <ParamField body="detectors" type="array" required>
-  An array of detector configurations. Must contain 1-50 detectors.
+  An array of detector configurations. Must contain at least 1 detector.
   
   <Expandable title="Detector Configuration">
     <ParamField body="detector_name" type="string" required>
@@ -46,6 +43,42 @@ This endpoint supports dual authentication:
 
 ## Request Example
 
+### cURL
+```bash
+curl -X POST "https://api.getpique.ai/v1/judges" \
+  -H "X-API-Key: pk_your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Video Quality Judge",
+    "description": "Evaluates video technical quality and content",
+    "content_type": "video",
+    "detectors": [
+      {
+        "detector_name": "video_specs",
+        "config": {
+          "min_width": 1920,
+          "min_height": 1080,
+          "min_duration_sec": 15,
+          "max_duration_sec": 60,
+          "min_fps": 24
+        }
+      },
+      {
+        "detector_name": "audio_noise",
+        "config": {}
+      },
+      {
+        "detector_name": "pronunciation",
+        "config": {
+          "brand_name": "pique",
+          "brand_cue": "pronounced like peak"
+        }
+      }
+    ]
+  }'
+```
+
+### JSON Body
 ```json
 {
   "name": "Video Quality Judge",
@@ -67,10 +100,10 @@ This endpoint supports dual authentication:
       "config": {}
     },
     {
-      "detector_name": "transcript_product",
+      "detector_name": "pronunciation",
       "config": {
-        "brand_name": "Acme Corp",
-        "product_name": "Super Widget"
+        "brand_name": "pique",
+        "brand_cue": "pronounced like peak"
       }
     }
   ]

@@ -47,6 +47,23 @@ This endpoint allows you to submit social media video URLs for evaluation. The s
 
 ## Request Example
 
+### cURL
+```bash
+curl -X POST "https://api.getpique.ai/v1/evaluations/social-media" \
+  -H "X-API-Key: pk_your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "judge_id": "judge_abc123",
+    "video_urls": [
+      "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "https://www.tiktok.com/@username/video/123456789",
+      "https://www.instagram.com/reel/ABC123/"
+    ],
+    "webhook_url": "https://api.getpique.ai/webhooks/evaluation-complete"
+  }'
+```
+
+### JSON Body
 ```json
 {
   "judge_id": "judge_abc123",
@@ -55,7 +72,7 @@ This endpoint allows you to submit social media video URLs for evaluation. The s
     "https://www.tiktok.com/@username/video/123456789",
     "https://www.instagram.com/reel/ABC123/"
   ],
-  "webhook_url": "https://api.example.com/webhooks/evaluation-complete"
+  "webhook_url": "https://api.getpique.ai/webhooks/evaluation-complete"
 }
 ```
 
@@ -137,8 +154,9 @@ This endpoint allows you to submit social media video URLs for evaluation. The s
 
 After submission, you can check the status of individual jobs using:
 
-```
-GET /v1/evaluations/{job_id}
+```bash
+curl -H "X-API-Key: pk_your_api_key_here" \
+  https://api.getpique.ai/v1/evaluations/{job_id}
 ```
 
 Each job will progress through these statuses:
