@@ -115,7 +115,7 @@ curl -X POST "https://api.getpique.ai/v1/judges" \
 For detectors that require reference content (like `video_matching`), first upload the reference content:
 
 1. Upload reference content using `/v1/judges/reference_content`
-2. Use the returned `gcs_uri` in the detector config:
+2. Use the returned `reference_content_uri` in the detector config:
 
 ```json
 {

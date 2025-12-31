@@ -43,7 +43,7 @@ curl -X POST "https://api.getpique.ai/v1/judges/reference_content" \
   This URL is valid for a limited time (typically 1 hour) and should be used with a PUT request to upload the file directly.
 </ResponseField>
 
-<ResponseField name="gcs_uri" type="string">
+<ResponseField name="reference_content_uri" type="string">
   The GCS URI where the file will be stored. This can be used to reference the file in subsequent API call to create a judge.
   
   **Format:** `gs://bucket-name/path/to/file`
@@ -54,7 +54,7 @@ curl -X POST "https://api.getpique.ai/v1/judges/reference_content" \
 ```json
 {
   "upload_url": "https://storage.googleapis.com/judge-artifacts/org_123/reference_uploads/abc123/xyz789.mp4?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=...",
-  "gcs_uri": "gs://judge-artifacts/org_123/reference_uploads/abc123/xyz789.mp4"
+  "reference_content_uri": "gs://judge-artifacts/org_123/reference_uploads/abc123/xyz789.mp4"
 }
 ```
 
@@ -74,7 +74,7 @@ curl -X PUT "<UPLOAD_URL_FROM_RESPONSE>" \
 1. The upload URL expires after a limited time (typically 1 hour)
 2. The file must be uploaded using a PUT request
 3. Set the appropriate `Content-Type` header when uploading
-4. The `gcs_uri` returned should be used to reference this content when creating a judge
+4. The `reference_content_uri` returned should be used to reference this content when creating a judge
 
 ## Error Responses
 
