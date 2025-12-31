@@ -16,6 +16,11 @@
     }
   },
   "api": {
+    "baseUrl": "https://api.getpique.ai",
+    "auth": {
+      "method": "key",
+      "name": "X-API-Key"
+    },
     "playground": {
       "mode": "hide"
     }
