@@ -1,15 +1,8 @@
 ---
 title: 'Create Judge'
 api: 'POST /v1/judges'
-description: 'Create a new judge with detectors or evaluation criteria'
+description: 'Create a new judge with detectors'
 ---
-
-## Overview
-
-There are two ways to create a judge:
-
-1. **With Detectors (Recommended)** - Specify detectors and their configurations directly
-2. **With Criteria (Legacy)** - Specify evaluation criteria that auto-generate detector configs
 
 ## Authentication
 
@@ -17,9 +10,7 @@ This endpoint supports dual authentication:
 - **Bearer Token**: Auth0 JWT token in the `Authorization` header
 - **API Key**: Organization API key in the `X-API-Key` header
 
-## Create Judge with Detectors (Recommended)
-
-### Request Body
+## Request Body
 
 <ParamField body="name" type="string" required>
   The name of the judge. Must be between 1-200 characters.
@@ -53,7 +44,7 @@ This endpoint supports dual authentication:
   </Expandable>
 </ParamField>
 
-### Request Example with Detectors
+## Request Example
 
 ```json
 {
@@ -86,7 +77,7 @@ This endpoint supports dual authentication:
 }
 ```
 
-### Example with Reference Content
+## Example with Reference Content
 
 For detectors that require reference content (like `video_matching`), first upload the reference content:
 
@@ -115,67 +106,7 @@ For detectors that require reference content (like `video_matching`), first uplo
 }
 ```
 
-## Create Judge with Criteria (Legacy)
-
-### Request Body
-
-<ParamField body="name" type="string" required>
-  The name of the judge. Must be between 1-200 characters.
-</ParamField>
-
-<ParamField body="description" type="string" required>
-  A description of what this judge evaluates. Must be between 1-2000 characters.
-</ParamField>
-
-<ParamField body="content_type" type="string" required>
-  The type of content this judge will evaluate.
-  
-  **Allowed values:** `video`, `image`, `audio`, `text`
-</ParamField>
-
-<ParamField body="criteria" type="array" required>
-  An array of evaluation criteria for this judge. Must contain 1-50 criteria.
-  
-  <Expandable title="Criterion Object">
-    <ParamField body="name" type="string" required>
-      The name of the criterion. Must be between 1-200 characters.
-    </ParamField>
-    
-    <ParamField body="description" type="string" required>
-      A description of what this criterion evaluates. Must be between 1-1000 characters.
-    </ParamField>
-    
-    <ParamField body="weight" type="integer" default="5">
-      The weight of this criterion in the overall evaluation. Must be between 1-10.
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-### Request Example with Criteria
-
-```json
-{
-  "name": "Content Safety Judge",
-  "description": "Evaluates video content for safety and compliance",
-  "content_type": "video",
-  "criteria": [
-    {
-      "name": "Violence Detection",
-      "description": "Detects violent content in videos",
-      "weight": 8
-    },
-    {
-      "name": "Language Appropriateness",
-      "description": "Checks for inappropriate language",
-      "weight": 6
-    }
-  ]
-}
-```
-
 ## Response
-
-### Response for Detector-based Creation
 
 <ResponseField name="id" type="string">
   The unique identifier of the created judge
@@ -190,7 +121,7 @@ For detectors that require reference content (like `video_matching`), first uplo
   - `failed` - Judge creation failed
 </ResponseField>
 
-### Response Example (Detectors)
+## Response Example
 
 ```json
 {
@@ -199,110 +130,7 @@ For detectors that require reference content (like `video_matching`), first uplo
 }
 ```
 
-Note: If the judge includes detectors that require preprocessing (like `video_matching` or `audio_matching`), the status will be `pending` until preprocessing completes.
-
-### Response for Criteria-based Creation
-
-<ResponseField name="id" type="string">
-  The unique identifier of the created judge
-</ResponseField>
-
-<ResponseField name="name" type="string">
-  The name of the judge
-</ResponseField>
-
-<ResponseField name="description" type="string">
-  The description of the judge
-</ResponseField>
-
-<ResponseField name="content_type" type="string">
-  The content type this judge evaluates
-</ResponseField>
-
-<ResponseField name="status" type="string">
-  The current status of the judge
-  
-  **Possible values:** `pending`, `training`, `ready`, `failed`
-</ResponseField>
-
-<ResponseField name="training_progress" type="integer">
-  Training progress percentage (0-100)
-</ResponseField>
-
-<ResponseField name="criteria" type="array">
-  Array of created criteria objects
-  
-  <Expandable title="Criterion Response">
-    <ResponseField name="id" type="string">
-      The unique identifier of the criterion
-    </ResponseField>
-    
-    <ResponseField name="name" type="string">
-      The name of the criterion
-    </ResponseField>
-    
-    <ResponseField name="description" type="string">
-      The description of the criterion
-    </ResponseField>
-    
-    <ResponseField name="weight" type="integer">
-      The weight of this criterion
-    </ResponseField>
-    
-    <ResponseField name="detector_configs" type="array">
-      Array of detector configurations (for video judges)
-    </ResponseField>
-  </Expandable>
-</ResponseField>
-
-<ResponseField name="created_at" type="string">
-  ISO 8601 timestamp of when the judge was created
-</ResponseField>
-
-<ResponseField name="updated_at" type="string">
-  ISO 8601 timestamp of when the judge was last updated
-</ResponseField>
-
-<ResponseField name="version" type="integer">
-  The version number of this judge
-</ResponseField>
-
-<ResponseField name="is_active" type="boolean">
-  Whether this judge is currently active
-</ResponseField>
-
-### Response Example (Criteria)
-
-```json
-{
-  "id": "judge_abc123",
-  "name": "Content Safety Judge",
-  "description": "Evaluates video content for safety and compliance",
-  "content_type": "video",
-  "status": "ready",
-  "training_progress": 0,
-  "criteria": [
-    {
-      "id": "crit_xyz789",
-      "name": "Violence Detection",
-      "description": "Detects violent content in videos",
-      "weight": 8,
-      "detector_configs": []
-    },
-    {
-      "id": "crit_def456",
-      "name": "Language Appropriateness",
-      "description": "Checks for inappropriate language",
-      "weight": 6,
-      "detector_configs": []
-    }
-  ],
-  "created_at": "2024-01-15T10:30:00Z",
-  "updated_at": "2024-01-15T10:30:00Z",
-  "version": 1,
-  "is_active": true
-}
-```
+**Note:** If the judge includes detectors that require preprocessing (like `video_matching` or `audio_matching`), the status will be `pending` until preprocessing completes.
 
 ## Error Responses
 

@@ -1,39 +1,26 @@
 ---
-title: 'API Overview'
-description: 'Judge API Documentation'
+title: 'Pique API Documentation'
 ---
 
 ## Introduction
 
-The Judge API provides programmatic access to create and manage content evaluation judges, and submit content for evaluation.
+The Pique API provides programmatic access to create and manage judges, and submit content for evaluation.
 
-## Base URL
+## Base URLs
 
 ```
-https://api.judge.app
+https://api.getpique.ai
+https://api-sandbox.getpique.ai
 ```
 
-## Authentication
 
-The API supports two authentication methods:
-
-### API Key Authentication
+## API Key Authentication
 
 Include your API key in the `X-API-Key` header:
 
 ```bash
-curl -H "X-API-Key: your-api-key" https://api.judge.app/v1/endpoint
+curl -H "X-API-Key: your-api-key" https://api.getpique.ai/v1/endpoint
 ```
-
-### Bearer Token Authentication (Auth0 JWT)
-
-Include your JWT token in the `Authorization` header:
-
-```bash
-curl -H "Authorization: Bearer your-jwt-token" https://api.judge.app/v1/endpoint
-```
-
-Note: Some endpoints support both authentication methods, while others require specific authentication. Check each endpoint's documentation for details.
 
 ## Available Endpoints
 
@@ -77,10 +64,6 @@ All API responses are returned in JSON format with appropriate HTTP status codes
 }
 ```
 
-## Rate Limits
-
-API rate limits vary by endpoint and organization tier. Contact support for information about your specific limits.
-
 ## Webhooks
 
 Many asynchronous operations support webhook notifications. Configure your webhook URL in your organization settings to receive real-time updates about:
@@ -90,9 +73,3 @@ Many asynchronous operations support webhook notifications. Configure your webho
 - Status changes
 
 Webhook requests include an `X-Webhook-Signature` header for request validation using HMAC-SHA256 with your organization's webhook secret.
-
-## Support
-
-For API support, please contact:
-- Email: support@judge.app
-- Documentation: https://docs.judge.app
