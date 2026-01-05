@@ -1,0 +1,69 @@
+---
+title: 'audio_matching'
+description: 'Matches audio against reference content using chromaprint fingerprinting'
+---
+
+## Overview
+
+The `audio_matching` detector checks if video audio matches a reference song using chromaprint fingerprinting technology. This heuristic approach provides accurate audio content matching for copyright and content compliance.
+
+**Requires preprocessing** - Reference audio must be processed before evaluation can begin.
+
+## Configuration
+
+<ParamField body="config.reference_audio" type="string" required>
+  GCS URI of reference audio file to match against
+  
+  **Allowed extensions:** mp3, wav, aac, flac
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "audio_matching",
+  "config": {
+    "reference_audio": "gs://judge-artifacts/org_123/reference_uploads/abc/reference_song.mp3"
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "audio_matching",
+  "pass_check": false,
+  "score": 0.8,
+  "rationale": "Audio fingerprint match detected with reference content",
+  "metrics": {
+    "fingerprint_matches": [
+      {
+        "confidence": 0.85,
+        "start_time": 12.3,
+        "duration": 15.7,
+        "reference_segment": "0:30-0:45"
+      }
+    ],
+    "total_match_duration": 15.7,
+    "match_percentage": 34.2
+  },
+  "timestamps": [12.3],
+  "flagged_frames": [],
+  "execution_time_sec": 1.8,
+  "api_cost_usd": null
+}
+```
+
+## Preprocessing
+
+Before using this detector, reference audio must be uploaded and preprocessed:
+
+1. Upload reference audio using the `/v1/judges/reference_content` endpoint
+2. Audio is processed to generate chromaprint fingerprints
+3. Judge status will be `pending` until preprocessing completes
+4. Once complete, judge status becomes `ready` and can be used for evaluations
+
+## Detector Type
+
+**HEURISTIC** - Uses chromaprint audio fingerprinting algorithms

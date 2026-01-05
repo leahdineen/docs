@@ -1,0 +1,92 @@
+---
+title: 'video_specs'
+description: 'Checks video specs like resolution, aspect ratio, fps, and duration'
+---
+
+## Overview
+
+The `video_specs` detector validates video technical specifications against configurable thresholds. This heuristic detector checks dimensions, duration, frame rate, and aspect ratio to ensure videos meet quality requirements.
+
+## Configuration
+
+<ParamField body="config.min_width" type="integer">
+  Minimum video width in pixels
+</ParamField>
+
+<ParamField body="config.max_width" type="integer">
+  Maximum video width in pixels
+</ParamField>
+
+<ParamField body="config.min_height" type="integer">
+  Minimum video height in pixels
+</ParamField>
+
+<ParamField body="config.max_height" type="integer">
+  Maximum video height in pixels
+</ParamField>
+
+<ParamField body="config.allowed_aspect_ratios" type="array">
+  List of allowed aspect ratios (e.g., ["16:9", "9:16", "1:1"])
+</ParamField>
+
+<ParamField body="config.min_duration_sec" type="number">
+  Minimum video duration in seconds
+</ParamField>
+
+<ParamField body="config.max_duration_sec" type="number">
+  Maximum video duration in seconds
+</ParamField>
+
+<ParamField body="config.min_fps" type="number">
+  Minimum frames per second
+</ParamField>
+
+<ParamField body="config.max_fps" type="number">
+  Maximum frames per second
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "video_specs",
+  "config": {
+    "min_width": 1920,
+    "min_height": 1080,
+    "min_duration_sec": 15,
+    "max_duration_sec": 60,
+    "min_fps": 24,
+    "allowed_aspect_ratios": ["16:9", "9:16"]
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "video_specs",
+  "pass_check": true,
+  "score": 1.0,
+  "rationale": "Video meets all specified requirements",
+  "metrics": {
+    "video_specs": {
+      "width": 1920,
+      "height": 1080,
+      "aspect_ratio": "16:9",
+      "fps": 30.0,
+      "duration_sec": 45.2,
+      "audio_sample_rate": 44100
+    }
+  },
+  "timestamps": [],
+  "flagged_frames": [],
+  "execution_time_sec": 0.05,
+  "api_cost_usd": null
+}
+```
+
+## Detector Type
+
+**HEURISTIC** - Uses signal processing analysis to extract video metadata
+</ParamField>

@@ -49,7 +49,38 @@
       "group": "Detectors",
       "pages": [
         "api-reference/detectors/overview",
-        "api-reference/detectors/configuration-reference"
+        "api-reference/detectors/configuration-reference",
+        {
+          "group": "Content Matching",
+          "pages": [
+            "api-reference/detectors/audio-matching",
+            "api-reference/detectors/video-matching"
+          ]
+        },
+        {
+          "group": "Audio Analysis",
+          "pages": [
+            "api-reference/detectors/pronunciation"
+          ]
+        },
+        {
+          "group": "Visual Analysis",
+          "pages": [
+            "api-reference/detectors/framing"
+          ]
+        },
+        {
+          "group": "Content Analysis",
+          "pages": [
+            "api-reference/detectors/sentiment"
+          ]
+        },
+        {
+          "group": "Video Quality",
+          "pages": [
+            "api-reference/detectors/video-specs"
+          ]
+        }
       ]
     },
     {
