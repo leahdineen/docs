@@ -107,8 +107,8 @@ Validates image specifications.
 
 Matches video against reference content. **Requires preprocessing.**
 
-<ParamField body="config.reference_video" type="string" required>
-  GCS URI of reference video (gs://bucket/path/to/video.mp4)
+<ParamField body="config.reference_videos" type="array" required>
+  Array of GCS URIs of reference videos (gs://bucket/path/to/video.mp4)
   
   **Allowed extensions:** mp4, mov, avi, mkv, webm
 </ParamField>
@@ -118,7 +118,10 @@ Matches video against reference content. **Requires preprocessing.**
 {
   "detector_name": "video_matching",
   "config": {
-    "reference_video": "gs://judge-artifacts/org_123/reference_uploads/abc/video.mp4"
+    "reference_videos": [
+      "gs://judge-artifacts/org_123/reference_uploads/abc/video1.mp4",
+      "gs://judge-artifacts/org_123/reference_uploads/def/video2.mp4"
+    ]
   }
 }
 ```
@@ -137,8 +140,8 @@ Matches audio against reference content. **Requires preprocessing.**
 
 Matches split-screen video content. **Requires preprocessing.**
 
-<ParamField body="config.source_video_reference" type="string">
-  GCS URI of source video reference
+<ParamField body="config.source_video_references" type="array">
+  Array of GCS URIs of source video references
   
   **Allowed extensions:** mp4, mov, avi, mkv, webm
 </ParamField>
@@ -147,8 +150,8 @@ Matches split-screen video content. **Requires preprocessing.**
   Text description of source video
 </ParamField>
 
-<ParamField body="config.bottom_content_reference" type="string">
-  GCS URI of bottom content reference
+<ParamField body="config.bottom_content_references" type="array">
+  Array of GCS URIs of bottom content references
   
   **Allowed extensions:** mp4, mov, avi, mkv, webm
 </ParamField>
@@ -157,7 +160,7 @@ Matches split-screen video content. **Requires preprocessing.**
   Text description of top content
 </ParamField>
 
-**Note:** At least one reference video must be provided.
+**Note:** At least one of `source_video_references` or `bottom_content_references` must be provided.
 
 ### video_matching_description
 
@@ -319,14 +322,6 @@ Detects voice-over narration.
 
 <ParamField body="config.fail_if_voice_over" type="boolean">
   Whether to fail if voice-over is detected
-</ParamField>
-
-### transcription
-
-Transcribes audio content.
-
-<ParamField body="config.language" type="string">
-  Language code for transcription (e.g., "en", "es")
 </ParamField>
 
 ## Metadata Detectors

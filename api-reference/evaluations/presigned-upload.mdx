@@ -125,7 +125,7 @@ After receiving the response, upload your file using the provided URL:
 ```bash
 curl -X PUT "<UPLOAD_URL_FROM_RESPONSE>"\
   -H "Content-Type: video/mp4" \
-  --data-binary @your-video.mp4 \
+  -T your-video.mp4 \
 ```
 
 ## Webhook Notifications

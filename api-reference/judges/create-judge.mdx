@@ -126,7 +126,9 @@ For detectors that require reference content (like `video_matching`), first uplo
     {
       "detector_name": "video_matching",
       "config": {
-        "reference_video": "gs://judge-artifacts/org_123/reference_uploads/abc/reference.mp4"
+        "reference_videos": [
+          "gs://judge-artifacts/org_123/reference_uploads/abc/reference.mp4"
+        ]
       }
     },
     {

@@ -65,7 +65,7 @@ After receiving the response, use the `upload_url` to upload your file:
 ```bash
 curl -X PUT "<UPLOAD_URL_FROM_RESPONSE>" \
   -H "Content-Type: video/mp4" \
-  --data-binary @your-file.mp4 \
+  -T your-file.mp4 \
 ```
 
 
