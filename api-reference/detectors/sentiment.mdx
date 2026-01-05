@@ -1,0 +1,92 @@
+---
+title: 'sentiment'
+description: 'Analyzes transcript sentiment against desired and undesired sentiment criteria using OpenAI'
+---
+
+## Overview
+
+The `sentiment` detector analyzes transcript content to identify emotional tone and sentiment. It uses OpenAI to identify specific portions that match desired or undesired sentiment criteria and detects prohibited content types.
+
+**Requires at least one configuration parameter** - At least one of `desired_sentiment`, `undesired_sentiment`, or `prohibited_content_types` must be provided.
+
+## Configuration
+
+<ParamField body="config.desired_sentiment" type="array">
+  List of desired sentiments to detect (e.g., ["positive", "enthusiastic", "excited"])
+</ParamField>
+
+<ParamField body="config.undesired_sentiment" type="array">
+  List of undesired sentiments to flag (e.g., ["negative", "angry", "frustrated"])
+</ParamField>
+
+<ParamField body="config.prohibited_content_types" type="array">
+  List of prohibited content types to detect (e.g., ["hate_speech", "inappropriate_language"])
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "sentiment",
+  "config": {
+    "desired_sentiment": ["positive", "enthusiastic"],
+    "undesired_sentiment": ["negative", "angry"],
+    "prohibited_content_types": ["hate_speech", "profanity"]
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "sentiment",
+  "pass_check": true,
+  "score": 0.8,
+  "rationale": "Content shows positive sentiment with no undesired elements detected",
+  "metrics": {
+    "desired_matches": [
+      {
+        "text": "I absolutely love this product!",
+        "explanation": "Shows strong positive enthusiasm"
+      },
+      {
+        "text": "This is amazing and works perfectly",
+        "explanation": "Expresses positive satisfaction"
+      }
+    ],
+    "undesired_matches": [],
+    "prohibited_content_matches": []
+  },
+  "timestamps": [15.2, 32.8],
+  "flagged_frames": [],
+  "execution_time_sec": 2.1,
+  "api_cost_usd": 0.018
+}
+```
+
+## Sentiment Categories
+
+### Common Desired Sentiments
+- **positive** - General positive tone
+- **enthusiastic** - High energy, excited tone
+- **satisfied** - Content and pleased tone
+- **confident** - Self-assured and certain tone
+- **grateful** - Thankful and appreciative tone
+
+### Common Undesired Sentiments
+- **negative** - General negative tone
+- **angry** - Frustrated or hostile tone
+- **disappointed** - Let down or unsatisfied tone
+- **uncertain** - Doubtful or hesitant tone
+- **dismissive** - Disregarding or minimizing tone
+
+### Prohibited Content Types
+- **hate_speech** - Language targeting groups or individuals
+- **profanity** - Inappropriate language or swearing
+- **discriminatory** - Content that discriminates based on protected characteristics
+- **threatening** - Content that implies harm or danger
+
+## Detector Type
+
+**AI_TEXT** - Uses OpenAI for natural language sentiment analysis

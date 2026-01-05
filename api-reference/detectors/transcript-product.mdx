@@ -1,0 +1,131 @@
+---
+title: 'transcript_product'
+description: 'Keyword-based product mention detection in transcripts'
+---
+
+## Overview
+
+The `transcript_product` detector analyzes video transcripts to detect mentions of specific brand and product names. It uses keyword-based matching to identify when products are mentioned and discussed in the content.
+
+**Requires at least one configuration parameter** - Either `brand_name` or `product_name` must be provided.
+
+## Configuration
+
+<ParamField body="config.brand_name" type="string">
+  Brand name to detect in the transcript
+</ParamField>
+
+<ParamField body="config.product_name" type="string">
+  Product name to detect in the transcript
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "transcript_product",
+  "config": {
+    "brand_name": "Pique",
+    "product_name": "SuperClean Face Wash"
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "transcript_product",
+  "pass_check": true,
+  "score": 0.9,
+  "rationale": "Product mentions detected: 3 brand mentions, 2 product mentions",
+  "metrics": {
+    "brand_mentions": [
+      {
+        "text": "I love using Pique products in my daily routine",
+        "timestamp": 8.2,
+        "confidence": 1.0,
+        "context": "positive endorsement"
+      },
+      {
+        "text": "Pique has really changed my skincare game",
+        "timestamp": 25.7,
+        "confidence": 1.0,
+        "context": "personal testimonial"
+      },
+      {
+        "text": "Thanks to Pique for sponsoring this video",
+        "timestamp": 42.1,
+        "confidence": 1.0,
+        "context": "sponsorship disclosure"
+      }
+    ],
+    "product_mentions": [
+      {
+        "text": "This SuperClean Face Wash is amazing",
+        "timestamp": 12.5,
+        "confidence": 1.0,
+        "context": "product review"
+      },
+      {
+        "text": "I use the SuperClean Face Wash every morning",
+        "timestamp": 18.3,
+        "confidence": 1.0,
+        "context": "usage description"
+      }
+    ],
+    "mention_summary": {
+      "total_brand_mentions": 3,
+      "total_product_mentions": 2,
+      "first_mention_time": 8.2,
+      "mention_frequency": "regular",
+      "sentiment": "positive"
+    }
+  },
+  "timestamps": [8.2, 12.5, 18.3, 25.7, 42.1],
+  "flagged_frames": [],
+  "execution_time_sec": 1.1,
+  "api_cost_usd": null
+}
+```
+
+## Detection Features
+
+### Mention Analysis
+- **Exact Matches** - Direct mentions of brand/product names
+- **Contextual Detection** - Understanding surrounding context
+- **Timestamp Tracking** - When mentions occur in the content
+- **Frequency Analysis** - How often products are mentioned
+
+### Context Categories
+- **positive_endorsement** - Favorable product recommendations
+- **personal_testimonial** - Creator's personal experience
+- **product_review** - Detailed product evaluation
+- **usage_description** - How the product is used
+- **sponsorship_disclosure** - Acknowledgment of brand partnership
+- **neutral_mention** - Factual product reference
+
+### Sentiment Analysis
+- **positive** - Favorable mentions and recommendations
+- **neutral** - Factual or informational mentions
+- **negative** - Critical or unfavorable mentions
+- **mixed** - Combination of positive and negative sentiment
+
+## Use Cases
+
+- **Sponsorship Compliance** - Verifying contracted product mentions
+- **Brand Monitoring** - Tracking how products are discussed
+- **Content Verification** - Ensuring product integration requirements are met
+- **Campaign Analysis** - Measuring product mention frequency and context
+
+## Matching Strategy
+
+The detector uses flexible keyword matching that accounts for:
+- Variations in capitalization
+- Common abbreviations and nicknames
+- Plural forms and variations
+- Context clues for product identification
+
+## Detector Type
+
+**AI_TEXT** - Uses keyword-based matching with contextual analysis

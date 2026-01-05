@@ -1,0 +1,196 @@
+---
+title: 'transition_detection'
+description: 'Detects video cuts and transitions using OpenCV frame analysis'
+---
+
+## Overview
+
+The `transition_detection` detector identifies scene changes, cuts, and transitions in video content using multiple OpenCV-based detection methods including histogram correlation, edge detection difference, and pixel difference analysis.
+
+## Configuration
+
+<ParamField body="config.max_transitions" type="integer">
+  Maximum number of allowed scene transitions before failing the evaluation
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "transition_detection",
+  "config": {
+    "max_transitions": 10
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "transition_detection",
+  "pass_check": true,
+  "score": 0.8,
+  "rationale": "8 transitions detected, within acceptable limit of 10",
+  "metrics": {
+    "transition_analysis": {
+      "total_transitions": 8,
+      "max_allowed": 10,
+      "transition_rate": 0.27,
+      "average_scene_length": 11.2
+    },
+    "detected_transitions": [
+      {
+        "frame_index": 150,
+        "timestamp": 5.0,
+        "transition_type": "cut",
+        "confidence": 0.95,
+        "detection_method": "histogram_correlation",
+        "intensity": "strong"
+      },
+      {
+        "frame_index": 420,
+        "timestamp": 14.0,
+        "transition_type": "fade",
+        "confidence": 0.8,
+        "detection_method": "pixel_difference",
+        "intensity": "moderate"
+      },
+      {
+        "frame_index": 735,
+        "timestamp": 24.5,
+        "transition_type": "cut",
+        "confidence": 0.92,
+        "detection_method": "edge_detection",
+        "intensity": "strong"
+      }
+    ],
+    "scene_segments": [
+      {
+        "start_frame": 0,
+        "end_frame": 149,
+        "duration": 5.0,
+        "scene_description": "opening_segment"
+      },
+      {
+        "start_frame": 150,
+        "end_frame": 419,
+        "duration": 9.0,
+        "scene_description": "main_content"
+      },
+      {
+        "start_frame": 420,
+        "end_frame": 734,
+        "duration": 10.5,
+        "scene_description": "product_demonstration"
+      }
+    ],
+    "detection_statistics": {
+      "histogram_correlations": 5,
+      "edge_detection_triggers": 2,
+      "pixel_difference_triggers": 1,
+      "false_positive_rate": 0.05
+    }
+  },
+  "timestamps": [5.0, 14.0, 24.5, 31.2, 38.7],
+  "flagged_frames": [
+    {
+      "frame_index": 150,
+      "transition_type": "cut",
+      "intensity": "strong"
+    },
+    {
+      "frame_index": 420,
+      "transition_type": "fade",
+      "intensity": "moderate"
+    }
+  ],
+  "execution_time_sec": 4.1,
+  "api_cost_usd": null
+}
+```
+
+## Detection Methods
+
+### Histogram Correlation
+- **Color Distribution Analysis** - Comparing color histograms between frames
+- **Sensitivity** - Detects significant color or lighting changes
+- **Accuracy** - High precision for cuts and scene changes
+- **Use Case** - Best for detecting hard cuts and color shifts
+
+### Edge Detection Difference
+- **Structural Changes** - Analyzing edge patterns and shapes
+- **Feature Detection** - Identifying when major visual elements change
+- **Robustness** - Less sensitive to lighting changes
+- **Use Case** - Effective for detecting composition changes
+
+### Pixel Difference Analysis
+- **Frame Comparison** - Direct pixel-by-pixel comparison
+- **Motion Sensitivity** - Detects significant movement or changes
+- **Threshold-Based** - Uses configurable difference thresholds
+- **Use Case** - Good for detecting fades, dissolves, and gradual transitions
+
+## Transition Types
+
+### Hard Cuts
+- **Instant Scene Change** - Immediate switch between scenes
+- **High Confidence** - Easy to detect with high accuracy
+- **Common Usage** - Standard editing technique
+- **Detection Method** - All three methods effective
+
+### Fades and Dissolves
+- **Gradual Transition** - Smooth blending between scenes
+- **Moderate Confidence** - More challenging to detect precisely
+- **Creative Usage** - Artistic transition technique
+- **Detection Method** - Pixel difference most effective
+
+### Jump Cuts
+- **Same Scene Editing** - Cuts within same location/setup
+- **Variable Confidence** - May not trigger all detection methods
+- **Quick Editing** - Rapid succession of cuts
+- **Detection Method** - Histogram correlation preferred
+
+### Cross Fades
+- **Audio-Visual Sync** - Coordinated audio and video transition
+- **Complex Analysis** - Multiple detection methods combined
+- **Professional Usage** - High-end production technique
+- **Detection Method** - Combined analysis required
+
+## Quality Assessment
+
+### Transition Intensity
+- **Strong (0.8-1.0)** - Very obvious scene changes
+- **Moderate (0.5-0.79)** - Clear but subtler transitions
+- **Weak (0.2-0.49)** - Minor scene variations
+- **Minimal (0.0-0.19)** - Barely detectable changes
+
+### Scene Analysis
+- **Scene Length** - Duration between transitions
+- **Transition Rate** - Transitions per minute
+- **Pacing Analysis** - Rhythm and flow of editing
+- **Continuity Assessment** - Smooth vs. jarring transitions
+
+## Configuration Guidelines
+
+### Content Type Considerations
+- **Static Content** - Lower transition limits (2-5)
+- **Dynamic Content** - Higher limits acceptable (10-20)
+- **Tutorials** - Moderate limits for instructional clarity (5-10)
+- **Entertainment** - Higher limits for engagement (15-30)
+
+### Platform Requirements
+- **Social Media** - Quick cuts may be acceptable
+- **Educational** - Fewer transitions for clarity
+- **Marketing** - Balanced approach for retention
+- **Professional** - Minimal transitions for authority
+
+## Use Cases
+
+- **Content Pacing** - Ensuring appropriate editing rhythm
+- **Platform Compliance** - Meeting specific transition requirements
+- **Quality Standards** - Maintaining professional editing standards
+- **Attention Management** - Optimizing viewer engagement through pacing
+
+## Detector Type
+
+**HEURISTIC** - Uses OpenCV computer vision algorithms for frame analysis and transition detection

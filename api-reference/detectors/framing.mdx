@@ -1,0 +1,83 @@
+---
+title: 'framing'
+description: 'Analyzes video framing and composition using OpenAI Vision API'
+---
+
+## Overview
+
+The `framing` detector evaluates shot composition and framing quality in video content. It detects common framing issues like subjects being too close or far, off-center positioning, insufficient headroom, cropped subjects, and distracting composition elements.
+
+**No configuration required** - This detector works with default settings.
+
+## Configuration
+
+This detector does not require any configuration parameters. Include it with an empty config object:
+
+```json
+{
+  "detector_name": "framing",
+  "config": {}
+}
+```
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "framing",
+  "config": {}
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "framing",
+  "pass_check": false,
+  "score": 0.6,
+  "rationale": "Multiple framing issues detected including subject too close and off-center positioning",
+  "metrics": {
+    "flags": [
+      {
+        "frame_index": 150,
+        "decisions": ["too_close", "off_center"],
+        "rationale": "Subject is positioned too close to camera and off-center in frame"
+      },
+      {
+        "frame_index": 420,
+        "decisions": ["insufficient_headroom"],
+        "rationale": "Subject's head is too close to top of frame"
+      }
+    ]
+  },
+  "timestamps": [5.0, 14.0],
+  "flagged_frames": [
+    {
+      "frame_index": 150,
+      "issues": ["too_close", "off_center"],
+      "timestamp": 5.0
+    },
+    {
+      "frame_index": 420,
+      "issues": ["insufficient_headroom"],
+      "timestamp": 14.0
+    }
+  ],
+  "execution_time_sec": 3.2,
+  "api_cost_usd": 0.15
+}
+```
+
+## Common Framing Issues Detected
+
+- **too_close** - Subject is positioned too close to the camera
+- **too_far** - Subject is positioned too far from the camera
+- **off_center** - Subject is not properly centered in the frame
+- **insufficient_headroom** - Not enough space above the subject's head
+- **cropped_subject** - Parts of the subject are cut off by the frame edges
+- **distracting_composition** - Background or composition elements that distract from the main subject
+
+## Detector Type
+
+**AI_VISION** - Uses OpenAI Vision API for framing analysis

@@ -1,0 +1,151 @@
+---
+title: 'title_and_description'
+description: 'Analyzes video title and description for compliance and hashtag analysis'
+---
+
+## Overview
+
+The `title_and_description` detector analyzes video metadata including title, description, hashtags, and social media tags for compliance and optimization. It checks for required elements and analyzes content topics.
+
+**Requires at least one configuration parameter** - At least one configuration option must be provided to make the analysis meaningful.
+
+## Configuration
+
+<ParamField body="config.suggested_hashtags" type="array">
+  List of suggested hashtags to look for (optional recommendations)
+</ParamField>
+
+<ParamField body="config.required_hashtags" type="array">
+  List of hashtags that must be present
+</ParamField>
+
+<ParamField body="config.required_social_tags" type="array">
+  List of social media tags that must be present (e.g., @mentions)
+</ParamField>
+
+<ParamField body="config.required_social_tags_mode" type="string">
+  Mode for social tag requirements: "all" (all tags required) or "any" (at least one required)
+</ParamField>
+
+<ParamField body="config.topic_keywords" type="array">
+  List of topic keywords to detect in title/description
+</ParamField>
+
+<ParamField body="config.enable_topic_analysis" type="boolean">
+  Whether to enable AI-powered topic analysis of the content
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "title_and_description",
+  "config": {
+    "suggested_hashtags": ["#beauty", "#skincare", "#tutorial"],
+    "required_hashtags": ["#ad", "#sponsored"],
+    "required_social_tags": ["@brandname"],
+    "required_social_tags_mode": "any",
+    "topic_keywords": ["skincare", "routine", "product"],
+    "enable_topic_analysis": true
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "title_and_description",
+  "pass_check": true,
+  "score": 0.85,
+  "rationale": "Required hashtags and social tags present, good topic coverage",
+  "metrics": {
+    "suggested_hashtag_analysis": {
+      "total_suggested": 3,
+      "found_hashtags": ["#beauty", "#skincare"],
+      "missing_hashtags": ["#tutorial"],
+      "coverage_percentage": 66.7
+    },
+    "required_hashtag_analysis": {
+      "total_required": 2,
+      "found_hashtags": ["#ad", "#sponsored"],
+      "missing_hashtags": [],
+      "compliance": true
+    },
+    "required_social_tag_analysis": {
+      "total_required": 1,
+      "found_tags": ["@brandname"],
+      "missing_tags": [],
+      "mode": "any",
+      "compliance": true
+    },
+    "topic_analysis": {
+      "detected_topics": [
+        "skincare routine",
+        "product review", 
+        "beauty tips"
+      ],
+      "keyword_matches": [
+        "skincare",
+        "routine",
+        "product"
+      ],
+      "topic_relevance": 0.9,
+      "content_quality": "high"
+    },
+    "metadata_summary": {
+      "title": "My Daily Skincare Routine with @brandname Products #ad #sponsored",
+      "description_length": 245,
+      "hashtag_count": 8,
+      "mention_count": 2,
+      "compliance_score": 0.85
+    }
+  },
+  "timestamps": [],
+  "flagged_frames": [],
+  "execution_time_sec": 1.5,
+  "api_cost_usd": 0.03
+}
+```
+
+## Analysis Categories
+
+### Hashtag Analysis
+- **Suggested Hashtags** - Recommended tags for optimization
+- **Required Hashtags** - Mandatory tags for compliance
+- **Coverage Percentage** - How many suggested tags are present
+- **Missing Tags** - Required tags that are absent
+
+### Social Tag Analysis  
+- **Required Social Tags** - Mandatory @mentions or tags
+- **Compliance Modes** - All tags required vs. any one tag required
+- **Tag Verification** - Confirming proper social media attribution
+
+### Topic Analysis
+- **Keyword Detection** - Finding specific topic keywords
+- **Topic Classification** - AI-powered content categorization
+- **Relevance Scoring** - How well content matches expected topics
+- **Content Quality** - Overall assessment of metadata quality
+
+## Compliance Features
+
+### FTC/Legal Compliance
+- **Disclosure Requirements** - Ensuring #ad, #sponsored, #partnership tags
+- **Attribution Requirements** - Proper @brand mentions and credits
+- **Transparency Standards** - Clear sponsorship disclosure
+
+### Platform Optimization
+- **Hashtag Strategy** - Optimal tag usage for reach and engagement
+- **Topic Relevance** - Content alignment with target keywords
+- **Metadata Quality** - Professional and complete descriptions
+
+## Use Cases
+
+- **Sponsorship Compliance** - Verifying FTC disclosure requirements
+- **Content Optimization** - Ensuring proper hashtag and topic coverage
+- **Brand Guidelines** - Meeting specific tagging and mention requirements  
+- **Quality Control** - Maintaining consistent metadata standards
+
+## Detector Type
+
+**AI_TEXT** - Uses AI for natural language processing and topic analysis

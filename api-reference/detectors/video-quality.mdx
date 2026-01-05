@@ -1,0 +1,225 @@
+---
+title: 'video_quality'
+description: 'Analyzes overall video quality including compression artifacts and clarity'
+---
+
+## Overview
+
+The `video_quality` detector provides comprehensive analysis of video technical quality, including compression artifacts, clarity, visual noise, and overall production standards. It evaluates multiple technical aspects that affect viewing experience.
+
+## Configuration
+
+<ParamField body="config.expected_aspect_ratios" type="array">
+  Expected aspect ratios for the content (e.g., ["16:9", "9:16"])
+</ParamField>
+
+<ParamField body="config.check_aspect_ratio" type="boolean">
+  Whether to validate aspect ratio consistency throughout the video
+</ParamField>
+
+<ParamField body="config.min_width" type="integer">
+  Minimum acceptable video width in pixels
+</ParamField>
+
+<ParamField body="config.min_height" type="integer">
+  Minimum acceptable video height in pixels
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "video_quality",
+  "config": {
+    "expected_aspect_ratios": ["16:9", "9:16"],
+    "check_aspect_ratio": true,
+    "min_width": 1280,
+    "min_height": 720
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "video_quality",
+  "pass_check": true,
+  "score": 0.85,
+  "rationale": "High video quality with minor compression artifacts in some segments",
+  "metrics": {
+    "technical_quality": {
+      "resolution": {
+        "width": 1920,
+        "height": 1080,
+        "aspect_ratio": "16:9",
+        "aspect_ratio_consistent": true,
+        "meets_minimum": true
+      },
+      "compression_analysis": {
+        "compression_level": "moderate",
+        "bitrate_estimation": "high",
+        "artifact_severity": "low",
+        "encoding_quality": "very_good"
+      },
+      "visual_metrics": {
+        "sharpness": 0.88,
+        "contrast": 0.82,
+        "color_accuracy": 0.9,
+        "noise_level": 0.15,
+        "clarity_score": 0.85
+      }
+    },
+    "quality_issues": [
+      {
+        "issue_type": "compression_artifacts",
+        "start_time": 25.3,
+        "end_time": 28.7,
+        "severity": "mild",
+        "description": "Minor blocking in fast motion segment",
+        "frame_range": [759, 861]
+      },
+      {
+        "issue_type": "noise_spikes",
+        "start_time": 45.1,
+        "end_time": 46.2,
+        "severity": "low",
+        "description": "Brief digital noise in transition",
+        "frame_range": [1353, 1386]
+      }
+    ],
+    "encoding_assessment": {
+      "codec_efficiency": "good",
+      "bitrate_consistency": 0.9,
+      "keyframe_distribution": "appropriate",
+      "motion_handling": "very_good",
+      "detail_preservation": 0.87
+    },
+    "frame_analysis": {
+      "total_frames": 1800,
+      "problematic_frames": 42,
+      "quality_consistency": 0.88,
+      "temporal_artifacts": "minimal",
+      "interlacing_issues": false
+    }
+  },
+  "timestamps": [25.3, 45.1],
+  "flagged_frames": [
+    {
+      "frame_index": 759,
+      "issue": "compression_artifacts",
+      "severity": "mild"
+    },
+    {
+      "frame_index": 1353,
+      "issue": "noise_spike",
+      "severity": "low"
+    }
+  ],
+  "execution_time_sec": 12.5,
+  "api_cost_usd": 0.45
+}
+```
+
+## Quality Assessment Categories
+
+### Technical Resolution
+- **Pixel Dimensions** - Width and height verification
+- **Aspect Ratio** - Format consistency and correctness
+- **Resolution Standards** - HD, Full HD, 4K classification
+- **Pixel Density** - Clarity and detail levels
+
+### Compression Analysis
+- **Artifact Detection** - Blocking, ringing, mosquito noise
+- **Bitrate Assessment** - Estimated encoding bitrate
+- **Codec Efficiency** - Compression algorithm effectiveness
+- **Quality vs. Size** - Encoding optimization balance
+
+### Visual Metrics
+- **Sharpness** - Edge definition and detail clarity
+- **Contrast** - Dynamic range and tonal separation
+- **Color Accuracy** - Faithful color reproduction
+- **Noise Levels** - Digital noise and grain assessment
+
+### Encoding Quality
+- **Keyframe Distribution** - I-frame placement and frequency
+- **Motion Handling** - P-frame and B-frame effectiveness
+- **Detail Preservation** - Fine detail retention
+- **Temporal Consistency** - Consistent quality over time
+
+## Quality Issues Detected
+
+### Compression Artifacts
+- **Blocking** - Visible compression blocks in flat areas
+- **Ringing** - Halos around high-contrast edges
+- **Mosquito Noise** - Buzzing patterns around edges
+- **Banding** - Visible steps in gradients
+
+### Visual Problems
+- **Digital Noise** - Random pixel variations
+- **Motion Blur** - Excessive blur in movement
+- **Interlacing** - Scan line artifacts
+- **Color Bleeding** - Chroma compression issues
+
+### Technical Issues
+- **Dropped Frames** - Missing or duplicated frames
+- **Sync Problems** - Audio-video synchronization issues
+- **Resolution Inconsistency** - Changing dimensions
+- **Aspect Ratio Problems** - Stretching or pillarboxing
+
+## Quality Scoring
+
+### Excellent (0.9-1.0)
+- Professional broadcast quality
+- Minimal compression artifacts
+- High detail preservation
+- Consistent technical standards
+
+### Very Good (0.8-0.89)
+- High production quality
+- Minor compression issues
+- Good detail retention
+- Generally consistent quality
+
+### Good (0.7-0.79)
+- Acceptable streaming quality
+- Moderate compression artifacts
+- Adequate detail preservation
+- Some quality variations
+
+### Fair (0.6-0.69)
+- Basic quality standards
+- Noticeable compression issues
+- Limited detail preservation
+- Inconsistent quality
+
+### Poor (0.0-0.59)
+- Substandard quality
+- Severe compression problems
+- Poor detail preservation
+- Significant technical issues
+
+## Aspect Ratio Validation
+
+### Standard Ratios
+- **16:9** - Widescreen standard (1920x1080, 1280x720)
+- **9:16** - Vertical/mobile format (1080x1920, 720x1280)
+- **1:1** - Square format (1080x1080, 720x720)
+- **4:3** - Traditional format (1024x768, 800x600)
+
+### Consistency Checks
+- **Frame-to-frame** - Consistent dimensions throughout
+- **Letterboxing** - Black bars detection and measurement
+- **Pillarboxing** - Side bars for format conversion
+- **Stretching** - Distorted aspect ratio detection
+
+## Use Cases
+
+- **Technical Compliance** - Meeting platform quality requirements
+- **Content Standards** - Ensuring professional quality levels
+- **Encoding Optimization** - Identifying compression issues
+- **Quality Control** - Pre-publication quality assessment
+
+## Detector Type
+
+**AI_VISION** - Uses computer vision algorithms for comprehensive video quality analysis

@@ -1,0 +1,155 @@
+---
+title: 'background'
+description: 'Analyzes background elements and setting using OpenAI Vision API'
+---
+
+## Overview
+
+The `background` detector analyzes the background and setting of video content to assess environment quality, cleanliness, and appropriateness. It specifically determines if content is filmed inside a car and evaluates background tidiness and professionalism.
+
+**No configuration required** - This detector works with default settings.
+
+## Configuration
+
+This detector does not require any configuration parameters. Include it with an empty config object:
+
+```json
+{
+  "detector_name": "background",
+  "config": {}
+}
+```
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "background",
+  "config": {}
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "background",
+  "pass_check": true,
+  "score": 0.85,
+  "rationale": "Clean, professional background setting with good lighting and minimal distractions",
+  "metrics": {
+    "background_analysis": {
+      "is_car": false,
+      "is_tidy": true,
+      "environment_type": "indoor_studio",
+      "professionalism": "high",
+      "cleanliness": "excellent",
+      "lighting_quality": "good",
+      "distractions": "minimal"
+    },
+    "setting_details": {
+      "primary_environment": "beauty_setup",
+      "background_elements": [
+        "neutral_wall",
+        "ring_light",
+        "organized_products"
+      ],
+      "clutter_level": "none",
+      "color_scheme": "neutral_tones",
+      "space_organization": "well_organized"
+    },
+    "quality_assessment": {
+      "visual_appeal": 0.9,
+      "brand_appropriateness": 0.85,
+      "professionalism_score": 0.9,
+      "distraction_level": 0.1
+    },
+    "environment_flags": {
+      "messy_background": false,
+      "inappropriate_items": false,
+      "poor_lighting": false,
+      "distracting_elements": false
+    }
+  },
+  "timestamps": [],
+  "flagged_frames": [],
+  "execution_time_sec": 3.2,
+  "api_cost_usd": 0.14
+}
+```
+
+## Background Analysis
+
+### Environment Types
+- **Indoor Studio** - Professional setup with controlled lighting
+- **Home Setting** - Residential environment, bedroom, living room
+- **Outdoor Location** - External environments, natural settings
+- **Car Interior** - Vehicle-based filming location
+- **Office/Workspace** - Professional work environment
+- **Retail/Commercial** - Store or commercial location
+
+### Tidiness Assessment
+- **Excellent** - Extremely clean and organized
+- **Good** - Well-maintained with minor items
+- **Fair** - Somewhat cluttered but acceptable
+- **Poor** - Messy, disorganized, distracting
+
+### Professionalism Levels
+- **High** - Studio-quality, brand-appropriate setting
+- **Medium** - Clean, presentable environment
+- **Low** - Basic but acceptable background
+- **Poor** - Unprofessional or inappropriate setting
+
+## Car Detection
+
+### Car Environment Analysis
+- **Vehicle Type** - Sedan, SUV, truck identification
+- **Interior Quality** - Clean vs. cluttered car interior
+- **Safety Considerations** - Driving vs. stationary recording
+- **Audio Quality** - Road noise and acoustic challenges
+- **Lighting Conditions** - Natural light vs. interior lighting
+
+### Car-Specific Metrics
+- **Dashboard Visibility** - Car controls and branding
+- **Seat Position** - Driver vs. passenger positioning
+- **Background Movement** - Static vs. moving environment
+- **Audio Interference** - Engine noise, road sounds
+
+## Quality Factors
+
+### Visual Appeal
+- **Color Harmony** - Cohesive color scheme
+- **Lighting Quality** - Even, flattering illumination
+- **Composition** - Well-framed background elements
+- **Brand Alignment** - Appropriate for content type
+
+### Distraction Assessment
+- **Clutter Level** - Amount of background items
+- **Movement** - Distracting background activity
+- **Inappropriate Items** - Objects that don't fit content
+- **Competing Elements** - Background items that draw attention
+
+### Brand Appropriateness
+- **Professional Standards** - Meeting brand image requirements
+- **Content Alignment** - Background matches content type
+- **Audience Suitability** - Appropriate for target demographic
+- **Platform Compliance** - Meeting platform content guidelines
+
+## Common Background Issues
+
+- **Messy/Cluttered** - Disorganized items and spaces
+- **Poor Lighting** - Inadequate or unflattering illumination
+- **Inappropriate Items** - Objects that don't match content
+- **Distracting Elements** - Background items that compete for attention
+- **Unprofessional Setting** - Environments unsuitable for brand content
+
+## Use Cases
+
+- **Content Quality** - Ensuring professional appearance standards
+- **Brand Guidelines** - Meeting specific background requirements
+- **Platform Compliance** - Adhering to platform content standards
+- **Audience Appropriateness** - Ensuring suitable environments for target demographics
+
+## Detector Type
+
+**AI_VISION** - Uses OpenAI Vision API for environmental analysis and scene understanding

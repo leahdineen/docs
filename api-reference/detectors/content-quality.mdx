@@ -1,0 +1,197 @@
+---
+title: 'content_quality'
+description: 'Evaluates overall content quality using AI vision models'
+---
+
+## Overview
+
+The `content_quality` detector provides a comprehensive assessment of overall video content quality, analyzing multiple factors including visual appeal, production value, engagement potential, and overall professionalism using AI vision models.
+
+**No configuration required** - This detector works with default settings.
+
+## Configuration
+
+This detector does not require any configuration parameters. Include it with an empty config object:
+
+```json
+{
+  "detector_name": "content_quality",
+  "config": {}
+}
+```
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "content_quality",
+  "config": {}
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "content_quality",
+  "pass_check": true,
+  "score": 0.82,
+  "rationale": "High-quality content with professional production value and strong visual appeal",
+  "metrics": {
+    "overall_quality": {
+      "production_value": 0.85,
+      "visual_appeal": 0.9,
+      "content_engagement": 0.8,
+      "professionalism": 0.85,
+      "technical_quality": 0.75
+    },
+    "quality_factors": {
+      "lighting": {
+        "score": 0.9,
+        "assessment": "excellent",
+        "notes": "Well-lit with professional ring light setup"
+      },
+      "composition": {
+        "score": 0.85,
+        "assessment": "very_good", 
+        "notes": "Good framing and rule of thirds application"
+      },
+      "audio_sync": {
+        "score": 0.8,
+        "assessment": "good",
+        "notes": "Audio and video properly synchronized"
+      },
+      "stability": {
+        "score": 0.7,
+        "assessment": "good",
+        "notes": "Minor camera shake in some segments"
+      }
+    },
+    "engagement_metrics": {
+      "visual_interest": 0.85,
+      "pacing": 0.8,
+      "variety": 0.75,
+      "energy": 0.9,
+      "authenticity": 0.85
+    },
+    "technical_assessment": {
+      "resolution_quality": "high",
+      "color_accuracy": "excellent",
+      "focus_sharpness": "very_good",
+      "exposure": "appropriate",
+      "white_balance": "accurate"
+    },
+    "improvement_areas": [
+      {
+        "category": "stability",
+        "suggestion": "Use tripod for steadier shots",
+        "priority": "medium"
+      }
+    ]
+  },
+  "timestamps": [5.2, 15.7, 32.1],
+  "flagged_frames": [
+    {
+      "frame_index": 450,
+      "quality_issue": "minor_shake",
+      "severity": "low"
+    }
+  ],
+  "execution_time_sec": 8.5,
+  "api_cost_usd": 0.42
+}
+```
+
+## Quality Assessment Categories
+
+### Production Value
+- **Professional Setup** - Studio-quality lighting, equipment, and environment
+- **Technical Execution** - Camera work, editing, and post-production quality
+- **Content Planning** - Evidence of preparation and intentional content creation
+- **Brand Presentation** - Professional representation and messaging
+
+### Visual Appeal
+- **Aesthetic Quality** - Overall visual attractiveness and style
+- **Color Grading** - Consistent and appealing color treatment
+- **Composition** - Rule of thirds, framing, and visual balance
+- **Visual Variety** - Multiple angles, shots, and visual interest
+
+### Content Engagement
+- **Pacing** - Appropriate rhythm and flow of content
+- **Energy Level** - Creator enthusiasm and engagement
+- **Authenticity** - Genuine personality and natural presentation
+- **Storytelling** - Narrative structure and content organization
+
+### Technical Quality
+- **Resolution** - Video clarity and sharpness
+- **Audio Quality** - Clear, balanced audio without issues
+- **Stability** - Steady camera work without excessive shake
+- **Focus** - Proper focus maintenance throughout content
+
+## Quality Scoring
+
+### Excellent (0.9-1.0)
+- Professional-grade production
+- Exceptional visual and audio quality
+- High engagement potential
+- Minimal technical issues
+
+### Very Good (0.8-0.89)
+- High production standards
+- Strong visual appeal
+- Good engagement factors
+- Minor technical considerations
+
+### Good (0.7-0.79)
+- Solid content quality
+- Acceptable production value
+- Average engagement potential
+- Some improvement areas
+
+### Fair (0.6-0.69)
+- Basic quality standards
+- Limited production value
+- Below-average engagement
+- Multiple improvement needs
+
+### Poor (0.0-0.59)
+- Substandard quality
+- Poor production value
+- Low engagement potential
+- Significant technical issues
+
+## Improvement Recommendations
+
+### High Priority
+- Major technical issues affecting viewing experience
+- Critical audio or visual problems
+- Fundamental production shortcomings
+
+### Medium Priority
+- Moderate quality improvements
+- Enhanced production techniques
+- Better equipment or setup recommendations
+
+### Low Priority
+- Minor optimizations
+- Style and aesthetic enhancements
+- Advanced production techniques
+
+## Quality Factors Analysis
+
+- **Lighting Assessment** - Natural vs. artificial lighting quality
+- **Audio Analysis** - Clarity, levels, and background noise
+- **Visual Stability** - Camera shake and movement quality
+- **Focus Management** - Sharpness and depth of field usage
+- **Color Science** - Accurate colors and white balance
+
+## Use Cases
+
+- **Content Optimization** - Identifying areas for quality improvement
+- **Brand Standards** - Ensuring content meets quality requirements
+- **Creator Development** - Providing feedback for skill improvement
+- **Campaign Quality** - Maintaining consistent production standards
+
+## Detector Type
+
+**AI_VISION** - Uses advanced computer vision models for comprehensive quality analysis

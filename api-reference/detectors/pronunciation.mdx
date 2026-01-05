@@ -1,0 +1,102 @@
+---
+title: 'pronunciation'
+description: 'Evaluates brand and product name pronunciation using Google Gemini'
+---
+
+## Overview
+
+The `pronunciation` detector analyzes audio to detect and evaluate pronunciation quality of brand and product names. It uses Google Gemini AI to assess pronunciation correctness, clarity, and confidence scores.
+
+**Requires at least one configuration parameter** - Either `brand_name` or `product_name` must be provided.
+
+## Configuration
+
+<ParamField body="config.brand_name" type="string">
+  Brand name to check pronunciation for
+</ParamField>
+
+<ParamField body="config.product_name" type="string">
+  Product name to check pronunciation for
+</ParamField>
+
+<ParamField body="config.brand_cue" type="string">
+  Phonetic cue or pronunciation guide for the brand name
+</ParamField>
+
+<ParamField body="config.product_cue" type="string">
+  Phonetic cue or pronunciation guide for the product name
+</ParamField>
+
+<ParamField body="config.brand_audio_url" type="string">
+  GCS URI of reference audio for brand name pronunciation
+  
+  **Allowed extensions:** mp3, wav, aac, flac, m4a
+</ParamField>
+
+<ParamField body="config.product_audio_url" type="string">
+  GCS URI of reference audio for product name pronunciation
+  
+  **Allowed extensions:** mp3, wav, aac, flac, m4a
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "pronunciation",
+  "config": {
+    "brand_name": "Pique",
+    "brand_cue": "pronounced like 'peak'",
+    "product_name": "SuperClean",
+    "brand_audio_url": "gs://judge-artifacts/org_123/reference_uploads/abc/brand_audio.mp3"
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "pronunciation",
+  "pass_check": true,
+  "score": 0.85,
+  "rationale": "Brand mentioned 2 times with good pronunciation quality",
+  "metrics": {
+    "brand_mentions": [
+      {
+        "mention_number": 1,
+        "approximate_timestamp": "0:15",
+        "pronunciation_correct": true,
+        "clarity_score": 0.9,
+        "confidence": 0.8,
+        "specific_issues": [],
+        "phonetic_transcription": "piːk"
+      }
+    ],
+    "product_mentions": [
+      {
+        "mention_number": 1,
+        "approximate_timestamp": "0:32",
+        "pronunciation_correct": true,
+        "clarity_score": 0.8,
+        "confidence": 0.75,
+        "specific_issues": ["slight unclear ending"],
+        "phonetic_transcription": "ˈsuːpərˌkliːn"
+      }
+    ],
+    "summary": {
+      "total_brand_mentions": 1,
+      "total_product_mentions": 1,
+      "overall_score": 0.85
+    }
+  },
+  "timestamps": [15.0, 32.0],
+  "flagged_frames": [],
+  "execution_time_sec": 2.3,
+  "api_cost_usd": 0.025
+}
+```
+
+## Detector Type
+
+**AI_AUDIO** - Uses Google Gemini AI for pronunciation analysis

@@ -49,7 +49,63 @@
       "group": "Detectors",
       "pages": [
         "api-reference/detectors/overview",
-        "api-reference/detectors/configuration-reference"
+        "api-reference/detectors/configuration-reference",
+        {
+          "group": "Content Matching",
+          "pages": [
+            "api-reference/detectors/audio-matching",
+            "api-reference/detectors/splitscreen-video-matching",
+            "api-reference/detectors/video-matching",
+            "api-reference/detectors/video-matching-description"
+          ]
+        },
+        {
+          "group": "Audio Analysis",
+          "pages": [
+            "api-reference/detectors/audio-noise",
+            "api-reference/detectors/pronunciation",
+            "api-reference/detectors/voice-over"
+          ]
+        },
+        {
+          "group": "Content Analysis",
+          "pages": [
+            "api-reference/detectors/background",
+            "api-reference/detectors/content-quality",
+            "api-reference/detectors/language",
+            "api-reference/detectors/sentiment",
+            "api-reference/detectors/title-and-description",
+            "api-reference/detectors/transcript-policy",
+            "api-reference/detectors/transcript-product"
+          ]
+        },
+        {
+          "group": "Video Quality",
+          "pages": [
+            "api-reference/detectors/framing",
+            "api-reference/detectors/lighting",
+            "api-reference/detectors/transition-detection",
+            "api-reference/detectors/video-quality",
+            "api-reference/detectors/video-specs"
+          ]
+        },
+        {
+          "group": "Image Quality",
+          "pages": [
+            "api-reference/detectors/image-sharpness",
+            "api-reference/detectors/image-specs"
+          ]
+        },
+        {
+          "group": "Visual Analysis",
+          "pages": [
+            "api-reference/detectors/image-ip-infringement",
+            "api-reference/detectors/overlays",
+            "api-reference/detectors/product-application",
+            "api-reference/detectors/subtitles",
+            "api-reference/detectors/wardrobe"
+          ]
+        }
       ]
     },
     {

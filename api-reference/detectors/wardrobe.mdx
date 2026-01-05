@@ -1,0 +1,157 @@
+---
+title: 'wardrobe'
+description: 'Checks appearance compliance (wardrobe, beauty) using OpenAI Vision API'
+---
+
+## Overview
+
+The `wardrobe` detector analyzes clothing, accessories, hair, makeup, and overall appearance for compliance with brand guidelines or content standards. It evaluates both wardrobe choices and beauty standards using AI vision analysis.
+
+**Requires at least one configuration parameter** - Either `wardrobe_rules` or `beauty_rules` must be provided.
+
+## Configuration
+
+<ParamField body="config.wardrobe_rules" type="array">
+  List of wardrobe requirements and guidelines
+</ParamField>
+
+<ParamField body="config.beauty_rules" type="array">
+  List of beauty and appearance requirements
+</ParamField>
+
+<ParamField body="config.max_violations" type="integer">
+  Maximum number of violations allowed before failing (default: 0)
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "wardrobe",
+  "config": {
+    "wardrobe_rules": [
+      "professional business attire",
+      "no visible brand logos except approved sponsors",
+      "colors should be neutral or brand colors"
+    ],
+    "beauty_rules": [
+      "natural makeup look", 
+      "well-groomed hair",
+      "no distracting accessories"
+    ],
+    "max_violations": 1
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "wardrobe",
+  "pass_check": true,
+  "score": 0.8,
+  "rationale": "Appearance meets most requirements with minor violations within acceptable limits",
+  "metrics": {
+    "wardrobe_analysis": {
+      "compliant_rules": [
+        "professional business attire",
+        "colors should be neutral or brand colors"
+      ],
+      "violations": [
+        {
+          "rule": "no visible brand logos except approved sponsors",
+          "description": "Small Nike logo visible on shirt",
+          "severity": "minor",
+          "frame_index": 150,
+          "timestamp": 5.0
+        }
+      ]
+    },
+    "beauty_analysis": {
+      "compliant_rules": [
+        "natural makeup look",
+        "well-groomed hair",
+        "no distracting accessories"
+      ],
+      "violations": []
+    },
+    "violation_summary": {
+      "total_violations": 1,
+      "max_allowed": 1,
+      "severity_breakdown": {
+        "minor": 1,
+        "moderate": 0,
+        "major": 0
+      }
+    },
+    "overall_assessment": {
+      "professionalism": 0.9,
+      "brand_alignment": 0.8,
+      "compliance_score": 0.8
+    }
+  },
+  "timestamps": [5.0],
+  "flagged_frames": [
+    {
+      "frame_index": 150,
+      "violation_type": "wardrobe",
+      "description": "Unapproved brand logo visible"
+    }
+  ],
+  "execution_time_sec": 3.8,
+  "api_cost_usd": 0.15
+}
+```
+
+## Rule Categories
+
+### Wardrobe Rules
+- **Dress Code** - Formal, business casual, casual, specific styles
+- **Color Guidelines** - Brand colors, neutral tones, color restrictions
+- **Brand Compliance** - Logo restrictions, sponsor requirements
+- **Appropriateness** - Modest dress, age-appropriate, context-suitable
+
+### Beauty Rules  
+- **Makeup Standards** - Natural look, professional makeup, brand alignment
+- **Hair Guidelines** - Grooming standards, style requirements, color restrictions
+- **Accessories** - Jewelry policies, accessory limits, brand partnerships
+- **Overall Appearance** - Professional presentation, brand image alignment
+
+## Violation Severity
+
+### Minor Violations
+- Small logo visibility
+- Slight color deviations
+- Minor grooming issues
+- Subtle rule bends
+
+### Moderate Violations
+- Obvious brand conflicts
+- Noticeable dress code issues
+- Distracting elements
+- Clear guideline violations
+
+### Major Violations
+- Inappropriate content
+- Competitor branding
+- Professional standards breaches
+- Brand image conflicts
+
+## Assessment Metrics
+
+- **Professionalism** - Overall professional appearance (0.0-1.0)
+- **Brand Alignment** - Consistency with brand image (0.0-1.0) 
+- **Compliance Score** - Rule adherence percentage (0.0-1.0)
+- **Violation Count** - Total number of guideline violations
+
+## Use Cases
+
+- **Brand Partnerships** - Ensuring creator appearance meets sponsor requirements
+- **Content Standards** - Maintaining professional appearance guidelines
+- **Platform Compliance** - Meeting platform-specific dress codes
+- **Campaign Guidelines** - Enforcing specific appearance requirements for campaigns
+
+## Detector Type
+
+**AI_VISION** - Uses OpenAI Vision API for appearance and style analysis
