@@ -1,0 +1,142 @@
+---
+title: 'transcript_policy'
+description: 'Checks transcript against required talking points and language to avoid using OpenAI'
+---
+
+## Overview
+
+The `transcript_policy` detector analyzes video transcripts against policy guidelines, checking for required talking points and flagging language that should be avoided. It uses OpenAI with fallback to keyword matching for comprehensive policy compliance.
+
+**Requires at least one configuration parameter** - Either `talking_points` or `language_to_avoid` must be provided.
+
+## Configuration
+
+<ParamField body="config.talking_points" type="array">
+  List of required talking points or topics that should be mentioned
+</ParamField>
+
+<ParamField body="config.language_to_avoid" type="array">
+  List of prohibited words, phrases, or topics that should not appear
+</ParamField>
+
+<ParamField body="config.min_talking_points" type="integer">
+  Minimum number of talking points that must be mentioned (default: all provided points)
+</ParamField>
+
+<ParamField body="config.max_language_to_avoid" type="integer">
+  Maximum number of violations from language_to_avoid list before failing (default: 0)
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "transcript_policy",
+  "config": {
+    "talking_points": [
+      "product benefits",
+      "how to use the product",
+      "results or effectiveness"
+    ],
+    "language_to_avoid": [
+      "competitors",
+      "negative reviews",
+      "side effects",
+      "medical claims"
+    ],
+    "min_talking_points": 2,
+    "max_language_to_avoid": 1
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "transcript_policy",
+  "pass_check": true,
+  "score": 0.8,
+  "rationale": "Found 2 of 3 required talking points with no prohibited language violations",
+  "metrics": {
+    "talking_points": [
+      {
+        "item": "product benefits",
+        "texts": [
+          "This product really helps improve skin texture and appearance",
+          "You'll notice smoother, more radiant skin after just a few uses"
+        ]
+      },
+      {
+        "item": "how to use the product", 
+        "texts": [
+          "Apply a small amount to clean skin twice daily"
+        ]
+      },
+      {
+        "item": "results or effectiveness",
+        "texts": []
+      }
+    ],
+    "language_to_avoid": [
+      {
+        "item": "competitors",
+        "texts": []
+      },
+      {
+        "item": "negative reviews",
+        "texts": []
+      },
+      {
+        "item": "side effects",
+        "texts": []
+      },
+      {
+        "item": "medical claims",
+        "texts": []
+      }
+    ],
+    "policy_summary": {
+      "talking_points_found": 2,
+      "talking_points_required": 2,
+      "violations_found": 0,
+      "violations_allowed": 1,
+      "compliance_score": 0.8
+    }
+  },
+  "timestamps": [8.2, 15.7, 28.1],
+  "flagged_frames": [],
+  "execution_time_sec": 3.5,
+  "api_cost_usd": 0.12
+}
+```
+
+## Policy Guidelines
+
+### Talking Points Best Practices
+- Use specific, measurable topics rather than vague terms
+- Include key messages that should appear in compliant content
+- Consider synonyms and variations when crafting talking points
+- Balance completeness with achievable requirements
+
+### Language to Avoid Categories
+- **Competitive Mentions** - References to competitors or alternatives
+- **Negative Content** - Complaints, criticisms, or negative experiences  
+- **Regulatory Issues** - Unsubstantiated claims or restricted language
+- **Inappropriate Content** - Offensive, controversial, or unsuitable topics
+
+### Scoring Logic
+- **Pass Threshold** - Must meet minimum talking points AND stay within violation limits
+- **Score Calculation** - Based on talking points coverage and violation severity
+- **Flexible Matching** - Uses AI understanding beyond simple keyword matching
+
+## Use Cases
+
+- **Brand Compliance** - Ensuring content includes required messaging
+- **Content Moderation** - Preventing prohibited topics or language
+- **Campaign Guidelines** - Meeting specific talking point requirements
+- **Risk Management** - Avoiding content that could cause issues
+
+## Detector Type
+
+**AI_TEXT** - Uses OpenAI for natural language understanding with keyword fallback

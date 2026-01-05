@@ -1,0 +1,163 @@
+---
+title: 'subtitles'
+description: 'Detects subtitles and captions in video using OpenAI Vision and OCR'
+---
+
+## Overview
+
+The `subtitles` detector identifies and analyzes subtitle and caption content in videos using a combination of OpenAI Vision API and OCR technology. It can verify subtitle presence and quality for accessibility compliance.
+
+## Configuration
+
+<ParamField body="config.require_subtitles" type="boolean">
+  Whether subtitles are required for the content to pass evaluation
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "subtitles",
+  "config": {
+    "require_subtitles": true
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "subtitles",
+  "pass_check": true,
+  "score": 0.85,
+  "rationale": "Subtitles detected in 78% of video frames with good readability",
+  "metrics": {
+    "subtitles_detected": true,
+    "subtitle_overlays": [
+      {
+        "text": "Today I'm going to show you my skincare routine",
+        "frame_index": 150,
+        "timestamp_sec": 5.0,
+        "bbox": [240, 980, 1680, 1040],
+        "confidence": 0.95,
+        "readability": "excellent",
+        "font_size": "large",
+        "background": "semi_transparent"
+      },
+      {
+        "text": "First, I start with this gentle cleanser",
+        "frame_index": 300,
+        "timestamp_sec": 10.0,
+        "bbox": [200, 980, 1720, 1040],
+        "confidence": 0.92,
+        "readability": "good",
+        "font_size": "large", 
+        "background": "semi_transparent"
+      }
+    ],
+    "subtitle_analysis": {
+      "total_subtitle_frames": 702,
+      "total_frames": 900,
+      "subtitle_coverage": 78.0,
+      "average_confidence": 0.89,
+      "readability_score": 0.85,
+      "font_consistency": true,
+      "background_consistency": true
+    },
+    "quality_assessment": {
+      "text_clarity": "high",
+      "positioning": "appropriate",
+      "timing": "well_synced",
+      "completeness": "comprehensive"
+    }
+  },
+  "timestamps": [5.0, 10.0, 15.2, 20.5],
+  "flagged_frames": [
+    {
+      "frame_index": 150,
+      "subtitle_text": "Today I'm going to show you my skincare routine",
+      "quality": "excellent"
+    }
+  ],
+  "execution_time_sec": 6.2,
+  "api_cost_usd": 0.28
+}
+```
+
+## Subtitle Quality Metrics
+
+### Text Detection
+- **Confidence Score** - OCR confidence for detected text (0.0-1.0)
+- **Text Clarity** - How clearly the text can be read
+- **Character Recognition** - Accuracy of text extraction
+- **Language Detection** - Identified subtitle language
+
+### Visual Quality
+- **Readability** - Overall ease of reading the subtitles
+- **Font Consistency** - Uniform font usage across video
+- **Background Treatment** - Subtitle background styling
+- **Positioning** - Appropriate subtitle placement
+
+### Coverage Analysis
+- **Subtitle Coverage** - Percentage of video with subtitles present
+- **Frame Distribution** - How subtitles are distributed across content
+- **Timing Synchronization** - Alignment with spoken content
+- **Completeness** - How much of the audio is captioned
+
+## Readability Levels
+
+### Excellent
+- High contrast with background
+- Large, clear font
+- Consistent styling
+- Perfect positioning
+
+### Good  
+- Adequate contrast
+- Readable font size
+- Minor styling variations
+- Appropriate positioning
+
+### Fair
+- Some contrast issues
+- Small but readable font
+- Inconsistent styling
+- Acceptable positioning
+
+### Poor
+- Low contrast
+- Very small or unclear font
+- Poor styling choices
+- Bad positioning
+
+## Subtitle Characteristics
+
+### Font Properties
+- **Size** - small, medium, large, extra_large
+- **Style** - plain, bold, italic, outlined
+- **Color** - white, yellow, custom colors
+- **Family** - sans-serif, serif, monospace
+
+### Background Treatment
+- **None** - No background
+- **Solid** - Solid color background
+- **Semi-transparent** - Partially transparent background
+- **Outlined** - Text with outline/stroke
+
+### Positioning
+- **Bottom Center** - Standard subtitle position
+- **Top Center** - Alternative positioning
+- **Custom** - Non-standard positioning
+- **Multiple** - Various positions used
+
+## Use Cases
+
+- **Accessibility Compliance** - Meeting ADA and platform accessibility requirements
+- **Platform Requirements** - Ensuring subtitle presence for social media platforms
+- **Content Quality** - Maintaining professional subtitle standards
+- **International Distribution** - Verifying subtitle readiness for global audiences
+
+## Detector Type
+
+**AI_VISION** - Uses OpenAI Vision API and OCR for subtitle detection and analysis

@@ -1,0 +1,199 @@
+---
+title: 'lighting'
+description: 'Detects lighting issues in video frames by analyzing brightness in YUV color space'
+---
+
+## Overview
+
+The `lighting` detector analyzes lighting quality in video content by examining frame brightness in YUV color space and checking Y (luma/brightness) channel median values. It identifies common lighting problems that affect video quality and viewer experience.
+
+**No configuration required** - This detector works with default settings.
+
+## Configuration
+
+This detector does not require any configuration parameters. Include it with an empty config object:
+
+```json
+{
+  "detector_name": "lighting",
+  "config": {}
+}
+```
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "lighting",
+  "config": {}
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "lighting",
+  "pass_check": true,
+  "score": 0.8,
+  "rationale": "Generally good lighting with minor underexposed segments",
+  "metrics": {
+    "lighting_analysis": {
+      "overall_quality": "good",
+      "average_brightness": 142.5,
+      "brightness_consistency": 0.8,
+      "dynamic_range": 85.2,
+      "exposure_stability": 0.85
+    },
+    "lighting_issues": [
+      {
+        "issue_type": "underexposed",
+        "start_time": 15.2,
+        "end_time": 18.7,
+        "severity": "mild",
+        "brightness_value": 45.3,
+        "frame_range": [456, 561]
+      },
+      {
+        "issue_type": "inconsistent_lighting",
+        "start_time": 32.1,
+        "end_time": 35.4,
+        "severity": "moderate",
+        "brightness_variation": 62.8,
+        "frame_range": [963, 1062]
+      }
+    ],
+    "brightness_statistics": {
+      "min_brightness": 38.2,
+      "max_brightness": 198.7,
+      "median_brightness": 145.1,
+      "brightness_std_dev": 28.4,
+      "histogram_analysis": {
+        "shadows": 0.15,
+        "midtones": 0.70,
+        "highlights": 0.15
+      }
+    },
+    "quality_metrics": {
+      "exposure_accuracy": 0.82,
+      "contrast_ratio": 3.2,
+      "shadow_detail": 0.75,
+      "highlight_retention": 0.85,
+      "color_temperature_consistency": 0.9
+    }
+  },
+  "timestamps": [15.2, 32.1],
+  "flagged_frames": [
+    {
+      "frame_index": 456,
+      "issue": "underexposed",
+      "brightness": 45.3
+    },
+    {
+      "frame_index": 963,
+      "issue": "lighting_change",
+      "brightness": 198.7
+    }
+  ],
+  "execution_time_sec": 2.8,
+  "api_cost_usd": null
+}
+```
+
+## Lighting Issues Detected
+
+### Exposure Problems
+- **Underexposed** - Too dark, lacking detail in shadows
+- **Overexposed** - Too bright, blown out highlights
+- **Inconsistent Exposure** - Varying brightness throughout video
+- **Auto-Exposure Hunting** - Camera constantly adjusting exposure
+
+### Lighting Quality Issues
+- **Poor Contrast** - Flat, low-contrast appearance
+- **Harsh Shadows** - Unflattering or distracting shadow patterns
+- **Uneven Lighting** - Inconsistent illumination across frame
+- **Color Temperature Shifts** - Changing white balance/warmth
+
+### Technical Analysis
+- **Brightness Distribution** - Analysis of shadow, midtone, and highlight areas
+- **Dynamic Range** - Difference between darkest and brightest areas
+- **Histogram Analysis** - Statistical distribution of brightness values
+- **Temporal Consistency** - Stability of lighting over time
+
+## Quality Levels
+
+### Excellent (0.9-1.0)
+- Professional lighting setup
+- Consistent exposure throughout
+- Good contrast and dynamic range
+- Minimal lighting issues
+
+### Good (0.7-0.89)
+- Generally well-lit content
+- Minor exposure variations
+- Acceptable contrast levels
+- Few lighting problems
+
+### Fair (0.5-0.69)
+- Adequate but inconsistent lighting
+- Some exposure issues
+- Limited dynamic range
+- Multiple lighting concerns
+
+### Poor (0.0-0.49)
+- Significant lighting problems
+- Severe under/overexposure
+- Poor contrast and quality
+- Distracting lighting issues
+
+## Brightness Analysis
+
+### YUV Color Space Metrics
+- **Y Channel (Luma)** - Brightness/luminance values (0-255)
+- **Median Brightness** - Central tendency of frame brightness
+- **Brightness Variation** - Standard deviation of brightness values
+- **Temporal Stability** - Consistency of brightness over time
+
+### Histogram Distribution
+- **Shadows (0-85)** - Dark areas of the image
+- **Midtones (85-170)** - Middle brightness values
+- **Highlights (170-255)** - Bright areas of the image
+
+## Common Lighting Scenarios
+
+### Indoor Lighting
+- **Ring Light Setup** - Even, flattering illumination
+- **Natural Window Light** - Soft, directional lighting
+- **Overhead Lighting** - Top-down illumination challenges
+- **Mixed Lighting** - Combining multiple light sources
+
+### Outdoor Lighting
+- **Golden Hour** - Optimal natural lighting conditions
+- **Harsh Sunlight** - Challenging direct sun exposure
+- **Overcast Conditions** - Soft, even natural light
+- **Backlighting** - Subject silhouetting challenges
+
+## Improvement Recommendations
+
+### Lighting Setup Suggestions
+- Use ring lights or softboxes for even illumination
+- Position key light at 45-degree angle to subject
+- Add fill light to reduce harsh shadows
+- Maintain consistent color temperature
+
+### Technical Adjustments
+- Manual exposure control to prevent hunting
+- Use reflectors to bounce light into shadows
+- Adjust camera settings for optimal exposure
+- Consider lighting modifiers for softer light
+
+## Use Cases
+
+- **Content Quality Control** - Ensuring acceptable lighting standards
+- **Technical Assessment** - Identifying lighting-related issues
+- **Production Improvement** - Providing feedback for better lighting setup
+- **Consistency Monitoring** - Maintaining lighting quality across content
+
+## Detector Type
+
+**HEURISTIC** - Uses signal processing algorithms to analyze brightness and lighting patterns in YUV color space

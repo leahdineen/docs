@@ -1,0 +1,81 @@
+---
+title: 'audio_noise'
+description: 'Detects audio noise issues using signal processing analysis'
+---
+
+## Overview
+
+The `audio_noise` detector analyzes audio quality to detect background noise, distortion, and other audio issues that may affect content quality. It uses signal processing techniques to evaluate signal-to-noise ratio and audio clarity.
+
+**No configuration required** - This detector works with default settings.
+
+## Configuration
+
+This detector does not require any configuration parameters. Include it with an empty config object:
+
+```json
+{
+  "detector_name": "audio_noise",
+  "config": {}
+}
+```
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "audio_noise",
+  "config": {}
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "audio_noise",
+  "pass_check": true,
+  "score": 0.8,
+  "rationale": "Audio quality is good with minimal background noise detected",
+  "metrics": {
+    "snr_db": 28.5,
+    "noise_level": "low",
+    "audio_quality": "good",
+    "noise_segments": [
+      {
+        "start_time": 12.3,
+        "end_time": 15.7,
+        "noise_type": "background_hum",
+        "severity": "mild"
+      }
+    ],
+    "overall_clarity": 0.85,
+    "dynamic_range": 42.1
+  },
+  "timestamps": [12.3],
+  "flagged_frames": [],
+  "execution_time_sec": 1.2,
+  "api_cost_usd": null
+}
+```
+
+## Audio Quality Metrics
+
+- **SNR (Signal-to-Noise Ratio)** - Higher values indicate cleaner audio
+- **Noise Level** - Categorized as low, medium, or high
+- **Audio Quality** - Overall assessment: excellent, good, fair, poor
+- **Dynamic Range** - Difference between loudest and quietest parts
+- **Clarity Score** - Overall audio clarity from 0.0 to 1.0
+
+## Common Noise Types Detected
+
+- **background_hum** - Low-frequency electrical or mechanical noise
+- **wind_noise** - Outdoor recording wind interference  
+- **room_echo** - Reverberation in recording environment
+- **compression_artifacts** - Digital compression-related distortion
+- **clipping** - Audio signal exceeding recording levels
+- **static** - Random electrical interference
+
+## Detector Type
+
+**HEURISTIC** - Uses signal processing algorithms for audio analysis

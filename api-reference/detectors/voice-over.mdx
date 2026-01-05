@@ -1,0 +1,91 @@
+---
+title: 'voice_over'
+description: 'Analyzes voice-over quality and characteristics'
+---
+
+## Overview
+
+The `voice_over` detector identifies and analyzes voice-over narration in video content. It can detect whether voice-over is present and optionally fail content based on voice-over detection rules.
+
+## Configuration
+
+<ParamField body="config.fail_if_voice_over" type="boolean">
+  Whether to fail the evaluation if voice-over is detected
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "voice_over",
+  "config": {
+    "fail_if_voice_over": true
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "voice_over",
+  "pass_check": false,
+  "score": 0.3,
+  "rationale": "Voice-over narration detected throughout video content",
+  "metrics": {
+    "voice_over_detected": true,
+    "voice_over_segments": [
+      {
+        "start_time": 2.1,
+        "end_time": 18.7,
+        "confidence": 0.9,
+        "characteristics": {
+          "voice_type": "narrator",
+          "speech_rate": "normal",
+          "audio_quality": "professional"
+        }
+      },
+      {
+        "start_time": 25.3,
+        "end_time": 42.1,
+        "confidence": 0.85,
+        "characteristics": {
+          "voice_type": "narrator",
+          "speech_rate": "fast",
+          "audio_quality": "professional"
+        }
+      }
+    ],
+    "total_voice_over_duration": 33.5,
+    "voice_over_percentage": 74.4,
+    "speech_characteristics": {
+      "clarity": 0.9,
+      "naturalness": 0.7,
+      "professional_quality": true
+    }
+  },
+  "timestamps": [2.1, 25.3],
+  "flagged_frames": [],
+  "execution_time_sec": 3.1,
+  "api_cost_usd": 0.08
+}
+```
+
+## Voice-Over Characteristics
+
+- **Voice Type** - narrator, presenter, automated, conversational
+- **Speech Rate** - slow, normal, fast, very_fast
+- **Audio Quality** - professional, good, fair, poor
+- **Clarity** - How clearly the speech can be understood (0.0-1.0)
+- **Naturalness** - How natural vs. synthetic the voice sounds (0.0-1.0)
+
+## Use Cases
+
+- **Content Authenticity** - Ensuring content uses natural speech vs. voice-over
+- **Production Standards** - Detecting professional narration vs. organic content
+- **Platform Compliance** - Meeting requirements for authentic creator content
+- **Quality Control** - Identifying automated or synthetic audio content
+
+## Detector Type
+
+**AI_AUDIO** - Uses AI models for voice analysis and detection

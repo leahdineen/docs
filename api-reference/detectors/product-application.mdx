@@ -1,0 +1,143 @@
+---
+title: 'product_application'
+description: 'Analyzes product application and usage in video content'
+---
+
+## Overview
+
+The `product_application` detector identifies and analyzes how products are being used, applied, or demonstrated in video content. It verifies that product application is visible and properly demonstrated when required by brand guidelines.
+
+## Configuration
+
+<ParamField body="config.require_application" type="boolean">
+  Whether product application demonstration is required for the content to pass
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "product_application",
+  "config": {
+    "require_application": true
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "product_application",
+  "pass_check": true,
+  "score": 0.9,
+  "rationale": "Clear product application demonstrated with proper technique",
+  "metrics": {
+    "application_detected": true,
+    "application_segments": [
+      {
+        "start_time": 15.2,
+        "end_time": 28.7,
+        "product_type": "skincare",
+        "application_method": "facial_application",
+        "technique_quality": "proper",
+        "visibility": "clear",
+        "demonstration_quality": 0.9
+      },
+      {
+        "start_time": 35.1,
+        "end_time": 42.3,
+        "product_type": "makeup",
+        "application_method": "brush_application", 
+        "technique_quality": "professional",
+        "visibility": "clear",
+        "demonstration_quality": 0.95
+      }
+    ],
+    "application_analysis": {
+      "total_application_time": 20.7,
+      "application_percentage": 34.5,
+      "technique_assessment": "professional",
+      "educational_value": "high",
+      "product_visibility": "excellent"
+    },
+    "demonstration_quality": {
+      "step_by_step": true,
+      "clear_technique": true,
+      "proper_usage": true,
+      "educational_content": true,
+      "before_after": false
+    }
+  },
+  "timestamps": [15.2, 35.1],
+  "flagged_frames": [
+    {
+      "frame_index": 456,
+      "application_type": "facial_skincare",
+      "quality": "excellent"
+    },
+    {
+      "frame_index": 1053,
+      "application_type": "makeup_application",
+      "quality": "professional"
+    }
+  ],
+  "execution_time_sec": 5.1,
+  "api_cost_usd": 0.22
+}
+```
+
+## Application Types
+
+### Skincare Products
+- **Facial Application** - Face creams, serums, treatments
+- **Body Application** - Lotions, body care products
+- **Cleansing** - Face washes, makeup removers
+- **Treatment Application** - Masks, special treatments
+
+### Makeup Products
+- **Foundation Application** - Base makeup application
+- **Eye Makeup** - Eyeshadow, mascara, eyeliner
+- **Lip Products** - Lipstick, gloss, liner application
+- **Brush/Tool Usage** - Proper tool demonstration
+
+### Hair Products
+- **Styling Application** - Gels, sprays, mousses
+- **Treatment Application** - Masks, oils, serums
+- **Tool Usage** - Heat tools, brushes, accessories
+
+### General Products
+- **Demonstration** - How-to usage instruction
+- **Before/After** - Results showcase
+- **Technique Teaching** - Educational application methods
+
+## Quality Assessment
+
+### Technique Quality
+- **Proper** - Correct application method
+- **Professional** - Expert-level technique
+- **Adequate** - Acceptable but basic
+- **Poor** - Incorrect or unclear technique
+
+### Visibility Levels
+- **Excellent** - Very clear product and application
+- **Clear** - Good visibility of demonstration  
+- **Adequate** - Somewhat visible but acceptable
+- **Poor** - Difficult to see or unclear
+
+### Educational Value
+- **High** - Teaches proper technique clearly
+- **Medium** - Some educational content
+- **Low** - Minimal instructional value
+- **None** - No educational demonstration
+
+## Use Cases
+
+- **Beauty Content** - Ensuring makeup and skincare tutorials show proper application
+- **Sponsorship Requirements** - Verifying contracted product demonstrations
+- **Educational Standards** - Maintaining instructional quality for how-to content
+- **Brand Guidelines** - Meeting specific demonstration requirements
+
+## Detector Type
+
+**AI_VISION** - Uses computer vision to analyze product usage and application techniques

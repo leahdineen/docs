@@ -1,0 +1,214 @@
+---
+title: 'image_specs'
+description: 'Checks image specifications and quality metrics'
+---
+
+## Overview
+
+The `image_specs` detector validates image technical specifications including dimensions, aspect ratios, resolution requirements, and quality metrics. It ensures images meet specified technical standards for various use cases.
+
+## Configuration
+
+<ParamField body="config.allowed_aspect_ratios" type="array">
+  List of allowed aspect ratios (e.g., ["16:9", "9:16", "1:1", "4:3"])
+</ParamField>
+
+<ParamField body="config.min_width" type="integer">
+  Minimum image width in pixels
+</ParamField>
+
+<ParamField body="config.min_height" type="integer">
+  Minimum image height in pixels
+</ParamField>
+
+<ParamField body="config.min_megapixels" type="number">
+  Minimum image size in megapixels (width × height ÷ 1,000,000)
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "image_specs",
+  "config": {
+    "allowed_aspect_ratios": ["16:9", "1:1"],
+    "min_width": 1080,
+    "min_height": 1080,
+    "min_megapixels": 2.0
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "image_specs",
+  "pass_check": true,
+  "score": 1.0,
+  "rationale": "Image meets all specified requirements including dimensions and aspect ratio",
+  "metrics": {
+    "image_specifications": {
+      "width": 1920,
+      "height": 1080,
+      "aspect_ratio": "16:9",
+      "megapixels": 2.07,
+      "color_depth": 24,
+      "color_space": "sRGB"
+    },
+    "compliance_check": {
+      "width_compliant": true,
+      "height_compliant": true,
+      "aspect_ratio_compliant": true,
+      "megapixels_compliant": true,
+      "overall_compliant": true
+    },
+    "quality_metrics": {
+      "pixel_density": "high",
+      "color_accuracy": 0.92,
+      "dynamic_range": 85.7,
+      "file_size_kb": 1247,
+      "compression_ratio": 12.3
+    },
+    "technical_analysis": {
+      "format": "JPEG",
+      "compression_quality": "high",
+      "metadata_present": true,
+      "color_profile": "sRGB IEC61966-2.1",
+      "bit_depth": 8
+    },
+    "dimension_analysis": {
+      "total_pixels": 2073600,
+      "width_height_ratio": 1.78,
+      "orientation": "landscape",
+      "standard_format": "Full HD"
+    }
+  },
+  "timestamps": [],
+  "flagged_frames": [],
+  "execution_time_sec": 0.8,
+  "api_cost_usd": null
+}
+```
+
+## Specification Categories
+
+### Dimension Requirements
+- **Width and Height** - Minimum pixel dimensions
+- **Aspect Ratio** - Proportional relationship validation
+- **Orientation** - Landscape, portrait, or square format
+- **Standard Formats** - Common resolutions (HD, Full HD, 4K)
+
+### Resolution Standards
+- **Megapixel Calculation** - Total image resolution
+- **Pixel Density** - Detail and clarity assessment
+- **Print Resolution** - DPI/PPI considerations
+- **Display Resolution** - Screen compatibility
+
+### Quality Specifications
+- **Color Depth** - Bit depth per channel
+- **Color Space** - sRGB, Adobe RGB, etc.
+- **Compression** - JPEG quality levels
+- **File Format** - JPEG, PNG, WEBP support
+
+## Aspect Ratio Validation
+
+### Standard Ratios
+- **16:9** - Widescreen (1920×1080, 1280×720)
+- **9:16** - Vertical/mobile (1080×1920, 720×1280)
+- **1:1** - Square (1080×1080, 1000×1000)
+- **4:3** - Traditional (1024×768, 800×600)
+- **3:2** - Photography (1500×1000, 3000×2000)
+- **21:9** - Ultra-wide (2560×1080, 3440×1440)
+
+### Custom Ratios
+- **Golden Ratio** - 1.618:1 (φ ratio)
+- **Cinema Formats** - 2.39:1, 1.85:1
+- **Social Media** - Platform-specific ratios
+- **Print Formats** - A4, Letter, etc.
+
+## Quality Assessment
+
+### Image Quality Metrics
+- **Color Accuracy** - Faithful color reproduction
+- **Dynamic Range** - Tonal range and contrast
+- **Noise Levels** - Digital noise assessment
+- **Sharpness** - Edge definition and clarity
+
+### File Analysis
+- **Compression Quality** - Lossy vs. lossless assessment
+- **File Size** - Optimization and efficiency
+- **Metadata** - EXIF and color profile information
+- **Format Suitability** - Best format for use case
+
+## Standard Image Formats
+
+### Web/Digital Use
+- **1920×1080** - Full HD (2.07 MP)
+- **1280×720** - HD (0.92 MP)
+- **1080×1080** - Instagram square (1.17 MP)
+- **1200×630** - Facebook link preview (0.76 MP)
+
+### High Resolution
+- **3840×2160** - 4K UHD (8.29 MP)
+- **2560×1440** - QHD (3.69 MP)
+- **4096×2160** - Cinema 4K (8.85 MP)
+- **5120×2880** - 5K (14.75 MP)
+
+### Social Media
+- **1080×1350** - Instagram portrait (1.46 MP)
+- **1200×1200** - Instagram square post (1.44 MP)
+- **1080×1920** - Instagram/TikTok story (2.07 MP)
+- **1128×191** - Facebook cover (0.22 MP)
+
+## Compliance Checking
+
+### Requirement Validation
+- **Minimum Dimensions** - Width and height thresholds
+- **Maximum Dimensions** - Size limit validation
+- **Aspect Ratio Matching** - Exact or tolerance-based matching
+- **Resolution Requirements** - Megapixel minimums
+
+### Quality Standards
+- **Professional Standards** - High-end requirements
+- **Web Standards** - Online publication requirements
+- **Print Standards** - Physical media requirements
+- **Archive Standards** - Long-term preservation
+
+## Common Use Cases
+
+### Web Publishing
+- **Blog Images** - Optimal web dimensions
+- **Social Media** - Platform-specific requirements
+- **E-commerce** - Product image standards
+- **Header/Banner** - Website banner specifications
+
+### Professional Use
+- **Marketing Materials** - Brand guideline compliance
+- **Print Production** - High-resolution requirements
+- **Digital Displays** - Screen resolution matching
+- **Archive Quality** - Long-term storage standards
+
+### Platform Requirements
+- **Instagram** - Square and vertical formats
+- **Facebook** - Cover and post specifications
+- **LinkedIn** - Professional image standards
+- **YouTube** - Thumbnail requirements
+
+## Error Conditions
+
+### Dimension Failures
+- **Too Small** - Below minimum width/height
+- **Wrong Ratio** - Incorrect aspect ratio
+- **Insufficient Resolution** - Below megapixel threshold
+- **Orientation Mismatch** - Landscape vs. portrait issues
+
+### Quality Issues
+- **Poor Compression** - Over-compressed images
+- **Wrong Format** - Inappropriate file type
+- **Color Space** - Incorrect color profile
+- **Missing Metadata** - Required information absent
+
+## Detector Type
+
+**HEURISTIC** - Uses image processing algorithms for specification analysis and validation

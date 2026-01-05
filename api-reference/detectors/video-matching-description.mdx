@@ -1,0 +1,79 @@
+---
+title: 'video_matching_description'
+description: 'Matches video against text description'
+---
+
+## Overview
+
+The `video_matching_description` detector analyzes video content against a provided text description to determine if the video matches the expected content. It uses AI vision models to understand video content and compare it against descriptive text.
+
+## Configuration
+
+<ParamField body="config.content_description" type="string" required>
+  Text description of expected video content to match against
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "video_matching_description",
+  "config": {
+    "content_description": "Person demonstrating makeup application with close-up shots of face and hands applying cosmetic products"
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "video_matching_description",
+  "pass_check": true,
+  "score": 0.85,
+  "rationale": "Video content closely matches the provided description with makeup application clearly visible",
+  "metrics": {
+    "description_match": {
+      "overall_similarity": 0.85,
+      "key_elements_detected": [
+        "person_present",
+        "makeup_application",
+        "close_up_shots",
+        "cosmetic_products_visible"
+      ],
+      "missing_elements": [],
+      "confidence_score": 0.9
+    },
+    "content_analysis": {
+      "primary_activity": "makeup application",
+      "setting": "indoor beauty setup",
+      "camera_angles": ["close-up", "medium shot"],
+      "objects_detected": ["makeup brush", "cosmetic products", "mirror"]
+    }
+  },
+  "timestamps": [2.1, 15.7, 28.3],
+  "flagged_frames": [
+    {
+      "frame_index": 63,
+      "match_confidence": 0.9,
+      "detected_elements": ["makeup application", "close-up shot"]
+    }
+  ],
+  "execution_time_sec": 4.8,
+  "api_cost_usd": 0.12
+}
+```
+
+## Description Guidelines
+
+For best results, provide descriptions that include:
+
+- **Primary activity or action** - What the person is doing
+- **Setting or environment** - Where the content takes place  
+- **Visual elements** - Objects, products, or props that should be visible
+- **Camera work** - Shot types, angles, or framing details
+- **Key moments** - Specific actions or demonstrations to look for
+
+## Detector Type
+
+**AI_VISION** - Uses computer vision models for content understanding and matching

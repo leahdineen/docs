@@ -1,0 +1,112 @@
+---
+title: 'splitscreen_video_matching'
+description: 'Video matching detector specialized for splitscreen/multi-panel layouts'
+---
+
+## Overview
+
+The `splitscreen_video_matching` detector analyzes split-screen or multi-panel video content against reference videos. It extends the base video matching functionality to handle complex layouts where different content appears in different areas of the frame.
+
+**Requires preprocessing** - Reference videos must be processed before evaluation can begin.
+
+## Configuration
+
+<ParamField body="config.top_content_references" type="array">
+  Array of GCS URIs of top content reference videos
+  
+  **Allowed extensions:** mp4, mov, avi, mkv, webm
+</ParamField>
+
+<ParamField body="config.top_content_description" type="string">
+  Text description of expected top content
+</ParamField>
+
+<ParamField body="config.bottom_content_references" type="array">
+  Array of GCS URIs of bottom content reference videos
+  
+  **Allowed extensions:** mp4, mov, avi, mkv, webm
+</ParamField>
+
+<ParamField body="config.bottom_content_description" type="string">
+  Text description of expected bottom content
+</ParamField>
+
+**Note:** At least one of `top_content_references` or `bottom_content_references` must be provided.
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "splitscreen_video_matching",
+  "config": {
+    "top_content_references": [
+      "gs://judge-artifacts/org_123/reference_uploads/abc/gameplay.mp4"
+    ],
+    "top_content_description": "Mobile game gameplay footage",
+    "bottom_content_references": [
+      "gs://judge-artifacts/org_123/reference_uploads/def/reaction.mp4"
+    ],
+    "bottom_content_description": "Creator reaction and commentary"
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "splitscreen_video_matching",
+  "pass_check": false,
+  "score": 0.75,
+  "rationale": "Top panel shows matching gameplay content, bottom panel shows original reaction",
+  "metrics": {
+    "top_panel_analysis": {
+      "match_detected": true,
+      "similarity_score": 0.9,
+      "matched_segments": [
+        {
+          "start_time": 5.2,
+          "end_time": 45.8,
+          "confidence": 0.85
+        }
+      ]
+    },
+    "bottom_panel_analysis": {
+      "match_detected": false,
+      "similarity_score": 0.2,
+      "original_content": true
+    },
+    "layout_detection": {
+      "split_detected": true,
+      "layout_type": "horizontal_split",
+      "panel_boundaries": {
+        "top": [0, 0, 1920, 540],
+        "bottom": [0, 540, 1920, 1080]
+      }
+    }
+  },
+  "timestamps": [5.2, 45.8],
+  "flagged_frames": [
+    {
+      "frame_index": 156,
+      "panel": "top",
+      "similarity_score": 0.9
+    }
+  ],
+  "execution_time_sec": 12.5,
+  "api_cost_usd": null
+}
+```
+
+## Preprocessing
+
+Before using this detector, reference videos must be uploaded and preprocessed:
+
+1. Upload reference videos using the `/v1/judges/reference_content` endpoint
+2. Reference videos are processed to extract embeddings for each panel layout
+3. Judge status will be `pending` until preprocessing completes
+4. Once complete, judge status becomes `ready` and can be used for evaluations
+
+## Detector Type
+
+**AI_VISION** - Uses computer vision models for video content analysis with layout detection
