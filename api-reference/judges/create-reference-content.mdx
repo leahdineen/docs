@@ -40,7 +40,7 @@ curl -X POST "https://api.getpique.ai/v1/judges/reference_content" \
 <ResponseField name="upload_url" type="string">
   A pre-signed GCS (Google Cloud Storage) URL for uploading the reference content. 
   
-  This URL is valid for a limited time (typically 1 hour) and should be used with a PUT request to upload the file directly.
+  This URL is valid for a limited time (typically 5 minutes) and should be used with a PUT request to upload the file directly.
 </ResponseField>
 
 <ResponseField name="reference_content_uri" type="string">
@@ -71,7 +71,7 @@ curl -X PUT "<UPLOAD_URL_FROM_RESPONSE>" \
 
 ## Important Notes
 
-1. The upload URL expires after a limited time (typically 1 hour)
+1. The upload URL expires after a limited time (typically 5 minutes)
 2. The file must be uploaded using a PUT request
 3. Set the appropriate `Content-Type` header when uploading
 4. The `reference_content_uri` returned should be used to reference this content when creating a judge
