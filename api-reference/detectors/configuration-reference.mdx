@@ -234,12 +234,12 @@ Analyzes emotional tone.
 
 Detects text overlays and graphics.
 
-<ParamField body="config.categories" type="array">
-  Categories of overlays to detect
+<ParamField body="config.disallowed_overlays" type="array">
+  List of overlay categories that should NOT appear (e.g., ["text_overlay", "sticker", "watermark", "graphic"])
 </ParamField>
 
-<ParamField body="config.exclude_from_overlays" type="array">
-  Elements to exclude from overlay detection
+<ParamField body="config.required_overlays" type="array">
+  List of specific overlay descriptions that MUST appear (e.g., ["text showing #ad", "heart emoji"])
 </ParamField>
 
 ### wardrobe
@@ -344,6 +344,14 @@ Analyzes hashtags and social media metadata.
 
 <ParamField body="config.required_social_tags_mode" type="string">
   Mode for social tag requirements ("all" or "any")
+</ParamField>
+
+<ParamField body="config.required_text" type="array">
+  List of text that must appear in title or description
+</ParamField>
+
+<ParamField body="config.required_text_mode" type="string">
+  Mode for required text ("all" or "any")
 </ParamField>
 
 <ParamField body="config.topic_keywords" type="array">
