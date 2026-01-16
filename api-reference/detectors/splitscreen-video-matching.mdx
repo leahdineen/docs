@@ -107,6 +107,12 @@ Before using this detector, reference videos must be uploaded and preprocessed:
 3. Judge status will be `pending` until preprocessing completes
 4. Once complete, judge status becomes `ready` and can be used for evaluations
 
-## Detector Type
+## Interpreting Results
 
-**AI_VISION** - Uses computer vision models for video content analysis with layout detection
+The splitscreen_video_matching detector analyzes split-screen content against reference videos and returns:
+
+- **Panel Analysis** - Separate analysis for top and bottom panels with match detection and similarity scores
+- **Match Detected** - Boolean indicating whether reference content was found in each panel
+- **Similarity Score** - Matching confidence from 0.0 to 1.0 for each detected segment
+- **Matched Segments** - Time ranges where reference content appears with confidence scores
+- **Layout Detection** - Information about the split-screen layout type and panel boundaries

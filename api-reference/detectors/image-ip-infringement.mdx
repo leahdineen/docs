@@ -101,73 +101,13 @@ The `image_ip_infringement` detector analyzes visual content to identify potenti
 }
 ```
 
-## IP Violation Types
+## Interpreting Results
 
-### Trademark Violations
-- **Brand Logos** - Unauthorized use of company logos
-- **Product Names** - Trademarked product identifiers
-- **Service Marks** - Service-related trademark usage
-- **Trade Dress** - Distinctive packaging or design elements
+The image_ip_infringement detector identifies potential intellectual property violations and returns:
 
-### Copyright Violations
-- **Copyrighted Imagery** - Protected artistic or photographic content
-- **Character Likeness** - Cartoon, movie, or game characters
-- **Artistic Works** - Paintings, designs, or creative content
-- **Photography** - Professional or stock photography
-
-### Design Patent Issues
-- **Product Design** - Protected industrial designs
-- **Packaging Design** - Distinctive product packaging
-- **Interface Design** - Protected user interface elements
-- **Ornamental Features** - Protected decorative elements
-
-### Brand Elements
-- **Color Schemes** - Trademarked color combinations
-- **Typography** - Protected font designs or layouts
-- **Slogans** - Trademarked phrases or taglines
-- **Mascots** - Brand character representations
-
-## Severity Levels
-
-### High Severity
-- Clear trademark violations
-- Obvious copyrighted content
-- Major brand infringements
-- Direct competitor usage
-
-### Medium Severity
-- Questionable usage
-- Partial logo visibility
-- Similar but not identical elements
-- Context-dependent violations
-
-### Low Severity
-- Incidental appearance
-- Background visibility
-- Unclear or partial elements
-- Potentially fair use scenarios
-
-## Risk Assessment
-
-### Risk Levels
-- **Critical** - Immediate legal action likely
-- **High** - Strong potential for IP claims
-- **Medium** - Possible IP concerns
-- **Low** - Minimal IP risk
-
-### Mitigation Factors
-- **Fair Use** - Educational or commentary usage
-- **Incidental Use** - Unintentional background appearance
-- **Parody/Criticism** - Protected speech contexts
-- **Public Domain** - Non-protected content
-
-## Use Cases
-
-- **Content Review** - Pre-publication IP risk assessment
-- **Brand Safety** - Avoiding unauthorized trademark usage
-- **Legal Compliance** - Meeting IP usage guidelines
-- **Platform Requirements** - Adhering to platform IP policies
-
-## Detector Type
-
-**AI_VISION** - Uses computer vision for IP element detection and trademark recognition
+- **IP Violations** - Array of detected violations including trademark, copyright, or design patent issues
+- **Violation Type** - Category of violation (trademark, copyrighted_content, brand_logos, etc.)
+- **Severity Level** - High, medium, or low severity based on legal risk assessment  
+- **Confidence Score** - Detection confidence from 0.0 to 1.0
+- **Risk Level** - Overall IP risk assessment (critical, high, medium, low)
+- **Allowed Elements** - IP elements that are permitted based on configuration

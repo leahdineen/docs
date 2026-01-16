@@ -1,11 +1,11 @@
 ---
 title: 'image_sharpness'
-description: 'Detects blurry or out-of-focus images using edge detection analysis'
+description: 'Detects blurry or out-of-focus images'
 ---
 
 ## Overview
 
-The `image_sharpness` detector analyzes image clarity and focus quality using edge detection algorithms. It identifies blurry, out-of-focus, or soft images that may affect visual quality and viewer experience.
+The `image_sharpness` detector analyzes image clarity and focus quality. It identifies blurry, out-of-focus, or soft images that may affect visual quality and viewer experience.
 
 **No configuration required** - This detector works with default settings.
 
@@ -102,125 +102,13 @@ This detector does not require any configuration parameters. Include it with an 
 }
 ```
 
-## Sharpness Analysis Methods
+## Interpreting Results
 
-### Edge Detection
-- **Laplacian Operator** - Second derivative edge detection
-- **Sobel Filter** - Gradient-based edge detection
-- **Canny Edge Detection** - Optimal edge detection algorithm
-- **Roberts Cross-Gradient** - Simple edge detection
+The image_sharpness detector analyzes focus quality and returns:
 
-### Frequency Analysis
-- **High-Frequency Content** - Detail and edge information
-- **Fourier Transform** - Frequency domain analysis
-- **Wavelet Analysis** - Multi-scale frequency analysis
-- **Spectral Density** - Distribution of spatial frequencies
-
-### Statistical Measures
-- **Variance of Laplacian** - Standard sharpness metric
-- **Gradient Magnitude** - Image gradient strength
-- **Edge Density** - Number of edges per unit area
-- **Contrast Analysis** - Local contrast measurements
-
-## Sharpness Quality Levels
-
-### Excellent (0.9-1.0)
-- Crisp, well-defined edges
-- High detail preservation
-- Professional focus quality
-- Minimal blur or softness
-
-### Very Good (0.8-0.89)
-- Good edge definition
-- Clear detail visibility
-- Acceptable focus quality
-- Minor softness acceptable
-
-### Good (0.7-0.79)
-- Adequate sharpness
-- Some edge softness
-- Basic focus quality
-- Moderate detail clarity
-
-### Soft (0.5-0.69)
-- Noticeable softness
-- Reduced edge definition
-- Below-average focus
-- Limited detail clarity
-
-### Blurry (0.0-0.49)
-- Significant blur
-- Poor edge definition
-- Unacceptable focus
-- Severely compromised detail
-
-## Blur Types Detected
-
-### Motion Blur
-- **Camera Movement** - Shake or movement during capture
-- **Subject Movement** - Fast-moving subjects
-- **Tracking Issues** - Poor follow focus
-- **Shutter Speed** - Too slow for movement
-
-### Focus Problems
-- **Out of Focus** - Incorrect focus point
-- **Shallow Depth** - Limited depth of field
-- **Focus Hunting** - Autofocus instability
-- **Macro Issues** - Close-up focus problems
-
-### Optical Issues
-- **Lens Softness** - Poor lens quality
-- **Diffraction** - Small aperture softness
-- **Chromatic Aberration** - Color fringing effects
-- **Optical Distortion** - Lens distortion effects
-
-### Technical Artifacts
-- **Compression Blur** - Video compression softness
-- **Upscaling Artifacts** - Resolution upscaling issues
-- **Anti-Aliasing** - Over-smoothed edges
-- **Processing Artifacts** - Digital processing effects
-
-## Quality Metrics
-
-### Edge Density Analysis
-- **High Edge Density** - Rich detail and texture
-- **Medium Edge Density** - Adequate detail levels
-- **Low Edge Density** - Limited texture information
-- **Very Low Edge Density** - Minimal detail content
-
-### Focus Consistency
-- **Consistent Focus** - Stable focus throughout
-- **Variable Focus** - Focus changes between frames
-- **Focus Tracking** - Following moving subjects
-- **Depth Management** - Appropriate depth of field
-
-### Technical Measurements
-- **Laplacian Variance** - Mathematical sharpness measure
-- **Gradient Magnitude** - Edge strength indicator
-- **Frequency Response** - Detail preservation metric
-- **Contrast Ratio** - Local contrast measurement
-
-## Use Cases
-
-- **Quality Control** - Ensuring acceptable image sharpness
-- **Technical Standards** - Meeting minimum clarity requirements
-- **Content Optimization** - Identifying focus and blur issues
-- **Production Feedback** - Camera and technique improvement
-
-## Common Causes and Solutions
-
-### Camera Issues
-- **Focus Settings** - Manual vs. autofocus optimization
-- **Stabilization** - Image stabilization usage
-- **Lens Quality** - High-quality lens selection
-- **Aperture Settings** - Optimal aperture selection
-
-### Technical Solutions
-- **Shutter Speed** - Appropriate speed for motion
-- **ISO Settings** - Noise vs. sharpness balance
-- **Post-Processing** - Sharpening and clarity adjustments
-- **Capture Format** - RAW vs. compressed formats
-
-## Detector Type
-
-**HEURISTIC** - Uses image processing algorithms and edge detection for sharpness analysis
+- **Overall Sharpness** - Score from 0.0 to 1.0 indicating image clarity and focus quality
+- **Edge Density** - Measurement of edge detail in the image; higher values indicate sharper images
+- **Focus Quality** - Categorized assessment (excellent, very_good, good, soft, blurry)
+- **Blur Level** - Assessment of blur present (none, minimal, mild, moderate, severe)
+- **Quality Distribution** - Breakdown of frame quality across the video content
+- **Sharpness Variance** - Consistency of focus quality throughout the content

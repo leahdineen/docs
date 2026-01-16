@@ -1,11 +1,11 @@
 ---
 title: 'content_quality'
-description: 'Evaluates overall content quality using AI vision models'
+description: 'Evaluates overall content quality'
 ---
 
 ## Overview
 
-The `content_quality` detector provides a comprehensive assessment of overall video content quality, analyzing multiple factors including visual appeal, production value, engagement potential, and overall professionalism using AI vision models.
+The `content_quality` detector provides a comprehensive assessment of overall video content quality, analyzing multiple factors including visual appeal, production value, engagement potential, and overall professionalism.
 
 **No configuration required** - This detector works with default settings.
 
@@ -102,96 +102,11 @@ This detector does not require any configuration parameters. Include it with an 
 }
 ```
 
-## Quality Assessment Categories
+## Interpreting Results
 
-### Production Value
-- **Professional Setup** - Studio-quality lighting, equipment, and environment
-- **Technical Execution** - Camera work, editing, and post-production quality
-- **Content Planning** - Evidence of preparation and intentional content creation
-- **Brand Presentation** - Professional representation and messaging
-
-### Visual Appeal
-- **Aesthetic Quality** - Overall visual attractiveness and style
-- **Color Grading** - Consistent and appealing color treatment
-- **Composition** - Rule of thirds, framing, and visual balance
-- **Visual Variety** - Multiple angles, shots, and visual interest
-
-### Content Engagement
-- **Pacing** - Appropriate rhythm and flow of content
-- **Energy Level** - Creator enthusiasm and engagement
-- **Authenticity** - Genuine personality and natural presentation
-- **Storytelling** - Narrative structure and content organization
-
-### Technical Quality
-- **Resolution** - Video clarity and sharpness
-- **Audio Quality** - Clear, balanced audio without issues
-- **Stability** - Steady camera work without excessive shake
-- **Focus** - Proper focus maintenance throughout content
-
-## Quality Scoring
-
-### Excellent (0.9-1.0)
-- Professional-grade production
-- Exceptional visual and audio quality
-- High engagement potential
-- Minimal technical issues
-
-### Very Good (0.8-0.89)
-- High production standards
-- Strong visual appeal
-- Good engagement factors
-- Minor technical considerations
-
-### Good (0.7-0.79)
-- Solid content quality
-- Acceptable production value
-- Average engagement potential
-- Some improvement areas
-
-### Fair (0.6-0.69)
-- Basic quality standards
-- Limited production value
-- Below-average engagement
-- Multiple improvement needs
-
-### Poor (0.0-0.59)
-- Substandard quality
-- Poor production value
-- Low engagement potential
-- Significant technical issues
-
-## Improvement Recommendations
-
-### High Priority
-- Major technical issues affecting viewing experience
-- Critical audio or visual problems
-- Fundamental production shortcomings
-
-### Medium Priority
-- Moderate quality improvements
-- Enhanced production techniques
-- Better equipment or setup recommendations
-
-### Low Priority
-- Minor optimizations
-- Style and aesthetic enhancements
-- Advanced production techniques
-
-## Quality Factors Analysis
-
-- **Lighting Assessment** - Natural vs. artificial lighting quality
-- **Audio Analysis** - Clarity, levels, and background noise
-- **Visual Stability** - Camera shake and movement quality
-- **Focus Management** - Sharpness and depth of field usage
-- **Color Science** - Accurate colors and white balance
-
-## Use Cases
-
-- **Content Optimization** - Identifying areas for quality improvement
-- **Brand Standards** - Ensuring content meets quality requirements
-- **Creator Development** - Providing feedback for skill improvement
-- **Campaign Quality** - Maintaining consistent production standards
-
-## Detector Type
-
-**AI_VISION** - Uses advanced computer vision models for comprehensive quality analysis
+- **production_value**: Score from 0.0-1.0 rating technical execution and setup quality
+- **visual_appeal**: Score from 0.0-1.0 rating aesthetic quality and composition
+- **content_engagement**: Score from 0.0-1.0 rating pacing, energy, and authenticity
+- **professionalism**: Score from 0.0-1.0 rating overall professional presentation
+- **quality_factors**: Detailed breakdown of lighting, composition, audio sync, and stability
+- **improvement_areas**: Suggestions for enhancing content quality

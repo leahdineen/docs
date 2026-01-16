@@ -97,6 +97,13 @@ The `pronunciation` detector analyzes audio to detect and evaluate pronunciation
 }
 ```
 
-## Detector Type
+## Interpreting Results
 
-**AI_AUDIO** - Uses Google Gemini AI for pronunciation analysis
+The pronunciation detector evaluates brand and product name pronunciation quality and returns:
+
+- **Brand Mentions** - Array of detected brand name pronunciations with timestamps and quality assessments
+- **Product Mentions** - Array of detected product name pronunciations with accuracy scores
+- **Pronunciation Correct** - Boolean indicating whether the pronunciation is accurate
+- **Clarity Score** - Audio clarity rating from 0.0 to 1.0 for each mention
+- **Confidence** - Detection confidence from 0.0 to 1.0
+- **Specific Issues** - Array of pronunciation problems identified (unclear ending, mispronunciation, etc.)

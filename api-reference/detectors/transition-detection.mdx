@@ -110,87 +110,13 @@ The `transition_detection` detector identifies scene changes, cuts, and transiti
 }
 ```
 
-## Detection Methods
+## Interpreting Results
 
-### Histogram Correlation
-- **Color Distribution Analysis** - Comparing color histograms between frames
-- **Sensitivity** - Detects significant color or lighting changes
-- **Accuracy** - High precision for cuts and scene changes
-- **Use Case** - Best for detecting hard cuts and color shifts
+The transition_detection detector analyzes video cuts and scene changes and returns:
 
-### Edge Detection Difference
-- **Structural Changes** - Analyzing edge patterns and shapes
-- **Feature Detection** - Identifying when major visual elements change
-- **Robustness** - Less sensitive to lighting changes
-- **Use Case** - Effective for detecting composition changes
-
-### Pixel Difference Analysis
-- **Frame Comparison** - Direct pixel-by-pixel comparison
-- **Motion Sensitivity** - Detects significant movement or changes
-- **Threshold-Based** - Uses configurable difference thresholds
-- **Use Case** - Good for detecting fades, dissolves, and gradual transitions
-
-## Transition Types
-
-### Hard Cuts
-- **Instant Scene Change** - Immediate switch between scenes
-- **High Confidence** - Easy to detect with high accuracy
-- **Common Usage** - Standard editing technique
-- **Detection Method** - All three methods effective
-
-### Fades and Dissolves
-- **Gradual Transition** - Smooth blending between scenes
-- **Moderate Confidence** - More challenging to detect precisely
-- **Creative Usage** - Artistic transition technique
-- **Detection Method** - Pixel difference most effective
-
-### Jump Cuts
-- **Same Scene Editing** - Cuts within same location/setup
-- **Variable Confidence** - May not trigger all detection methods
-- **Quick Editing** - Rapid succession of cuts
-- **Detection Method** - Histogram correlation preferred
-
-### Cross Fades
-- **Audio-Visual Sync** - Coordinated audio and video transition
-- **Complex Analysis** - Multiple detection methods combined
-- **Professional Usage** - High-end production technique
-- **Detection Method** - Combined analysis required
-
-## Quality Assessment
-
-### Transition Intensity
-- **Strong (0.8-1.0)** - Very obvious scene changes
-- **Moderate (0.5-0.79)** - Clear but subtler transitions
-- **Weak (0.2-0.49)** - Minor scene variations
-- **Minimal (0.0-0.19)** - Barely detectable changes
-
-### Scene Analysis
-- **Scene Length** - Duration between transitions
-- **Transition Rate** - Transitions per minute
-- **Pacing Analysis** - Rhythm and flow of editing
-- **Continuity Assessment** - Smooth vs. jarring transitions
-
-## Configuration Guidelines
-
-### Content Type Considerations
-- **Static Content** - Lower transition limits (2-5)
-- **Dynamic Content** - Higher limits acceptable (10-20)
-- **Tutorials** - Moderate limits for instructional clarity (5-10)
-- **Entertainment** - Higher limits for engagement (15-30)
-
-### Platform Requirements
-- **Social Media** - Quick cuts may be acceptable
-- **Educational** - Fewer transitions for clarity
-- **Marketing** - Balanced approach for retention
-- **Professional** - Minimal transitions for authority
-
-## Use Cases
-
-- **Content Pacing** - Ensuring appropriate editing rhythm
-- **Platform Compliance** - Meeting specific transition requirements
-- **Quality Standards** - Maintaining professional editing standards
-- **Attention Management** - Optimizing viewer engagement through pacing
-
-## Detector Type
-
-**HEURISTIC** - Uses OpenCV computer vision algorithms for frame analysis and transition detection
+- **Total Transitions** - Number of scene transitions detected throughout the video
+- **Detected Transitions** - Array of transitions with timestamps, types, and confidence scores
+- **Transition Type** - Classification of transition (cut, fade, dissolve, jump cut, etc.)
+- **Detection Method** - Which analysis method identified the transition (histogram, edge detection, pixel difference)
+- **Intensity** - Strength of the transition (strong, moderate, weak, minimal)
+- **Scene Segments** - Individual scenes between transitions with duration analysis

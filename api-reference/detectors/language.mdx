@@ -73,38 +73,10 @@ The `language` detector analyzes spoken content to identify the language being u
 }
 ```
 
-## Supported Language Codes
+## Interpreting Results
 
-Common ISO 639-1 language codes:
-
-- **en** - English
-- **es** - Spanish  
-- **fr** - French
-- **de** - German
-- **it** - Italian
-- **pt** - Portuguese
-- **ru** - Russian
-- **ja** - Japanese
-- **ko** - Korean
-- **zh** - Chinese
-- **ar** - Arabic
-- **hi** - Hindi
-
-## Language Detection Features
-
-- **Primary Language** - The dominant language in the content
-- **Secondary Languages** - Other languages detected with lower confidence
-- **Confidence Scores** - Reliability of language detection (0.0-1.0)
-- **Duration Analysis** - Percentage of content in each language
-- **Segment-Level Detection** - Time-stamped language changes
-
-## Use Cases
-
-- **Regional Compliance** - Ensuring content meets local language requirements
-- **Content Moderation** - Verifying content is in expected languages
-- **Audience Targeting** - Confirming content matches target demographics
-- **Platform Requirements** - Meeting language guidelines for social platforms
-
-## Detector Type
-
-**AI_TEXT** - Uses AI models for language detection and analysis
+- **detected_language**: ISO 639-1 code for the primary detected language
+- **confidence**: Detection confidence score (0.0-1.0)
+- **duration_percentage**: Percentage of content in each detected language
+- **language_segments**: Time-stamped segments showing language changes
+- **accepted_languages**: Use ISO 639-1 codes (en, es, fr, de, etc.)

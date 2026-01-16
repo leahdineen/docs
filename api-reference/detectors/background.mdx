@@ -1,11 +1,11 @@
 ---
 title: 'background'
-description: 'Analyzes background elements and setting using OpenAI Vision API'
+description: 'Analyzes background elements and setting'
 ---
 
 ## Overview
 
-The `background` detector analyzes the background and setting of video content to assess environment quality, cleanliness, and appropriateness. It specifically determines if content is filmed inside a car and evaluates background tidiness and professionalism.
+The `background` detector analyzes the background and setting of video content to assess environment quality, cleanliness, and appropriateness.
 
 **No configuration required** - This detector works with default settings.
 
@@ -78,78 +78,11 @@ This detector does not require any configuration parameters. Include it with an 
 }
 ```
 
-## Background Analysis
+## Interpreting Results
 
-### Environment Types
-- **Indoor Studio** - Professional setup with controlled lighting
-- **Home Setting** - Residential environment, bedroom, living room
-- **Outdoor Location** - External environments, natural settings
-- **Car Interior** - Vehicle-based filming location
-- **Office/Workspace** - Professional work environment
-- **Retail/Commercial** - Store or commercial location
-
-### Tidiness Assessment
-- **Excellent** - Extremely clean and organized
-- **Good** - Well-maintained with minor items
-- **Fair** - Somewhat cluttered but acceptable
-- **Poor** - Messy, disorganized, distracting
-
-### Professionalism Levels
-- **High** - Studio-quality, brand-appropriate setting
-- **Medium** - Clean, presentable environment
-- **Low** - Basic but acceptable background
-- **Poor** - Unprofessional or inappropriate setting
-
-## Car Detection
-
-### Car Environment Analysis
-- **Vehicle Type** - Sedan, SUV, truck identification
-- **Interior Quality** - Clean vs. cluttered car interior
-- **Safety Considerations** - Driving vs. stationary recording
-- **Audio Quality** - Road noise and acoustic challenges
-- **Lighting Conditions** - Natural light vs. interior lighting
-
-### Car-Specific Metrics
-- **Dashboard Visibility** - Car controls and branding
-- **Seat Position** - Driver vs. passenger positioning
-- **Background Movement** - Static vs. moving environment
-- **Audio Interference** - Engine noise, road sounds
-
-## Quality Factors
-
-### Visual Appeal
-- **Color Harmony** - Cohesive color scheme
-- **Lighting Quality** - Even, flattering illumination
-- **Composition** - Well-framed background elements
-- **Brand Alignment** - Appropriate for content type
-
-### Distraction Assessment
-- **Clutter Level** - Amount of background items
-- **Movement** - Distracting background activity
-- **Inappropriate Items** - Objects that don't fit content
-- **Competing Elements** - Background items that draw attention
-
-### Brand Appropriateness
-- **Professional Standards** - Meeting brand image requirements
-- **Content Alignment** - Background matches content type
-- **Audience Suitability** - Appropriate for target demographic
-- **Platform Compliance** - Meeting platform content guidelines
-
-## Common Background Issues
-
-- **Messy/Cluttered** - Disorganized items and spaces
-- **Poor Lighting** - Inadequate or unflattering illumination
-- **Inappropriate Items** - Objects that don't match content
-- **Distracting Elements** - Background items that compete for attention
-- **Unprofessional Setting** - Environments unsuitable for brand content
-
-## Use Cases
-
-- **Content Quality** - Ensuring professional appearance standards
-- **Brand Guidelines** - Meeting specific background requirements
-- **Platform Compliance** - Adhering to platform content standards
-- **Audience Appropriateness** - Ensuring suitable environments for target demographics
-
-## Detector Type
-
-**AI_VISION** - Uses OpenAI Vision API for environmental analysis and scene understanding
+- **is_car**: Whether the background is inside a vehicle
+- **is_tidy**: Boolean indicating if the background is clean and organized
+- **environment_type**: Category of background setting (indoor_studio, home_setting, outdoor, etc.)
+- **professionalism**: Overall professionalism level (high, medium, low, poor)
+- **visual_appeal**: Score from 0.0-1.0 rating the background's visual quality
+- **distraction_level**: Score from 0.0-1.0 indicating how distracting the background is

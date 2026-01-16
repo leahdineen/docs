@@ -121,105 +121,13 @@ The `video_quality` detector provides comprehensive analysis of video technical 
 }
 ```
 
-## Quality Assessment Categories
+## Interpreting Results
 
-### Technical Resolution
-- **Pixel Dimensions** - Width and height verification
-- **Aspect Ratio** - Format consistency and correctness
-- **Resolution Standards** - HD, Full HD, 4K classification
-- **Pixel Density** - Clarity and detail levels
+The video_quality detector analyzes technical video quality and returns:
 
-### Compression Analysis
-- **Artifact Detection** - Blocking, ringing, mosquito noise
-- **Bitrate Assessment** - Estimated encoding bitrate
-- **Codec Efficiency** - Compression algorithm effectiveness
-- **Quality vs. Size** - Encoding optimization balance
-
-### Visual Metrics
-- **Sharpness** - Edge definition and detail clarity
-- **Contrast** - Dynamic range and tonal separation
-- **Color Accuracy** - Faithful color reproduction
-- **Noise Levels** - Digital noise and grain assessment
-
-### Encoding Quality
-- **Keyframe Distribution** - I-frame placement and frequency
-- **Motion Handling** - P-frame and B-frame effectiveness
-- **Detail Preservation** - Fine detail retention
-- **Temporal Consistency** - Consistent quality over time
-
-## Quality Issues Detected
-
-### Compression Artifacts
-- **Blocking** - Visible compression blocks in flat areas
-- **Ringing** - Halos around high-contrast edges
-- **Mosquito Noise** - Buzzing patterns around edges
-- **Banding** - Visible steps in gradients
-
-### Visual Problems
-- **Digital Noise** - Random pixel variations
-- **Motion Blur** - Excessive blur in movement
-- **Interlacing** - Scan line artifacts
-- **Color Bleeding** - Chroma compression issues
-
-### Technical Issues
-- **Dropped Frames** - Missing or duplicated frames
-- **Sync Problems** - Audio-video synchronization issues
-- **Resolution Inconsistency** - Changing dimensions
-- **Aspect Ratio Problems** - Stretching or pillarboxing
-
-## Quality Scoring
-
-### Excellent (0.9-1.0)
-- Professional broadcast quality
-- Minimal compression artifacts
-- High detail preservation
-- Consistent technical standards
-
-### Very Good (0.8-0.89)
-- High production quality
-- Minor compression issues
-- Good detail retention
-- Generally consistent quality
-
-### Good (0.7-0.79)
-- Acceptable streaming quality
-- Moderate compression artifacts
-- Adequate detail preservation
-- Some quality variations
-
-### Fair (0.6-0.69)
-- Basic quality standards
-- Noticeable compression issues
-- Limited detail preservation
-- Inconsistent quality
-
-### Poor (0.0-0.59)
-- Substandard quality
-- Severe compression problems
-- Poor detail preservation
-- Significant technical issues
-
-## Aspect Ratio Validation
-
-### Standard Ratios
-- **16:9** - Widescreen standard (1920x1080, 1280x720)
-- **9:16** - Vertical/mobile format (1080x1920, 720x1280)
-- **1:1** - Square format (1080x1080, 720x720)
-- **4:3** - Traditional format (1024x768, 800x600)
-
-### Consistency Checks
-- **Frame-to-frame** - Consistent dimensions throughout
-- **Letterboxing** - Black bars detection and measurement
-- **Pillarboxing** - Side bars for format conversion
-- **Stretching** - Distorted aspect ratio detection
-
-## Use Cases
-
-- **Technical Compliance** - Meeting platform quality requirements
-- **Content Standards** - Ensuring professional quality levels
-- **Encoding Optimization** - Identifying compression issues
-- **Quality Control** - Pre-publication quality assessment
-
-## Detector Type
-
-**AI_VISION** - Uses computer vision algorithms for comprehensive video quality analysis
+- **Technical Quality** - Comprehensive analysis including resolution, compression, and visual metrics
+- **Compression Analysis** - Assessment of encoding quality, bitrate estimation, and artifact detection
+- **Visual Metrics** - Scores for sharpness, contrast, color accuracy, and noise levels (0.0 to 1.0)
+- **Quality Issues** - Array of specific problems detected with timestamps, severity, and descriptions
+- **Encoding Assessment** - Evaluation of codec efficiency, bitrate consistency, and detail preservation
+- **Frame Analysis** - Statistics on problematic frames and overall quality consistency

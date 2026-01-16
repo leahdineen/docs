@@ -85,79 +85,13 @@ The `subtitles` detector identifies and analyzes subtitle and caption content in
 }
 ```
 
-## Subtitle Quality Metrics
+## Interpreting Results
 
-### Text Detection
-- **Confidence Score** - OCR confidence for detected text (0.0-1.0)
-- **Text Clarity** - How clearly the text can be read
-- **Character Recognition** - Accuracy of text extraction
-- **Language Detection** - Identified subtitle language
+The subtitles detector analyzes caption and subtitle quality and returns:
 
-### Visual Quality
-- **Readability** - Overall ease of reading the subtitles
-- **Font Consistency** - Uniform font usage across video
-- **Background Treatment** - Subtitle background styling
-- **Positioning** - Appropriate subtitle placement
-
-### Coverage Analysis
-- **Subtitle Coverage** - Percentage of video with subtitles present
-- **Frame Distribution** - How subtitles are distributed across content
-- **Timing Synchronization** - Alignment with spoken content
-- **Completeness** - How much of the audio is captioned
-
-## Readability Levels
-
-### Excellent
-- High contrast with background
-- Large, clear font
-- Consistent styling
-- Perfect positioning
-
-### Good  
-- Adequate contrast
-- Readable font size
-- Minor styling variations
-- Appropriate positioning
-
-### Fair
-- Some contrast issues
-- Small but readable font
-- Inconsistent styling
-- Acceptable positioning
-
-### Poor
-- Low contrast
-- Very small or unclear font
-- Poor styling choices
-- Bad positioning
-
-## Subtitle Characteristics
-
-### Font Properties
-- **Size** - small, medium, large, extra_large
-- **Style** - plain, bold, italic, outlined
-- **Color** - white, yellow, custom colors
-- **Family** - sans-serif, serif, monospace
-
-### Background Treatment
-- **None** - No background
-- **Solid** - Solid color background
-- **Semi-transparent** - Partially transparent background
-- **Outlined** - Text with outline/stroke
-
-### Positioning
-- **Bottom Center** - Standard subtitle position
-- **Top Center** - Alternative positioning
-- **Custom** - Non-standard positioning
-- **Multiple** - Various positions used
-
-## Use Cases
-
-- **Accessibility Compliance** - Meeting ADA and platform accessibility requirements
-- **Platform Requirements** - Ensuring subtitle presence for social media platforms
-- **Content Quality** - Maintaining professional subtitle standards
-- **International Distribution** - Verifying subtitle readiness for global audiences
-
-## Detector Type
-
-**AI_VISION** - Uses OpenAI Vision API and OCR for subtitle detection and analysis
+- **Subtitles Detected** - Boolean indicating whether subtitles are present in the video
+- **Subtitle Overlays** - Array of detected subtitle text with timestamps, confidence scores, and readability assessments
+- **Subtitle Coverage** - Percentage of video frames containing subtitles
+- **Average Confidence** - Overall OCR confidence score for text detection accuracy
+- **Readability Score** - Assessment of how easily subtitles can be read (0.0 to 1.0)
+- **Quality Assessment** - Evaluation of text clarity, positioning, timing synchronization, and completeness

@@ -74,6 +74,12 @@ For best results, provide descriptions that include:
 - **Camera work** - Shot types, angles, or framing details
 - **Key moments** - Specific actions or demonstrations to look for
 
-## Detector Type
+## Interpreting Results
 
-**AI_VISION** - Uses computer vision models for content understanding and matching
+The video_matching_description detector compares video content against text descriptions and returns:
+
+- **Overall Similarity** - Matching score from 0.0 to 1.0 indicating how well the video matches the description
+- **Key Elements Detected** - Array of description elements found in the video content
+- **Missing Elements** - Description components not detected in the video
+- **Confidence Score** - Detection confidence for the overall content match
+- **Content Analysis** - Breakdown of detected activities, settings, camera angles, and objects

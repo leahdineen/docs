@@ -65,28 +65,12 @@ The `sentiment` detector analyzes transcript content to identify emotional tone 
 }
 ```
 
-## Sentiment Categories
+## Interpreting Results
 
-### Common Desired Sentiments
-- **positive** - General positive tone
-- **enthusiastic** - High energy, excited tone
-- **satisfied** - Content and pleased tone
-- **confident** - Self-assured and certain tone
-- **grateful** - Thankful and appreciative tone
+The sentiment detector analyzes transcript content for emotional tone and returns:
 
-### Common Undesired Sentiments
-- **negative** - General negative tone
-- **angry** - Frustrated or hostile tone
-- **disappointed** - Let down or unsatisfied tone
-- **uncertain** - Doubtful or hesitant tone
-- **dismissive** - Disregarding or minimizing tone
-
-### Prohibited Content Types
-- **hate_speech** - Language targeting groups or individuals
-- **profanity** - Inappropriate language or swearing
-- **discriminatory** - Content that discriminates based on protected characteristics
-- **threatening** - Content that implies harm or danger
-
-## Detector Type
-
-**AI_TEXT** - Uses OpenAI for natural language sentiment analysis
+- **Desired Matches** - Array of text segments that match the desired sentiment criteria with explanations
+- **Undesired Matches** - Array of text segments that match undesired sentiment patterns
+- **Prohibited Content Matches** - Array of text segments containing prohibited content types
+- **Sentiment Analysis** - Overall emotional tone assessment of the content
+- **Match Score** - Ratio of desired sentiment matches to total analyzed content

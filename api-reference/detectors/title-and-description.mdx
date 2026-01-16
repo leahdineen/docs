@@ -108,44 +108,13 @@ The `title_and_description` detector analyzes video metadata including title, de
 }
 ```
 
-## Analysis Categories
+## Interpreting Results
 
-### Hashtag Analysis
-- **Suggested Hashtags** - Recommended tags for optimization
-- **Required Hashtags** - Mandatory tags for compliance
-- **Coverage Percentage** - How many suggested tags are present
-- **Missing Tags** - Required tags that are absent
+The title_and_description detector analyzes video metadata for compliance and optimization, returning:
 
-### Social Tag Analysis  
-- **Required Social Tags** - Mandatory @mentions or tags
-- **Compliance Modes** - All tags required vs. any one tag required
-- **Tag Verification** - Confirming proper social media attribution
-
-### Topic Analysis
-- **Keyword Detection** - Finding specific topic keywords
-- **Topic Classification** - AI-powered content categorization
-- **Relevance Scoring** - How well content matches expected topics
-- **Content Quality** - Overall assessment of metadata quality
-
-## Compliance Features
-
-### FTC/Legal Compliance
-- **Disclosure Requirements** - Ensuring #ad, #sponsored, #partnership tags
-- **Attribution Requirements** - Proper @brand mentions and credits
-- **Transparency Standards** - Clear sponsorship disclosure
-
-### Platform Optimization
-- **Hashtag Strategy** - Optimal tag usage for reach and engagement
-- **Topic Relevance** - Content alignment with target keywords
-- **Metadata Quality** - Professional and complete descriptions
-
-## Use Cases
-
-- **Sponsorship Compliance** - Verifying FTC disclosure requirements
-- **Content Optimization** - Ensuring proper hashtag and topic coverage
-- **Brand Guidelines** - Meeting specific tagging and mention requirements  
-- **Quality Control** - Maintaining consistent metadata standards
-
-## Detector Type
-
-**AI_TEXT** - Uses AI for natural language processing and topic analysis
+- **Hashtag Analysis** - Coverage of suggested and required hashtags with missing tags identified
+- **Social Tag Analysis** - Verification of required @mentions and social media attribution
+- **Topic Analysis** - AI-powered detection of content topics and keyword matches
+- **Topic Relevance** - Score from 0.0 to 1.0 indicating content alignment with expected topics
+- **Compliance Score** - Overall adherence to requirements including disclosure and attribution standards
+- **Metadata Summary** - Title analysis, description length, hashtag count, and mention count

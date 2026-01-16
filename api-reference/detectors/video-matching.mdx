@@ -84,6 +84,12 @@ Before using this detector, reference videos must be uploaded and preprocessed:
 3. Judge status will be `pending` until preprocessing completes
 4. Once complete, judge status becomes `ready` and can be used for evaluations
 
-## Detector Type
+## Interpreting Results
 
-**AI_VISION** - Uses computer vision models for video content analysis
+The video_matching detector compares video content against reference videos and returns:
+
+- **Alignment Summary** - Overall matching statistics including maximum similarity and coverage percentage
+- **Source Verdicts** - Analysis of each reference video with similarity scores and matched segments
+- **Match Segments** - Specific time ranges where reference content appears with confidence scores  
+- **Matched Sources** - Array of reference video URIs that had significant matches
+- **Coverage Percentage** - Portion of the analyzed video that matches reference content

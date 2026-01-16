@@ -89,43 +89,12 @@ The `transcript_product` detector analyzes video transcripts to detect mentions 
 }
 ```
 
-## Detection Features
+## Interpreting Results
 
-### Mention Analysis
-- **Exact Matches** - Direct mentions of brand/product names
-- **Contextual Detection** - Understanding surrounding context
-- **Timestamp Tracking** - When mentions occur in the content
-- **Frequency Analysis** - How often products are mentioned
+The transcript_product detector analyzes transcript content for brand and product mentions and returns:
 
-### Context Categories
-- **positive_endorsement** - Favorable product recommendations
-- **personal_testimonial** - Creator's personal experience
-- **product_review** - Detailed product evaluation
-- **usage_description** - How the product is used
-- **sponsorship_disclosure** - Acknowledgment of brand partnership
-- **neutral_mention** - Factual product reference
-
-### Sentiment Analysis
-- **positive** - Favorable mentions and recommendations
-- **neutral** - Factual or informational mentions
-- **negative** - Critical or unfavorable mentions
-- **mixed** - Combination of positive and negative sentiment
-
-## Use Cases
-
-- **Sponsorship Compliance** - Verifying contracted product mentions
-- **Brand Monitoring** - Tracking how products are discussed
-- **Content Verification** - Ensuring product integration requirements are met
-- **Campaign Analysis** - Measuring product mention frequency and context
-
-## Matching Strategy
-
-The detector uses flexible keyword matching that accounts for:
-- Variations in capitalization
-- Common abbreviations and nicknames
-- Plural forms and variations
-- Context clues for product identification
-
-## Detector Type
-
-**AI_TEXT** - Uses keyword-based matching with contextual analysis
+- **Brand Mentions** - Array of detected brand name references with timestamps, confidence, and context
+- **Product Mentions** - Array of detected product name references with usage context and sentiment
+- **Mention Summary** - Total counts, frequency analysis, first mention timing, and overall sentiment
+- **Context Analysis** - Categorization of mention types (endorsement, testimonial, review, disclosure, etc.)
+- **Confidence Scores** - Detection confidence from 0.0 to 1.0 for each mention identified

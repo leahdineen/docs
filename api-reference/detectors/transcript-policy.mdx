@@ -111,32 +111,12 @@ The `transcript_policy` detector analyzes video transcripts against policy guide
 }
 ```
 
-## Policy Guidelines
+## Interpreting Results
 
-### Talking Points Best Practices
-- Use specific, measurable topics rather than vague terms
-- Include key messages that should appear in compliant content
-- Consider synonyms and variations when crafting talking points
-- Balance completeness with achievable requirements
+The transcript_policy detector analyzes transcript content against policy guidelines and returns:
 
-### Language to Avoid Categories
-- **Competitive Mentions** - References to competitors or alternatives
-- **Negative Content** - Complaints, criticisms, or negative experiences  
-- **Regulatory Issues** - Unsubstantiated claims or restricted language
-- **Inappropriate Content** - Offensive, controversial, or unsuitable topics
-
-### Scoring Logic
-- **Pass Threshold** - Must meet minimum talking points AND stay within violation limits
-- **Score Calculation** - Based on talking points coverage and violation severity
-- **Flexible Matching** - Uses AI understanding beyond simple keyword matching
-
-## Use Cases
-
-- **Brand Compliance** - Ensuring content includes required messaging
-- **Content Moderation** - Preventing prohibited topics or language
-- **Campaign Guidelines** - Meeting specific talking point requirements
-- **Risk Management** - Avoiding content that could cause issues
-
-## Detector Type
-
-**AI_TEXT** - Uses OpenAI for natural language understanding with keyword fallback
+- **Talking Points** - Array showing which required topics were found with supporting text examples
+- **Language to Avoid** - Analysis of prohibited words or phrases with any violations identified  
+- **Policy Summary** - Count of talking points found vs. required and violations found vs. allowed
+- **Compliance Score** - Overall adherence rating from 0.0 to 1.0 based on requirements met
+- **Text Examples** - Specific transcript segments that match talking points or contain prohibited language

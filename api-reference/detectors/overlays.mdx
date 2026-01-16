@@ -103,51 +103,13 @@ The `overlays` detector identifies text overlays, graphics, stickers, watermarks
 }
 ```
 
-## Overlay Categories
+## Interpreting Results
 
-### Text Overlays
-- **Product Information** - Names, prices, descriptions
-- **Call-to-Action** - "Swipe up", "Link in bio", "Shop now"
-- **Captions** - User-added text descriptions
-- **Quotes** - Highlighted text or sayings
+The overlays detector identifies visual elements added on top of video content and returns:
 
-### Graphics
-- **Brand Logos** - Company or product logos
-- **Icons** - Functional or decorative icons
-- **Borders/Frames** - Decorative frame elements
-- **Shapes** - Geometric overlays or highlights
-
-### Stickers
-- **Emoji** - Animated or static emoji stickers
-- **Reactions** - Facial expressions or emotions
-- **Decorative** - Fun or themed sticker elements
-- **Interactive** - Polls, questions, or engagement stickers
-
-### Watermarks
-- **Platform Watermarks** - Social media platform branding
-- **Creator Watermarks** - Personal or brand watermarks
-- **Copyright** - Ownership or attribution marks
-- **Security** - Anti-piracy or protection overlays
-
-## Position and Size Analysis
-
-### Positions
-- **top_left**, **top_center**, **top_right**
-- **middle_left**, **center**, **middle_right**  
-- **bottom_left**, **bottom_center**, **bottom_right**
-
-### Sizes
-- **small** - Minimal screen coverage (<10%)
-- **medium** - Moderate coverage (10-30%)
-- **large** - Significant coverage (>30%)
-
-## Use Cases
-
-- **Content Authenticity** - Detecting added graphics vs. organic content
-- **Brand Compliance** - Ensuring proper logo placement and sizing
-- **Platform Requirements** - Meeting overlay guidelines for different platforms
-- **Quality Control** - Managing overlay density and placement
-
-## Detector Type
-
-**AI_VISION** - Uses OpenAI Vision API for visual element detection and categorization
+- **Overlays** - Array of detected overlays with descriptions, timestamps, positions, and confidence scores
+- **Category** - Type of overlay (text_overlay, graphic, sticker, watermark)
+- **Position** - Location on screen (top_left, center, bottom_right, etc.)
+- **Size** - Coverage area (small, medium, large)
+- **Overlay Count** - Total number of overlays detected
+- **Coverage Analysis** - Percentage of frames containing overlays and distribution statistics

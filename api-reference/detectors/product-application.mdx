@@ -87,57 +87,13 @@ The `product_application` detector identifies and analyzes how products are bein
 }
 ```
 
-## Application Types
+## Interpreting Results
 
-### Skincare Products
-- **Facial Application** - Face creams, serums, treatments
-- **Body Application** - Lotions, body care products
-- **Cleansing** - Face washes, makeup removers
-- **Treatment Application** - Masks, special treatments
+The product_application detector analyzes product usage demonstrations and returns:
 
-### Makeup Products
-- **Foundation Application** - Base makeup application
-- **Eye Makeup** - Eyeshadow, mascara, eyeliner
-- **Lip Products** - Lipstick, gloss, liner application
-- **Brush/Tool Usage** - Proper tool demonstration
-
-### Hair Products
-- **Styling Application** - Gels, sprays, mousses
-- **Treatment Application** - Masks, oils, serums
-- **Tool Usage** - Heat tools, brushes, accessories
-
-### General Products
-- **Demonstration** - How-to usage instruction
-- **Before/After** - Results showcase
-- **Technique Teaching** - Educational application methods
-
-## Quality Assessment
-
-### Technique Quality
-- **Proper** - Correct application method
-- **Professional** - Expert-level technique
-- **Adequate** - Acceptable but basic
-- **Poor** - Incorrect or unclear technique
-
-### Visibility Levels
-- **Excellent** - Very clear product and application
-- **Clear** - Good visibility of demonstration  
-- **Adequate** - Somewhat visible but acceptable
-- **Poor** - Difficult to see or unclear
-
-### Educational Value
-- **High** - Teaches proper technique clearly
-- **Medium** - Some educational content
-- **Low** - Minimal instructional value
-- **None** - No educational demonstration
-
-## Use Cases
-
-- **Beauty Content** - Ensuring makeup and skincare tutorials show proper application
-- **Sponsorship Requirements** - Verifying contracted product demonstrations
-- **Educational Standards** - Maintaining instructional quality for how-to content
-- **Brand Guidelines** - Meeting specific demonstration requirements
-
-## Detector Type
-
-**AI_VISION** - Uses computer vision to analyze product usage and application techniques
+- **Application Detected** - Boolean indicating whether product application is visible
+- **Application Segments** - Time ranges showing product usage with quality assessments
+- **Product Type** - Category of product being applied (skincare, makeup, hair, etc.)
+- **Application Method** - How the product is applied (facial_application, brush_application, etc.)
+- **Technique Quality** - Assessment of application skill (proper, professional, adequate, poor)
+- **Demonstration Quality** - Score from 0.0 to 1.0 rating the overall quality of the product demonstration

@@ -86,6 +86,12 @@ The `video_specs` detector validates video technical specifications against conf
 }
 ```
 
-## Detector Type
+## Interpreting Results
 
-**HEURISTIC** - Uses signal processing analysis to extract video metadata
+The video_specs detector validates video technical specifications and returns:
+
+- **Video Specs** - Actual video dimensions, aspect ratio, frame rate, and duration
+- **Compliance Check** - Boolean validation against configured requirements (min/max width, height, etc.)
+- **Aspect Ratio** - Calculated ratio and validation against allowed ratios
+- **Duration** - Video length in seconds with validation against min/max duration requirements
+- **Audio Sample Rate** - Audio technical specifications if present in the video

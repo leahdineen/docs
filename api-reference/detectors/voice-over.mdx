@@ -71,21 +71,9 @@ The `voice_over` detector identifies and analyzes voice-over narration in video 
 }
 ```
 
-## Voice-Over Characteristics
+## Interpreting Results
 
-- **Voice Type** - narrator, presenter, automated, conversational
-- **Speech Rate** - slow, normal, fast, very_fast
-- **Audio Quality** - professional, good, fair, poor
-- **Clarity** - How clearly the speech can be understood (0.0-1.0)
-- **Naturalness** - How natural vs. synthetic the voice sounds (0.0-1.0)
-
-## Use Cases
-
-- **Content Authenticity** - Ensuring content uses natural speech vs. voice-over
-- **Production Standards** - Detecting professional narration vs. organic content
-- **Platform Compliance** - Meeting requirements for authentic creator content
-- **Quality Control** - Identifying automated or synthetic audio content
-
-## Detector Type
-
-**AI_AUDIO** - Uses AI models for voice analysis and detection
+- **voice_over_detected**: Whether voice-over narration was found in the content
+- **voice_over_percentage**: Percentage of total video duration containing voice-over
+- **confidence**: Detection confidence score (0.0-1.0)
+- **characteristics**: Voice type, speech rate, and audio quality metrics

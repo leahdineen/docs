@@ -1,11 +1,11 @@
 ---
 title: 'audio_matching'
-description: 'Matches audio against reference content using chromaprint fingerprinting'
+description: 'Matches audio against reference audio file'
 ---
 
 ## Overview
 
-The `audio_matching` detector checks if video audio matches a reference song using chromaprint fingerprinting technology. This heuristic approach provides accurate audio content matching for copyright and content compliance.
+The `audio_matching` detector checks if video audio matches a reference audio file.
 
 **Requires preprocessing** - Reference audio must be processed before evaluation can begin.
 
@@ -55,15 +55,13 @@ The `audio_matching` detector checks if video audio matches a reference song usi
 }
 ```
 
-## Preprocessing
+## Interpreting Results
 
-Before using this detector, reference audio must be uploaded and preprocessed:
+- **fingerprint_matches**: Array of detected audio matches with confidence scores
+- **match_percentage**: Percentage of video duration that matches reference audio
+- **start_time**: When the matching audio segment begins in the video
+- **confidence**: Match confidence score (0.0-1.0)
 
-1. Upload reference audio using the `/v1/judges/reference_content` endpoint
-2. Audio is processed to generate chromaprint fingerprints
-3. Judge status will be `pending` until preprocessing completes
-4. Once complete, judge status becomes `ready` and can be used for evaluations
+## Preprocessing Required
 
-## Detector Type
-
-**HEURISTIC** - Uses chromaprint audio fingerprinting algorithms
+Reference audio must be uploaded using `/v1/judges/reference_content` before use.

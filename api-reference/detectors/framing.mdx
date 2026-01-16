@@ -1,6 +1,6 @@
 ---
 title: 'framing'
-description: 'Analyzes video framing and composition using OpenAI Vision API'
+description: 'Analyzes video framing and composition'
 ---
 
 ## Overview
@@ -69,15 +69,13 @@ This detector does not require any configuration parameters. Include it with an 
 }
 ```
 
-## Common Framing Issues Detected
+## Interpreting Results
 
-- **too_close** - Subject is positioned too close to the camera
-- **too_far** - Subject is positioned too far from the camera
-- **off_center** - Subject is not properly centered in the frame
-- **insufficient_headroom** - Not enough space above the subject's head
-- **cropped_subject** - Parts of the subject are cut off by the frame edges
-- **distracting_composition** - Background or composition elements that distract from the main subject
-
-## Detector Type
-
-**AI_VISION** - Uses OpenAI Vision API for framing analysis
+- **decisions**: Array of detected framing issues for each flagged frame
+- **frame_index**: Specific frame number where issues were detected
+- **too_close**: Subject positioned too close to camera
+- **too_far**: Subject positioned too far from camera
+- **off_center**: Subject not properly centered in frame
+- **insufficient_headroom**: Not enough space above subject's head
+- **cropped_subject**: Parts of subject cut off by frame edges
+- **distracting_composition**: Background elements that distract from main subject
