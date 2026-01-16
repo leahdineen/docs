@@ -1,24 +1,15 @@
 ---
 title: 'content_quality'
-description: 'Evaluates overall content quality'
+description: 'Assesses overall content quality and value'
 ---
 
 ## Overview
 
-The `content_quality` detector provides a comprehensive assessment of overall video content quality, analyzing multiple factors including visual appeal, production value, engagement potential, and overall professionalism.
-
-**No configuration required** - This detector works with default settings.
+Assesses whether the content meets general quality and value expectations.
 
 ## Configuration
 
-This detector does not require any configuration parameters. Include it with an empty config object:
-
-```json
-{
-  "detector_name": "content_quality",
-  "config": {}
-}
-```
+This detector does not accept configuration keys.
 
 ## Example Configuration
 
@@ -35,78 +26,33 @@ This detector does not require any configuration parameters. Include it with an 
 {
   "detector_name": "content_quality",
   "pass_check": true,
-  "score": 0.82,
-  "rationale": "High-quality content with professional production value and strong visual appeal",
+  "score": 0.84,
+  "rationale": "Content quality is acceptable. Quality score: 0.90/1.00. Provides clear, actionable guidance.",
   "metrics": {
-    "overall_quality": {
-      "production_value": 0.85,
-      "visual_appeal": 0.9,
-      "content_engagement": 0.8,
-      "professionalism": 0.85,
-      "technical_quality": 0.75
-    },
-    "quality_factors": {
-      "lighting": {
-        "score": 0.9,
-        "assessment": "excellent",
-        "notes": "Well-lit with professional ring light setup"
-      },
-      "composition": {
-        "score": 0.85,
-        "assessment": "very_good", 
-        "notes": "Good framing and rule of thirds application"
-      },
-      "audio_sync": {
-        "score": 0.8,
-        "assessment": "good",
-        "notes": "Audio and video properly synchronized"
-      },
-      "stability": {
-        "score": 0.7,
-        "assessment": "good",
-        "notes": "Minor camera shake in some segments"
-      }
-    },
-    "engagement_metrics": {
-      "visual_interest": 0.85,
-      "pacing": 0.8,
-      "variety": 0.75,
-      "energy": 0.9,
-      "authenticity": 0.85
-    },
-    "technical_assessment": {
-      "resolution_quality": "high",
-      "color_accuracy": "excellent",
-      "focus_sharpness": "very_good",
-      "exposure": "appropriate",
-      "white_balance": "accurate"
-    },
-    "improvement_areas": [
-      {
-        "category": "stability",
-        "suggestion": "Use tripod for steadier shots",
-        "priority": "medium"
-      }
-    ]
-  },
-  "timestamps": [5.2, 15.7, 32.1],
-  "flagged_frames": [
-    {
-      "frame_index": 450,
-      "quality_issue": "minor_shake",
-      "severity": "low"
+    "engagement_farming_count": 0,
+    "brain_rot_count": 0,
+    "engagement_farming_instances": [],
+    "brain_rot_instances": [],
+    "overall_quality_score": 0.9,
+    "has_genuine_value": true,
+    "value_assessment": "Provides clear, actionable guidance.",
+    "reasoning": "",
+    "model": "gpt-4o-mini",
+    "requirements": {
+      "max_engagement_farming": 0,
+      "max_brain_rot": 0,
+      "confidence_threshold": 0.6
     }
-  ],
-  "execution_time_sec": 8.5,
-  "api_cost_usd": 0.42
+  },
+  "timestamps": [],
+  "flagged_frames": [],
+  "execution_time_sec": null,
+  "api_cost_usd": 0.08
 }
 ```
 
 ## Interpreting Results
 
-- **production_value**: Score from 0.0-1.0 rating technical execution and setup quality
-- **visual_appeal**: Score from 0.0-1.0 rating aesthetic quality and composition
-- **content_engagement**: Score from 0.0-1.0 rating pacing, energy, and authenticity
-- **professionalism**: Score from 0.0-1.0 rating overall professional presentation
-- **quality_factors**: Detailed breakdown of lighting, composition, audio sync, and stability
-- **improvement_areas**: Suggestions for enhancing content quality
+- **overall_quality_score**: Core quality signal used in the final score.
+- **engagement_farming_count/brain_rot_count**: Issue counts against the configured limits.
+- **has_genuine_value/value_assessment**: Summary judgment and reasoning.

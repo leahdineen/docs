@@ -1,20 +1,20 @@
 ---
 title: 'overlays'
-description: 'Detects text overlays and graphics using OpenAI Vision API'
+description: 'Checks for required or disallowed overlays'
 ---
 
 ## Overview
 
-The `overlays` detector identifies text overlays, graphics, stickers, watermarks, and other visual elements that appear on top of the main video content. It uses OpenAI Vision API to analyze and categorize different types of overlays.
+Detects disallowed overlays and verifies required overlays are present.
 
 ## Configuration
 
-<ParamField body="config.categories" type="array">
-  Categories of overlays to detect (e.g., ["text_overlay", "sticker", "watermark", "graphic"])
+<ParamField body="config.disallowed_overlays" type="array">
+  List of overlay categories to disallow.
 </ParamField>
 
-<ParamField body="config.exclude_from_overlays" type="array">
-  Elements to exclude from overlay detection (e.g., ["subtitles", "timestamps"])
+<ParamField body="config.required_overlays" type="array">
+  List of overlay descriptions that must appear.
 </ParamField>
 
 ## Example Configuration
@@ -23,8 +23,8 @@ The `overlays` detector identifies text overlays, graphics, stickers, watermarks
 {
   "detector_name": "overlays",
   "config": {
-    "categories": ["text_overlay", "sticker", "graphic"],
-    "exclude_from_overlays": ["subtitles", "timestamps"]
+    "disallowed_overlays": ["watermark", "sticker"],
+    "required_overlays": ["#ad disclosure"]
   }
 }
 ```
@@ -34,82 +34,38 @@ The `overlays` detector identifies text overlays, graphics, stickers, watermarks
 ```json
 {
   "detector_name": "overlays",
-  "pass_check": true,
-  "score": 0.7,
-  "rationale": "3 overlays detected including text and graphics",
+  "pass_check": false,
+  "score": 0.0,
+  "rationale": "Missing required overlay(s): #ad disclosure | Found at: 2.40s - watermark",
   "metrics": {
-    "overlays": [
+    "disallowed_overlays": [
       {
-        "category": "text_overlay",
-        "description": "Product name and price displayed in bottom left corner",
-        "frame_index": 150,
-        "timestamp": 5.0,
-        "confidence": 0.9,
-        "position": "bottom_left",
-        "size": "small"
-      },
-      {
-        "category": "graphic",
-        "description": "Brand logo in top right corner",
-        "frame_index": 200,
-        "timestamp": 6.7,
-        "confidence": 0.95,
-        "position": "top_right", 
-        "size": "small"
-      },
-      {
-        "category": "sticker",
-        "description": "Animated emoji reaction sticker",
-        "frame_index": 420,
-        "timestamp": 14.0,
-        "confidence": 0.8,
-        "position": "center",
-        "size": "medium"
+        "frame_index": 6,
+        "timestamp_sec": 2.4,
+        "category": "watermark",
+        "description": "Logo in corner"
       }
     ],
-    "overlay_count": 3,
-    "category_summary": {
-      "text_overlay": 1,
-      "graphic": 1,
-      "sticker": 1,
-      "watermark": 0
+    "required_overlays": {
+      "#ad disclosure": {
+        "found": false,
+        "frame_index": null,
+        "timestamp_sec": null
+      }
     },
-    "coverage_analysis": {
-      "frames_with_overlays": 180,
-      "total_frames": 900,
-      "overlay_percentage": 20.0
-    }
+    "frames_analyzed": 8,
+    "model": "gpt-4o-mini",
+    "failure_reasons": ["Missing required overlay(s): #ad disclosure"]
   },
-  "timestamps": [5.0, 6.7, 14.0],
-  "flagged_frames": [
-    {
-      "frame_index": 150,
-      "overlay_type": "text_overlay",
-      "description": "Product name and price"
-    },
-    {
-      "frame_index": 200,
-      "overlay_type": "graphic", 
-      "description": "Brand logo"
-    },
-    {
-      "frame_index": 420,
-      "overlay_type": "sticker",
-      "description": "Animated emoji"
-    }
-  ],
-  "execution_time_sec": 4.2,
-  "api_cost_usd": 0.18
+  "timestamps": [2.4],
+  "flagged_frames": [],
+  "execution_time_sec": null,
+  "api_cost_usd": 0.09
 }
 ```
 
 ## Interpreting Results
 
-The overlays detector identifies visual elements added on top of video content and returns:
-
-- **Overlays** - Array of detected overlays with descriptions, timestamps, positions, and confidence scores
-- **Category** - Type of overlay (text_overlay, graphic, sticker, watermark)
-- **Position** - Location on screen (top_left, center, bottom_right, etc.)
-- **Size** - Coverage area (small, medium, large)
-- **Overlay Count** - Total number of overlays detected
-- **Coverage Analysis** - Percentage of frames containing overlays and distribution statistics
+- **disallowed_overlays**: Any detected overlays that violate the disallowed list.
+- **required_overlays**: Per-required item status and evidence.
+- **pass_check**: Fails if any disallowed overlay is found or required overlays are missing.

@@ -1,19 +1,17 @@
 ---
 title: 'video_matching'
-description: 'Detects source video clip patterns using multi-embedder alignment against precomputed reference features'
+description: 'Checks whether video matches reference videos'
 ---
 
 ## Overview
 
-The `video_matching` detector analyzes video content against reference videos to detect matches or similarities. It uses multi-embedder alignment techniques and precomputed reference features for accurate content matching.
-
-**Requires preprocessing** - Reference videos must be processed before evaluation can begin.
+Checks whether the video matches any of the provided reference videos.
 
 ## Configuration
 
 <ParamField body="config.reference_videos" type="array" required>
-  Array of GCS URIs of reference videos to match against
-  
+  List of GCS URIs for reference videos.
+
   **Allowed extensions:** mp4, mov, avi, mkv, webm
 </ParamField>
 
@@ -24,8 +22,8 @@ The `video_matching` detector analyzes video content against reference videos to
   "detector_name": "video_matching",
   "config": {
     "reference_videos": [
-      "gs://judge-artifacts/org_123/reference_uploads/abc/reference1.mp4",
-      "gs://judge-artifacts/org_123/reference_uploads/def/reference2.mp4"
+      "gs://judge-artifacts/org_123/reference_uploads/abc/clip1.mp4",
+      "gs://judge-artifacts/org_123/reference_uploads/abc/clip2.mp4"
     ]
   }
 }
@@ -36,60 +34,39 @@ The `video_matching` detector analyzes video content against reference videos to
 ```json
 {
   "detector_name": "video_matching",
-  "pass_check": false,
-  "score": 0.7,
-  "rationale": "High similarity detected with reference content",
+  "pass_check": true,
+  "score": 0.91,
+  "rationale": "Reference match detected (score 0.91).",
   "metrics": {
-    "alignment_summary": {
-      "max_similarity": 0.85,
-      "total_matches": 3,
-      "coverage_percentage": 42.3
+    "detected_pattern": "source_video",
+    "total_frames_analyzed": 120,
+    "blank_frames_detected": 0,
+    "blank_frame_details": [],
+    "blank_frame_failure": false,
+    "max_consecutive_blank_frames": 0,
+    "config": {
+      "max_consecutive_blank_frames_allowed": 3
     },
-    "source_verdicts": [
-      {
-        "source_id": "reference1.mp4",
-        "similarity_score": 0.85,
-        "match_segments": [
-          {
-            "start_time": 15.2,
-            "end_time": 28.7,
-            "confidence": 0.9
-          }
-        ]
-      }
-    ],
-    "matched_sources": [
-      "gs://judge-artifacts/org_123/reference_uploads/abc/reference1.mp4"
-    ]
+    "reference_dir": "gs://judge-artifacts/.../reference/video_matching",
+    "methods": {
+      "vision_embed": {"score": 0.91, "threshold": 0.8}
+    },
+    "sources": {
+      "reference_0": {"score": 0.91, "methods": {"vision_embed": {"score": 0.91}}}
+    },
+    "combined_methods": {"score": 0.91},
+    "verdict": {"pass": true, "mode": "combined"},
+    "thresholds": {"vision_embed": 0.8}
   },
-  "timestamps": [15.2, 28.7],
-  "flagged_frames": [
-    {
-      "frame_index": 456,
-      "similarity_score": 0.85,
-      "reference_source": "reference1.mp4"
-    }
-  ],
-  "execution_time_sec": 8.2,
-  "api_cost_usd": null
+  "timestamps": [0.5, 1.0, 1.5],
+  "flagged_frames": [],
+  "execution_time_sec": null,
+  "api_cost_usd": 0.0
 }
 ```
 
-## Preprocessing
-
-Before using this detector, reference videos must be uploaded and preprocessed:
-
-1. Upload reference videos using the `/v1/judges/reference_content` endpoint
-2. Reference videos are processed to extract embeddings and features
-3. Judge status will be `pending` until preprocessing completes
-4. Once complete, judge status becomes `ready` and can be used for evaluations
-
 ## Interpreting Results
 
-The video_matching detector compares video content against reference videos and returns:
-
-- **Alignment Summary** - Overall matching statistics including maximum similarity and coverage percentage
-- **Source Verdicts** - Analysis of each reference video with similarity scores and matched segments
-- **Match Segments** - Specific time ranges where reference content appears with confidence scores  
-- **Matched Sources** - Array of reference video URIs that had significant matches
-- **Coverage Percentage** - Portion of the analyzed video that matches reference content
+- **pass_check/score**: Overall match decision and aggregate score.
+- **methods/sources/combined_methods**: Per-method and per-reference scoring details.
+- **blank_frame_failure**: If true, the result fails due to excessive blank frames.

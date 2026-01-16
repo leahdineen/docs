@@ -1,16 +1,16 @@
 ---
 title: 'transition_detection'
-description: 'Detects video cuts and transitions using OpenCV frame analysis'
+description: 'Counts scene transitions'
 ---
 
 ## Overview
 
-The `transition_detection` detector identifies scene changes, cuts, and transitions in video content using multiple OpenCV-based detection methods including histogram correlation, edge detection difference, and pixel difference analysis.
+Counts scene transitions and compares them to an optional limit.
 
 ## Configuration
 
 <ParamField body="config.max_transitions" type="integer">
-  Maximum number of allowed scene transitions before failing the evaluation
+  Maximum number of transitions allowed.
 </ParamField>
 
 ## Example Configuration
@@ -19,7 +19,7 @@ The `transition_detection` detector identifies scene changes, cuts, and transiti
 {
   "detector_name": "transition_detection",
   "config": {
-    "max_transitions": 10
+    "max_transitions": 5
   }
 }
 ```
@@ -30,93 +30,28 @@ The `transition_detection` detector identifies scene changes, cuts, and transiti
 {
   "detector_name": "transition_detection",
   "pass_check": true,
-  "score": 0.8,
-  "rationale": "8 transitions detected, within acceptable limit of 10",
+  "score": 1.0,
+  "rationale": "Detected 3 transitions (within limit of 5)",
   "metrics": {
-    "transition_analysis": {
-      "total_transitions": 8,
-      "max_allowed": 10,
-      "transition_rate": 0.27,
-      "average_scene_length": 11.2
-    },
-    "detected_transitions": [
-      {
-        "frame_index": 150,
-        "timestamp": 5.0,
-        "transition_type": "cut",
-        "confidence": 0.95,
-        "detection_method": "histogram_correlation",
-        "intensity": "strong"
-      },
-      {
-        "frame_index": 420,
-        "timestamp": 14.0,
-        "transition_type": "fade",
-        "confidence": 0.8,
-        "detection_method": "pixel_difference",
-        "intensity": "moderate"
-      },
-      {
-        "frame_index": 735,
-        "timestamp": 24.5,
-        "transition_type": "cut",
-        "confidence": 0.92,
-        "detection_method": "edge_detection",
-        "intensity": "strong"
-      }
-    ],
-    "scene_segments": [
-      {
-        "start_frame": 0,
-        "end_frame": 149,
-        "duration": 5.0,
-        "scene_description": "opening_segment"
-      },
-      {
-        "start_frame": 150,
-        "end_frame": 419,
-        "duration": 9.0,
-        "scene_description": "main_content"
-      },
-      {
-        "start_frame": 420,
-        "end_frame": 734,
-        "duration": 10.5,
-        "scene_description": "product_demonstration"
-      }
-    ],
-    "detection_statistics": {
-      "histogram_correlations": 5,
-      "edge_detection_triggers": 2,
-      "pixel_difference_triggers": 1,
-      "false_positive_rate": 0.05
-    }
+    "transition_count": 3,
+    "transition_timestamps": [1.2, 3.4, 7.8],
+    "transition_frames": [15, 42, 98],
+    "method": "histogram",
+    "detail": "ok",
+    "total_frames_analyzed": 120,
+    "threshold": 0.4,
+    "min_frames_between": 2,
+    "max_transitions": 5
   },
-  "timestamps": [5.0, 14.0, 24.5, 31.2, 38.7],
-  "flagged_frames": [
-    {
-      "frame_index": 150,
-      "transition_type": "cut",
-      "intensity": "strong"
-    },
-    {
-      "frame_index": 420,
-      "transition_type": "fade",
-      "intensity": "moderate"
-    }
-  ],
-  "execution_time_sec": 4.1,
+  "timestamps": [1.2, 3.4, 7.8],
+  "flagged_frames": [],
+  "execution_time_sec": null,
   "api_cost_usd": null
 }
 ```
 
 ## Interpreting Results
 
-The transition_detection detector analyzes video cuts and scene changes and returns:
-
-- **Total Transitions** - Number of scene transitions detected throughout the video
-- **Detected Transitions** - Array of transitions with timestamps, types, and confidence scores
-- **Transition Type** - Classification of transition (cut, fade, dissolve, jump cut, etc.)
-- **Detection Method** - Which analysis method identified the transition (histogram, edge detection, pixel difference)
-- **Intensity** - Strength of the transition (strong, moderate, weak, minimal)
-- **Scene Segments** - Individual scenes between transitions with duration analysis
+- **transition_count**: Total detected transitions.
+- **transition_timestamps/transition_frames**: Locations of detected transitions.
+- **max_transitions**: If set, determines pass/fail.

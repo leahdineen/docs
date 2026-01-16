@@ -1,24 +1,15 @@
 ---
 title: 'image_sharpness'
-description: 'Detects blurry or out-of-focus images'
+description: 'Evaluates image sharpness'
 ---
 
 ## Overview
 
-The `image_sharpness` detector analyzes image clarity and focus quality. It identifies blurry, out-of-focus, or soft images that may affect visual quality and viewer experience.
-
-**No configuration required** - This detector works with default settings.
+Evaluates whether a still image is sufficiently sharp.
 
 ## Configuration
 
-This detector does not require any configuration parameters. Include it with an empty config object:
-
-```json
-{
-  "detector_name": "image_sharpness",
-  "config": {}
-}
-```
+This detector does not accept configuration keys.
 
 ## Example Configuration
 
@@ -35,80 +26,26 @@ This detector does not require any configuration parameters. Include it with an 
 {
   "detector_name": "image_sharpness",
   "pass_check": true,
-  "score": 0.8,
-  "rationale": "Generally sharp images with minor soft focus in some frames",
+  "score": 0.78,
+  "rationale": "Image appears sharp enough for large-format printing",
   "metrics": {
-    "sharpness_analysis": {
-      "overall_sharpness": 0.8,
-      "average_edge_density": 245.7,
-      "focus_consistency": 0.85,
-      "sharpness_variance": 0.12
-    },
-    "frame_analysis": [
-      {
-        "frame_index": 150,
-        "timestamp": 5.0,
-        "sharpness_score": 0.92,
-        "edge_density": 287.3,
-        "focus_quality": "excellent",
-        "blur_level": "none"
-      },
-      {
-        "frame_index": 420,
-        "timestamp": 14.0,
-        "sharpness_score": 0.65,
-        "edge_density": 198.2,
-        "focus_quality": "soft",
-        "blur_level": "mild"
-      },
-      {
-        "frame_index": 735,
-        "timestamp": 24.5,
-        "sharpness_score": 0.88,
-        "edge_density": 265.1,
-        "focus_quality": "very_good",
-        "blur_level": "minimal"
-      }
-    ],
-    "quality_distribution": {
-      "excellent_frames": 45,
-      "very_good_frames": 32,
-      "good_frames": 18,
-      "soft_frames": 8,
-      "blurry_frames": 2
-    },
-    "technical_metrics": {
-      "laplacian_variance": 1247.8,
-      "sobel_edge_magnitude": 156.3,
-      "gradient_magnitude": 0.82,
-      "frequency_domain_analysis": 0.79
-    }
+    "base_score": 31.2,
+    "downscaled_score": 28.7,
+    "crop_score": 27.4,
+    "min_sharpness_score": 20.0,
+    "min_downscaled_sharpness": 18.0,
+    "upscaled_score": 24.5,
+    "min_upscaled_sharpness": 22.0
   },
-  "timestamps": [14.0, 51.2],
-  "flagged_frames": [
-    {
-      "frame_index": 420,
-      "issue": "soft_focus",
-      "sharpness_score": 0.65
-    },
-    {
-      "frame_index": 1536,
-      "issue": "motion_blur",
-      "sharpness_score": 0.42
-    }
-  ],
-  "execution_time_sec": 3.5,
+  "timestamps": [],
+  "flagged_frames": [],
+  "execution_time_sec": null,
   "api_cost_usd": null
 }
 ```
 
 ## Interpreting Results
 
-The image_sharpness detector analyzes focus quality and returns:
-
-- **Overall Sharpness** - Score from 0.0 to 1.0 indicating image clarity and focus quality
-- **Edge Density** - Measurement of edge detail in the image; higher values indicate sharper images
-- **Focus Quality** - Categorized assessment (excellent, very_good, good, soft, blurry)
-- **Blur Level** - Assessment of blur present (none, minimal, mild, moderate, severe)
-- **Quality Distribution** - Breakdown of frame quality across the video content
-- **Sharpness Variance** - Consistency of focus quality throughout the content
+- **base_score/downscaled_score/crop_score**: Core sharpness measurements used for pass/fail.
+- **min_* thresholds**: The minimum scores required to pass.
+- **upscaled_score**: Included only when upscaling checks are enabled.

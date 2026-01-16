@@ -1,19 +1,17 @@
 ---
 title: 'audio_matching'
-description: 'Matches audio against reference audio file'
+description: 'Checks whether audio matches a reference track'
 ---
 
 ## Overview
 
-The `audio_matching` detector checks if video audio matches a reference audio file.
-
-**Requires preprocessing** - Reference audio must be processed before evaluation can begin.
+Checks whether the video's audio matches a provided reference audio file.
 
 ## Configuration
 
 <ParamField body="config.reference_audio" type="string" required>
-  GCS URI of reference audio file to match against
-  
+  GCS URI of the reference audio file.
+
   **Allowed extensions:** mp3, wav, aac, flac
 </ParamField>
 
@@ -33,35 +31,26 @@ The `audio_matching` detector checks if video audio matches a reference audio fi
 ```json
 {
   "detector_name": "audio_matching",
-  "pass_check": false,
-  "score": 0.8,
-  "rationale": "Audio fingerprint match detected with reference content",
+  "pass_check": true,
+  "score": 0.92,
+  "rationale": "Audio matches reference audio (similarity: 92.0%). Match found at 12.4s in reference audio.",
   "metrics": {
-    "fingerprint_matches": [
-      {
-        "confidence": 0.85,
-        "start_time": 12.3,
-        "duration": 15.7,
-        "reference_segment": "0:30-0:45"
-      }
-    ],
-    "total_match_duration": 15.7,
-    "match_percentage": 34.2
+    "similarity": 0.92,
+    "threshold": 0.85,
+    "clip_duration_sec": 30.1,
+    "ref_duration_sec": 95.4,
+    "time_offset_sec": 12.4,
+    "reference_source": "gs://judge-artifacts/org_123/reference_uploads/abc/reference_song.mp3"
   },
-  "timestamps": [12.3],
+  "timestamps": [],
   "flagged_frames": [],
-  "execution_time_sec": 1.8,
+  "execution_time_sec": null,
   "api_cost_usd": null
 }
 ```
 
 ## Interpreting Results
 
-- **fingerprint_matches**: Array of detected audio matches with confidence scores
-- **match_percentage**: Percentage of video duration that matches reference audio
-- **start_time**: When the matching audio segment begins in the video
-- **confidence**: Match confidence score (0.0-1.0)
-
-## Preprocessing Required
-
-Reference audio must be uploaded using `/v1/judges/reference_content` before use.
+- **similarity**: Match score against the reference audio; compared to `threshold` for pass/fail.
+- **time_offset_sec**: Where the best match begins within the reference audio (if found).
+- **clip_duration_sec/ref_duration_sec**: Durations used to contextualize the match.

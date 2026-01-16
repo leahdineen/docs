@@ -1,22 +1,22 @@
 ---
 title: 'transcript_product'
-description: 'Keyword-based product mention detection in transcripts'
+description: 'Counts brand and product mentions in transcripts'
 ---
 
 ## Overview
 
-The `transcript_product` detector analyzes video transcripts to detect mentions of specific brand and product names. It uses keyword-based matching to identify when products are mentioned and discussed in the content.
+Counts brand and product name mentions in the transcript.
 
-**Requires at least one configuration parameter** - Either `brand_name` or `product_name` must be provided.
+**Requires at least one configuration parameter** - Provide `brand_name` or `product_name`.
 
 ## Configuration
 
 <ParamField body="config.brand_name" type="string">
-  Brand name to detect in the transcript
+  Brand name to count.
 </ParamField>
 
 <ParamField body="config.product_name" type="string">
-  Product name to detect in the transcript
+  Product name to count.
 </ParamField>
 
 ## Example Configuration
@@ -25,8 +25,8 @@ The `transcript_product` detector analyzes video transcripts to detect mentions 
 {
   "detector_name": "transcript_product",
   "config": {
-    "brand_name": "Pique",
-    "product_name": "SuperClean Face Wash"
+    "brand_name": "Acme",
+    "product_name": "Turbo Blender"
   }
 }
 ```
@@ -37,64 +37,42 @@ The `transcript_product` detector analyzes video transcripts to detect mentions 
 {
   "detector_name": "transcript_product",
   "pass_check": true,
-  "score": 0.9,
-  "rationale": "Product mentions detected: 3 brand mentions, 2 product mentions",
+  "score": 1.0,
+  "rationale": "All names meet minimum: 'Acme': 2 mentions, 'Turbo Blender': 1 mentions",
   "metrics": {
-    "brand_mentions": [
-      {
-        "text": "I love using Pique products in my daily routine",
-        "timestamp": 8.2,
-        "confidence": 1.0,
-        "context": "positive endorsement"
-      },
-      {
-        "text": "Pique has really changed my skincare game",
-        "timestamp": 25.7,
-        "confidence": 1.0,
-        "context": "personal testimonial"
-      },
-      {
-        "text": "Thanks to Pique for sponsoring this video",
-        "timestamp": 42.1,
-        "confidence": 1.0,
-        "context": "sponsorship disclosure"
-      }
-    ],
-    "product_mentions": [
-      {
-        "text": "This SuperClean Face Wash is amazing",
-        "timestamp": 12.5,
-        "confidence": 1.0,
-        "context": "product review"
-      },
-      {
-        "text": "I use the SuperClean Face Wash every morning",
-        "timestamp": 18.3,
-        "confidence": 1.0,
-        "context": "usage description"
-      }
-    ],
-    "mention_summary": {
-      "total_brand_mentions": 3,
-      "total_product_mentions": 2,
-      "first_mention_time": 8.2,
-      "mention_frequency": "regular",
-      "sentiment": "positive"
-    }
+    "exact_count": 3,
+    "brand_count": 2,
+    "product_count": 1,
+    "partial_count": 0,
+    "out_of_order_count": 0,
+    "matches": {
+      "exact": [[5, 7]],
+      "brand": [[5, 6]],
+      "product": [[6, 7]],
+      "partial": [],
+      "out_of_order": []
+    },
+    "matches_char": {
+      "exact": [{"start": 42, "end": 54, "text": "Acme Turbo"}],
+      "brand": [{"start": 42, "end": 46, "text": "Acme"}],
+      "product": [{"start": 47, "end": 54, "text": "Turbo"}],
+      "partial": [],
+      "out_of_order": []
+    },
+    "brand_name": "Acme",
+    "product_name": "Turbo Blender",
+    "min_mentions": 1,
+    "count_mode": "separate"
   },
-  "timestamps": [8.2, 12.5, 18.3, 25.7, 42.1],
+  "timestamps": [],
   "flagged_frames": [],
-  "execution_time_sec": 1.1,
+  "execution_time_sec": null,
   "api_cost_usd": null
 }
 ```
 
 ## Interpreting Results
 
-The transcript_product detector analyzes transcript content for brand and product mentions and returns:
-
-- **Brand Mentions** - Array of detected brand name references with timestamps, confidence, and context
-- **Product Mentions** - Array of detected product name references with usage context and sentiment
-- **Mention Summary** - Total counts, frequency analysis, first mention timing, and overall sentiment
-- **Context Analysis** - Categorization of mention types (endorsement, testimonial, review, disclosure, etc.)
-- **Confidence Scores** - Detection confidence from 0.0 to 1.0 for each mention identified
+- **brand_count/product_count**: Mention counts per name.
+- **matches**: Token-span matches by type (exact/brand/product).
+- **matches_char**: Character-span evidence for each match.

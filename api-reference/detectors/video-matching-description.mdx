@@ -1,16 +1,16 @@
 ---
 title: 'video_matching_description'
-description: 'Matches video against text description'
+description: 'Checks whether video content matches a description'
 ---
 
 ## Overview
 
-The `video_matching_description` detector analyzes video content against a provided text description to determine if the video matches the expected content. It uses AI vision models to understand video content and compare it against descriptive text.
+Checks whether the video content aligns with a provided description.
 
 ## Configuration
 
 <ParamField body="config.content_description" type="string" required>
-  Text description of expected video content to match against
+  Description of the expected content.
 </ParamField>
 
 ## Example Configuration
@@ -19,7 +19,7 @@ The `video_matching_description` detector analyzes video content against a provi
 {
   "detector_name": "video_matching_description",
   "config": {
-    "content_description": "Person demonstrating makeup application with close-up shots of face and hands applying cosmetic products"
+    "content_description": "Person demonstrating a blender on a kitchen counter"
   }
 }
 ```
@@ -30,56 +30,26 @@ The `video_matching_description` detector analyzes video content against a provi
 {
   "detector_name": "video_matching_description",
   "pass_check": true,
-  "score": 0.85,
-  "rationale": "Video content closely matches the provided description with makeup application clearly visible",
+  "score": 0.86,
+  "rationale": "Frames match description.",
   "metrics": {
-    "description_match": {
-      "overall_similarity": 0.85,
-      "key_elements_detected": [
-        "person_present",
-        "makeup_application",
-        "close_up_shots",
-        "cosmetic_products_visible"
-      ],
-      "missing_elements": [],
-      "confidence_score": 0.9
-    },
-    "content_analysis": {
-      "primary_activity": "makeup application",
-      "setting": "indoor beauty setup",
-      "camera_angles": ["close-up", "medium shot"],
-      "objects_detected": ["makeup brush", "cosmetic products", "mirror"]
-    }
+    "frames_sent": 8,
+    "llm_confidence": 0.86,
+    "llm_reasoning": "Shows a person using a blender in a kitchen.",
+    "contains_explicit_or_unsafe": false,
+    "matching_frame_indexes": [1, 4, 6],
+    "model": "gpt-4o-mini",
+    "blank_frames_detected": 0
   },
-  "timestamps": [2.1, 15.7, 28.3],
-  "flagged_frames": [
-    {
-      "frame_index": 63,
-      "match_confidence": 0.9,
-      "detected_elements": ["makeup application", "close-up shot"]
-    }
-  ],
-  "execution_time_sec": 4.8,
-  "api_cost_usd": 0.12
+  "timestamps": [0.8, 2.4, 3.6],
+  "flagged_frames": [],
+  "execution_time_sec": null,
+  "api_cost_usd": 0.09
 }
 ```
 
-## Description Guidelines
-
-For best results, provide descriptions that include:
-
-- **Primary activity or action** - What the person is doing
-- **Setting or environment** - Where the content takes place  
-- **Visual elements** - Objects, products, or props that should be visible
-- **Camera work** - Shot types, angles, or framing details
-- **Key moments** - Specific actions or demonstrations to look for
-
 ## Interpreting Results
 
-The video_matching_description detector compares video content against text descriptions and returns:
-
-- **Overall Similarity** - Matching score from 0.0 to 1.0 indicating how well the video matches the description
-- **Key Elements Detected** - Array of description elements found in the video content
-- **Missing Elements** - Description components not detected in the video
-- **Confidence Score** - Detection confidence for the overall content match
-- **Content Analysis** - Breakdown of detected activities, settings, camera angles, and objects
+- **llm_confidence/score**: Confidence in the match between frames and description.
+- **matching_frame_indexes**: Frames that support the match.
+- **contains_explicit_or_unsafe**: Indicates unsafe content detection.

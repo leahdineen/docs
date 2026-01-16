@@ -1,16 +1,16 @@
 ---
 title: 'image_ip_infringement'
-description: 'Detects potential intellectual property infringement in images'
+description: 'Flags potential IP concerns in images'
 ---
 
 ## Overview
 
-The `image_ip_infringement` detector analyzes visual content to identify potential intellectual property violations, including unauthorized use of copyrighted material, trademarked content, or brand elements that may infringe on IP rights.
+Flags potential IP-related elements found in an image.
 
 ## Configuration
 
 <ParamField body="config.allowed_terms" type="array">
-  List of allowed trademarked terms, brands, or IP elements that are permitted in the content
+  List of terms that are allowed even if detected.
 </ParamField>
 
 ## Example Configuration
@@ -19,12 +19,7 @@ The `image_ip_infringement` detector analyzes visual content to identify potenti
 {
   "detector_name": "image_ip_infringement",
   "config": {
-    "allowed_terms": [
-      "Nike",
-      "Apple", 
-      "Microsoft",
-      "approved_brand_logos"
-    ]
+    "allowed_terms": ["acme", "acme logo"]
   }
 }
 ```
@@ -35,79 +30,38 @@ The `image_ip_infringement` detector analyzes visual content to identify potenti
 {
   "detector_name": "image_ip_infringement",
   "pass_check": false,
-  "score": 0.3,
-  "rationale": "Potential IP violations detected including unauthorized brand logos and copyrighted imagery",
+  "score": 0.0,
+  "rationale": "Found 2 potential IP matches",
   "metrics": {
-    "ip_violations": [
+    "hits": [
       {
-        "violation_type": "trademark",
-        "detected_element": "Louis Vuitton logo",
-        "frame_index": 120,
-        "timestamp": 4.0,
-        "confidence": 0.9,
-        "severity": "high",
-        "location": "handbag in background",
-        "allowed": false
-      },
-      {
-        "violation_type": "copyrighted_content",
-        "detected_element": "Disney character imagery",
-        "frame_index": 300,
-        "timestamp": 10.0,
-        "confidence": 0.85,
-        "severity": "high", 
-        "location": "poster on wall",
-        "allowed": false
+        "term": "Brand X",
+        "category": "logo",
+        "confidence": 0.78,
+        "location": "top-right",
+        "notes": "Logo on packaging"
       }
     ],
-    "allowed_elements": [
+    "raw_hits": [
       {
-        "element": "Nike logo on shoes",
-        "frame_index": 200,
-        "timestamp": 6.7,
-        "confidence": 0.95,
-        "status": "permitted"
+        "term": "Brand X",
+        "category": "logo",
+        "confidence": 0.78,
+        "location": "top-right",
+        "notes": "Logo on packaging"
       }
     ],
-    "violation_summary": {
-      "total_violations": 2,
-      "high_severity": 2,
-      "medium_severity": 0,
-      "low_severity": 0,
-      "risk_level": "high"
-    },
-    "ip_categories": {
-      "trademarks": 1,
-      "copyrighted_content": 1,
-      "brand_logos": 1,
-      "design_patents": 0
-    }
+    "analysis": "Detected recognizable branding elements."
   },
-  "timestamps": [4.0, 10.0],
-  "flagged_frames": [
-    {
-      "frame_index": 120,
-      "violation": "trademark_infringement",
-      "element": "Louis Vuitton logo"
-    },
-    {
-      "frame_index": 300,
-      "violation": "copyrighted_content",
-      "element": "Disney character"
-    }
-  ],
-  "execution_time_sec": 7.3,
-  "api_cost_usd": 0.35
+  "timestamps": [],
+  "flagged_frames": [],
+  "execution_time_sec": null,
+  "api_cost_usd": 0.05
 }
 ```
 
 ## Interpreting Results
 
-The image_ip_infringement detector identifies potential intellectual property violations and returns:
-
-- **IP Violations** - Array of detected violations including trademark, copyright, or design patent issues
-- **Violation Type** - Category of violation (trademark, copyrighted_content, brand_logos, etc.)
-- **Severity Level** - High, medium, or low severity based on legal risk assessment  
-- **Confidence Score** - Detection confidence from 0.0 to 1.0
-- **Risk Level** - Overall IP risk assessment (critical, high, medium, low)
-- **Allowed Elements** - IP elements that are permitted based on configuration
+- **hits**: Filtered list after applying `allowed_terms` and minimum confidence.
+- **raw_hits**: Full list returned by the detector before filtering.
+- **pass_check**: Fails when the number of hits exceeds the allowed threshold.

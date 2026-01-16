@@ -1,24 +1,15 @@
 ---
 title: 'background'
-description: 'Analyzes background elements and setting'
+description: 'Assesses background conditions in the video'
 ---
 
 ## Overview
 
-The `background` detector analyzes the background and setting of video content to assess environment quality, cleanliness, and appropriateness.
-
-**No configuration required** - This detector works with default settings.
+Assesses whether the background meets expectations such as tidiness and setting.
 
 ## Configuration
 
-This detector does not require any configuration parameters. Include it with an empty config object:
-
-```json
-{
-  "detector_name": "background",
-  "config": {}
-}
-```
+This detector does not accept configuration keys.
 
 ## Example Configuration
 
@@ -34,55 +25,30 @@ This detector does not require any configuration parameters. Include it with an 
 ```json
 {
   "detector_name": "background",
-  "pass_check": true,
-  "score": 0.85,
-  "rationale": "Clean, professional background setting with good lighting and minimal distractions",
+  "pass_check": false,
+  "score": 0.0,
+  "rationale": "Background issues: Background is not tidy. Cluttered room with visible piles.",
   "metrics": {
-    "background_analysis": {
-      "is_car": false,
-      "is_tidy": true,
-      "environment_type": "indoor_studio",
-      "professionalism": "high",
-      "cleanliness": "excellent",
-      "lighting_quality": "good",
-      "distractions": "minimal"
-    },
-    "setting_details": {
-      "primary_environment": "beauty_setup",
-      "background_elements": [
-        "neutral_wall",
-        "ring_light",
-        "organized_products"
-      ],
-      "clutter_level": "none",
-      "color_scheme": "neutral_tones",
-      "space_organization": "well_organized"
-    },
-    "quality_assessment": {
-      "visual_appeal": 0.9,
-      "brand_appropriateness": 0.85,
-      "professionalism_score": 0.9,
-      "distraction_level": 0.1
-    },
-    "environment_flags": {
-      "messy_background": false,
-      "inappropriate_items": false,
-      "poor_lighting": false,
-      "distracting_elements": false
+    "is_car": false,
+    "is_tidy": false,
+    "reasons": "Cluttered room with visible piles",
+    "evidence_frame_indices": [2, 5],
+    "frames_analyzed": 8,
+    "model": "gpt-4o-mini",
+    "requirements": {
+      "require_tidy": true,
+      "fail_if_car": false
     }
   },
-  "timestamps": [],
+  "timestamps": [1.2, 3.6],
   "flagged_frames": [],
-  "execution_time_sec": 3.2,
-  "api_cost_usd": 0.14
+  "execution_time_sec": null,
+  "api_cost_usd": null
 }
 ```
 
 ## Interpreting Results
 
-- **is_car**: Whether the background is inside a vehicle
-- **is_tidy**: Boolean indicating if the background is clean and organized
-- **environment_type**: Category of background setting (indoor_studio, home_setting, outdoor, etc.)
-- **professionalism**: Overall professionalism level (high, medium, low, poor)
-- **visual_appeal**: Score from 0.0-1.0 rating the background's visual quality
-- **distraction_level**: Score from 0.0-1.0 indicating how distracting the background is
+- **is_tidy/is_car**: Primary classification signals; these drive pass/fail based on requirements.
+- **evidence_frame_indices**: Frames supporting the assessment.
+- **requirements**: The thresholds applied for this run.

@@ -1,30 +1,30 @@
 ---
 title: 'transcript_policy'
-description: 'Checks transcript against required talking points and language to avoid using OpenAI'
+description: 'Checks transcripts for required and prohibited language'
 ---
 
 ## Overview
 
-The `transcript_policy` detector analyzes video transcripts against policy guidelines, checking for required talking points and flagging language that should be avoided. It uses OpenAI with fallback to keyword matching for comprehensive policy compliance.
+Checks transcripts for required talking points and prohibited language.
 
-**Requires at least one configuration parameter** - Either `talking_points` or `language_to_avoid` must be provided.
+**Requires at least one configuration parameter** - Provide `talking_points` or `language_to_avoid`.
 
 ## Configuration
 
 <ParamField body="config.talking_points" type="array">
-  List of required talking points or topics that should be mentioned
+  Required talking points to include.
 </ParamField>
 
 <ParamField body="config.language_to_avoid" type="array">
-  List of prohibited words, phrases, or topics that should not appear
+  Phrases that must not appear.
 </ParamField>
 
 <ParamField body="config.min_talking_points" type="integer">
-  Minimum number of talking points that must be mentioned (default: all provided points)
+  Minimum number of talking points required.
 </ParamField>
 
 <ParamField body="config.max_language_to_avoid" type="integer">
-  Maximum number of violations from language_to_avoid list before failing (default: 0)
+  Maximum number of forbidden phrases allowed.
 </ParamField>
 
 ## Example Configuration
@@ -33,19 +33,10 @@ The `transcript_policy` detector analyzes video transcripts against policy guide
 {
   "detector_name": "transcript_policy",
   "config": {
-    "talking_points": [
-      "product benefits",
-      "how to use the product",
-      "results or effectiveness"
-    ],
-    "language_to_avoid": [
-      "competitors",
-      "negative reviews",
-      "side effects",
-      "medical claims"
-    ],
-    "min_talking_points": 2,
-    "max_language_to_avoid": 1
+    "talking_points": ["battery life", "fast charging"],
+    "language_to_avoid": ["free giveaway"],
+    "min_talking_points": 1,
+    "max_language_to_avoid": 0
   }
 }
 ```
@@ -56,67 +47,36 @@ The `transcript_policy` detector analyzes video transcripts against policy guide
 {
   "detector_name": "transcript_policy",
   "pass_check": true,
-  "score": 0.8,
-  "rationale": "Found 2 of 3 required talking points with no prohibited language violations",
+  "score": 0.75,
+  "rationale": "2/2 talking points covered. No forbidden language detected (1 checked)",
   "metrics": {
-    "talking_points": [
-      {
-        "item": "product benefits",
-        "texts": [
-          "This product really helps improve skin texture and appearance",
-          "You'll notice smoother, more radiant skin after just a few uses"
-        ]
-      },
-      {
-        "item": "how to use the product", 
-        "texts": [
-          "Apply a small amount to clean skin twice daily"
-        ]
-      },
-      {
-        "item": "results or effectiveness",
-        "texts": []
-      }
-    ],
-    "language_to_avoid": [
-      {
-        "item": "competitors",
-        "texts": []
-      },
-      {
-        "item": "negative reviews",
-        "texts": []
-      },
-      {
-        "item": "side effects",
-        "texts": []
-      },
-      {
-        "item": "medical claims",
-        "texts": []
-      }
-    ],
-    "policy_summary": {
-      "talking_points_found": 2,
-      "talking_points_required": 2,
-      "violations_found": 0,
-      "violations_allowed": 1,
-      "compliance_score": 0.8
+    "talking_points_hit": ["battery life", "fast charging"],
+    "language_to_avoid_hit": [],
+    "talking_points_count": 2,
+    "language_to_avoid_count": 0,
+    "talking_points_total": 2,
+    "language_to_avoid_total": 1,
+    "matches": {
+      "talking_points": [{"item": "battery life", "texts": ["battery life"]}],
+      "language_to_avoid": []
+    },
+    "provider": "keyword",
+    "detail": "keyword_fallback",
+    "model": "gpt-4o-mini",
+    "requirements": {
+      "min_talking_points": 1,
+      "max_language_to_avoid": 0
     }
   },
-  "timestamps": [8.2, 15.7, 28.1],
+  "timestamps": [],
   "flagged_frames": [],
-  "execution_time_sec": 3.5,
-  "api_cost_usd": 0.12
+  "execution_time_sec": null,
+  "api_cost_usd": null
 }
 ```
 
 ## Interpreting Results
 
-The transcript_policy detector analyzes transcript content against policy guidelines and returns:
-
-- **Talking Points** - Array showing which required topics were found with supporting text examples
-- **Language to Avoid** - Analysis of prohibited words or phrases with any violations identified  
-- **Policy Summary** - Count of talking points found vs. required and violations found vs. allowed
-- **Compliance Score** - Overall adherence rating from 0.0 to 1.0 based on requirements met
-- **Text Examples** - Specific transcript segments that match talking points or contain prohibited language
+- **talking_points_hit/language_to_avoid_hit**: Items found (or avoided) in the transcript.
+- **talking_points_count/language_to_avoid_count**: Totals used for pass/fail.
+- **matches**: Evidence snippets supporting each detected item.

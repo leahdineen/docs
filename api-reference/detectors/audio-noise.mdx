@@ -1,24 +1,15 @@
 ---
 title: 'audio_noise'
-description: 'Detects audio noise issues using signal processing analysis'
+description: 'Evaluates background noise and speech clarity'
 ---
 
 ## Overview
 
-The `audio_noise` detector analyzes audio quality to detect background noise, distortion, and other audio issues that may affect content quality. It uses signal processing techniques to evaluate signal-to-noise ratio and audio clarity.
-
-**No configuration required** - This detector works with default settings.
+Evaluates speech clarity and background noise levels in the audio.
 
 ## Configuration
 
-This detector does not require any configuration parameters. Include it with an empty config object:
-
-```json
-{
-  "detector_name": "audio_noise",
-  "config": {}
-}
-```
+This detector does not accept configuration keys.
 
 ## Example Configuration
 
@@ -35,36 +26,37 @@ This detector does not require any configuration parameters. Include it with an 
 {
   "detector_name": "audio_noise",
   "pass_check": true,
-  "score": 0.8,
-  "rationale": "Audio quality is good with minimal background noise detected",
+  "score": 0.86,
+  "rationale": "Good SNR: 18.4 dB. Low music overlap: 6.0%",
   "metrics": {
-    "snr_db": 28.5,
-    "noise_level": "low",
-    "audio_quality": "good",
-    "noise_segments": [
-      {
-        "start_time": 12.3,
-        "end_time": 15.7,
-        "noise_type": "background_hum",
-        "severity": "mild"
-      }
-    ],
-    "overall_clarity": 0.85,
-    "dynamic_range": 42.1
+    "snr": {
+      "snr_db": 18.4,
+      "speech_rms": 0.12,
+      "noise_rms": 0.03,
+      "usable_noise_duration_sec": 8.2,
+      "min_snr_db_threshold": 12.0,
+      "pass": true
+    },
+    "music": {
+      "overlap_pct": 0.06,
+      "yamnet_available": true,
+      "detail": "ok",
+      "max_overlap_threshold": 0.3,
+      "music_score_threshold": 0.4,
+      "pass": true
+    },
+    "speech_segments_count": 14,
+    "total_speech_duration_sec": 22.5
   },
-  "timestamps": [12.3],
+  "timestamps": [],
   "flagged_frames": [],
-  "execution_time_sec": 1.2,
+  "execution_time_sec": null,
   "api_cost_usd": null
 }
 ```
 
 ## Interpreting Results
 
-The audio_noise detector returns key audio quality metrics:
-
-- **SNR (Signal-to-Noise Ratio)** - Higher values indicate cleaner audio, with 20+ dB being acceptable
-- **Noise Level** - Categorized as low, medium, or high based on background noise presence
-- **Audio Quality** - Overall assessment ranging from excellent to poor
-- **Overall Clarity** - Score from 0.0 to 1.0 indicating audio clarity and listening experience
-- **Noise Segments** - Specific time ranges where noise issues occur with severity ratings
+- **snr.pass/music.pass**: Individual checks that determine the overall pass/fail result.
+- **snr_db/overlap_pct**: Primary quality signals for speech clarity and music overlap.
+- **speech_segments_count/total_speech_duration_sec**: How much speech was detected.

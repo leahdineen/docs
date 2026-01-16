@@ -9,54 +9,54 @@ Each detector analyzes specific aspects of content and can be configured with cu
 
 | Detector | Description |
 |----------|-------------|
-| [audio_matching](/api-reference/detectors/audio-matching) | Matches audio against reference content using chromaprint fingerprinting |
-| [splitscreen_video_matching](/api-reference/detectors/splitscreen-video-matching) | Matches split-screen video content using multi-embedder alignment |
-| [video_matching](/api-reference/detectors/video-matching) | Detects source video clip patterns using reference features |
-| [video_matching_description](/api-reference/detectors/video-matching-description) | Matches video against text description |
+| [audio_matching](/api-reference/detectors/audio-matching) | Checks whether audio matches reference audio |
+| [splitscreen_video_matching](/api-reference/detectors/splitscreen-video-matching) | Checks split-screen content against references or descriptions |
+| [video_matching](/api-reference/detectors/video-matching) | Checks whether video matches reference videos |
+| [video_matching_description](/api-reference/detectors/video-matching-description) | Checks whether video content matches a description |
 
 ## Audio Analysis Detectors
 
 | Detector | Description |
 |----------|-------------|
-| [audio_noise](/api-reference/detectors/audio-noise) | Detects background noise and audio quality issues |
-| [pronunciation](/api-reference/detectors/pronunciation) | Evaluates brand and product name pronunciation |
-| [voice_over](/api-reference/detectors/voice-over) | Analyzes voice-over quality and characteristics |
+| [audio_noise](/api-reference/detectors/audio-noise) | Evaluates background noise and speech clarity |
+| [pronunciation](/api-reference/detectors/pronunciation) | Evaluates brand and product pronunciation |
+| [voice_over](/api-reference/detectors/voice-over) | Detects voice-over narration |
 
 ## Content Analysis Detectors
 
 | Detector | Description |
 |----------|-------------|
-| [background](/api-reference/detectors/background) | Analyzes background elements and setting |
-| [content_quality](/api-reference/detectors/content-quality) | Evaluates overall content quality |
-| [language](/api-reference/detectors/language) | Detects and validates content language |
-| [sentiment](/api-reference/detectors/sentiment) | Analyzes emotional tone and sentiment |
-| [title_and_description](/api-reference/detectors/title-and-description) | Analyzes metadata, hashtags, and social tags |
-| [transcript_policy](/api-reference/detectors/transcript-policy) | Checks transcript against policy guidelines |
-| [transcript_product](/api-reference/detectors/transcript-product) | Detects product mentions in transcripts |
+| [background](/api-reference/detectors/background) | Assesses background conditions in the video |
+| [content_quality](/api-reference/detectors/content-quality) | Assesses overall content quality and value |
+| [language](/api-reference/detectors/language) | Checks detected language against an allowed list |
+| [sentiment](/api-reference/detectors/sentiment) | Checks sentiment and prohibited content in transcripts |
+| [title_and_description](/api-reference/detectors/title-and-description) | Checks title and description for required elements |
+| [transcript_policy](/api-reference/detectors/transcript-policy) | Checks transcripts for required and prohibited language |
+| [transcript_product](/api-reference/detectors/transcript-product) | Counts brand and product mentions in transcripts |
 
 ## Video Quality Detectors
 
 | Detector | Description |
 |----------|-------------|
-| [framing](/api-reference/detectors/framing) | Analyzes video framing and composition |
-| [lighting](/api-reference/detectors/lighting) | Detects lighting issues in video frames |
-| [transition_detection](/api-reference/detectors/transition-detection) | Detects video cuts and transitions |
-| [video_quality](/api-reference/detectors/video-quality) | Analyzes overall video quality including compression artifacts |
-| [video_specs](/api-reference/detectors/video-specs) | Checks video specs like resolution, aspect ratio, fps, and duration |
+| [framing](/api-reference/detectors/framing) | Checks whether framing meets composition expectations |
+| [lighting](/api-reference/detectors/lighting) | Evaluates lighting balance across video frames |
+| [transition_detection](/api-reference/detectors/transition-detection) | Counts scene transitions |
+| [video_quality](/api-reference/detectors/video-quality) | Evaluates overall video quality |
+| [video_specs](/api-reference/detectors/video-specs) | Validates video dimensions and duration |
 
 ## Image Quality Detectors
 
 | Detector | Description |
 |----------|-------------|
-| [image_sharpness](/api-reference/detectors/image-sharpness) | Detects blurry or out-of-focus images |
-| [image_specs](/api-reference/detectors/image-specs) | Checks image specifications and quality metrics |
+| [image_sharpness](/api-reference/detectors/image-sharpness) | Evaluates image sharpness |
+| [image_specs](/api-reference/detectors/image-specs) | Validates image dimensions and aspect ratio |
 
 ## Visual Analysis Detectors
 
 | Detector | Description |
 |----------|-------------|
-| [image_ip_infringement](/api-reference/detectors/image-ip-infringement) | Detects potential intellectual property infringement |
-| [overlays](/api-reference/detectors/overlays) | Detects text overlays and graphics |
-| [product_application](/api-reference/detectors/product-application) | Analyzes product application and usage |
-| [subtitles](/api-reference/detectors/subtitles) | Detects subtitles and captions in video |
-| [wardrobe](/api-reference/detectors/wardrobe) | Checks appearance compliance (wardrobe, beauty) |
+| [image_ip_infringement](/api-reference/detectors/image-ip-infringement) | Flags potential IP concerns in images |
+| [overlays](/api-reference/detectors/overlays) | Checks for required or disallowed overlays |
+| [product_application](/api-reference/detectors/product-application) | Checks whether a product is being applied |
+| [subtitles](/api-reference/detectors/subtitles) | Checks for subtitle presence |
+| [wardrobe](/api-reference/detectors/wardrobe) | Checks wardrobe and beauty rule compliance |

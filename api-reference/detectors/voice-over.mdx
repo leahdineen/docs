@@ -1,16 +1,16 @@
 ---
 title: 'voice_over'
-description: 'Analyzes voice-over quality and characteristics'
+description: 'Detects voice-over narration'
 ---
 
 ## Overview
 
-The `voice_over` detector identifies and analyzes voice-over narration in video content. It can detect whether voice-over is present and optionally fail content based on voice-over detection rules.
+Detects whether speech is voice-over or on-camera.
 
 ## Configuration
 
 <ParamField body="config.fail_if_voice_over" type="boolean">
-  Whether to fail the evaluation if voice-over is detected
+  If true, the detector fails when voice-over is detected.
 </ParamField>
 
 ## Example Configuration
@@ -30,50 +30,34 @@ The `voice_over` detector identifies and analyzes voice-over narration in video 
 {
   "detector_name": "voice_over",
   "pass_check": false,
-  "score": 0.3,
-  "rationale": "Voice-over narration detected throughout video content",
+  "score": 0.22,
+  "rationale": "Voice-over detected: only 12.0% of speech has face visible (min: 50.0%)",
   "metrics": {
-    "voice_over_detected": true,
-    "voice_over_segments": [
-      {
-        "start_time": 2.1,
-        "end_time": 18.7,
-        "confidence": 0.9,
-        "characteristics": {
-          "voice_type": "narrator",
-          "speech_rate": "normal",
-          "audio_quality": "professional"
-        }
-      },
-      {
-        "start_time": 25.3,
-        "end_time": 42.1,
-        "confidence": 0.85,
-        "characteristics": {
-          "voice_type": "narrator",
-          "speech_rate": "fast",
-          "audio_quality": "professional"
-        }
-      }
-    ],
-    "total_voice_over_duration": 33.5,
-    "voice_over_percentage": 74.4,
-    "speech_characteristics": {
-      "clarity": 0.9,
-      "naturalness": 0.7,
-      "professional_quality": true
+    "is_voice_over": true,
+    "is_silent": false,
+    "speech_duration_sec": 18.4,
+    "on_camera_speech_duration_sec": 2.2,
+    "on_camera_speech_ratio": 0.12,
+    "face_presence_ratio": 0.2,
+    "mouth_motion_ratio": 0.3,
+    "total_frames": 60,
+    "frames_with_face": 12,
+    "speech_frames": 22,
+    "requirements": {
+      "min_on_cam_ratio": 0.5,
+      "min_face_presence_ratio": 0.5,
+      "mouth_motion_threshold": 1.5
     }
   },
-  "timestamps": [2.1, 25.3],
+  "timestamps": [],
   "flagged_frames": [],
-  "execution_time_sec": 3.1,
-  "api_cost_usd": 0.08
+  "execution_time_sec": null,
+  "api_cost_usd": null
 }
 ```
 
 ## Interpreting Results
 
-- **voice_over_detected**: Whether voice-over narration was found in the content
-- **voice_over_percentage**: Percentage of total video duration containing voice-over
-- **confidence**: Detection confidence score (0.0-1.0)
-- **characteristics**: Voice type, speech rate, and audio quality metrics
+- **is_voice_over**: Primary classification for pass/fail.
+- **on_camera_speech_ratio/face_presence_ratio**: Evidence for on-camera speech.
+- **requirements**: Thresholds used when `fail_if_voice_over` is true.

@@ -1,37 +1,35 @@
 ---
 title: 'splitscreen_video_matching'
-description: 'Video matching detector specialized for splitscreen/multi-panel layouts'
+description: 'Checks split-screen videos against references or descriptions'
 ---
 
 ## Overview
 
-The `splitscreen_video_matching` detector analyzes split-screen or multi-panel video content against reference videos. It extends the base video matching functionality to handle complex layouts where different content appears in different areas of the frame.
+Checks split-screen videos by matching the top and bottom regions against references and/or descriptions.
 
-**Requires preprocessing** - Reference videos must be processed before evaluation can begin.
+**Requires reference content** - Provide at least one of `top_content_references` or `bottom_content_references`.
 
 ## Configuration
 
 <ParamField body="config.top_content_references" type="array">
-  Array of GCS URIs of top content reference videos
-  
+  List of GCS URIs for top-region reference videos.
+
   **Allowed extensions:** mp4, mov, avi, mkv, webm
 </ParamField>
 
 <ParamField body="config.top_content_description" type="string">
-  Text description of expected top content
+  Description of expected top-region content.
 </ParamField>
 
 <ParamField body="config.bottom_content_references" type="array">
-  Array of GCS URIs of bottom content reference videos
-  
+  List of GCS URIs for bottom-region reference videos.
+
   **Allowed extensions:** mp4, mov, avi, mkv, webm
 </ParamField>
 
 <ParamField body="config.bottom_content_description" type="string">
-  Text description of expected bottom content
+  Description of expected bottom-region content.
 </ParamField>
-
-**Note:** At least one of `top_content_references` or `bottom_content_references` must be provided.
 
 ## Example Configuration
 
@@ -39,14 +37,10 @@ The `splitscreen_video_matching` detector analyzes split-screen or multi-panel v
 {
   "detector_name": "splitscreen_video_matching",
   "config": {
-    "top_content_references": [
-      "gs://judge-artifacts/org_123/reference_uploads/abc/gameplay.mp4"
-    ],
-    "top_content_description": "Mobile game gameplay footage",
-    "bottom_content_references": [
-      "gs://judge-artifacts/org_123/reference_uploads/def/reaction.mp4"
-    ],
-    "bottom_content_description": "Creator reaction and commentary"
+    "top_content_references": ["gs://judge-artifacts/org_123/reference_uploads/top.mp4"],
+    "top_content_description": "Person speaking to camera",
+    "bottom_content_references": ["gs://judge-artifacts/org_123/reference_uploads/bottom.mp4"],
+    "bottom_content_description": "Product demo footage"
   }
 }
 ```
@@ -56,63 +50,35 @@ The `splitscreen_video_matching` detector analyzes split-screen or multi-panel v
 ```json
 {
   "detector_name": "splitscreen_video_matching",
-  "pass_check": false,
-  "score": 0.75,
-  "rationale": "Top panel shows matching gameplay content, bottom panel shows original reaction",
+  "pass_check": true,
+  "score": 0.88,
+  "rationale": "Split-screen detected with matching content (score: 0.88)",
   "metrics": {
-    "top_panel_analysis": {
-      "match_detected": true,
-      "similarity_score": 0.9,
-      "matched_segments": [
-        {
-          "start_time": 5.2,
-          "end_time": 45.8,
-          "confidence": 0.85
-        }
-      ]
-    },
-    "bottom_panel_analysis": {
-      "match_detected": false,
-      "similarity_score": 0.2,
-      "original_content": true
-    },
-    "layout_detection": {
-      "split_detected": true,
-      "layout_type": "horizontal_split",
-      "panel_boundaries": {
-        "top": [0, 0, 1920, 540],
-        "bottom": [0, 540, 1920, 1080]
-      }
-    }
+    "detected_pattern": "splitscreen",
+    "total_frames_analyzed": 90,
+    "top_match": true,
+    "top_score": 0.9,
+    "top_match_details": {"confidence": 0.9},
+    "bottom_match": true,
+    "bottom_score": 0.86,
+    "bottom_match_details": {"confidence": 0.86},
+    "blank_frames_detected": 0,
+    "blank_frame_failure": false,
+    "max_consecutive_blank_frames": 0,
+    "frame_api_costs": [],
+    "split_detection_percentage": 0.92,
+    "split_line_detected": true,
+    "split_line_position": 0.51
   },
-  "timestamps": [5.2, 45.8],
-  "flagged_frames": [
-    {
-      "frame_index": 156,
-      "panel": "top",
-      "similarity_score": 0.9
-    }
-  ],
-  "execution_time_sec": 12.5,
-  "api_cost_usd": null
+  "timestamps": [1.0, 2.0, 3.0],
+  "flagged_frames": [],
+  "execution_time_sec": null,
+  "api_cost_usd": 0.12
 }
 ```
 
-## Preprocessing
-
-Before using this detector, reference videos must be uploaded and preprocessed:
-
-1. Upload reference videos using the `/v1/judges/reference_content` endpoint
-2. Reference videos are processed to extract embeddings for each panel layout
-3. Judge status will be `pending` until preprocessing completes
-4. Once complete, judge status becomes `ready` and can be used for evaluations
-
 ## Interpreting Results
 
-The splitscreen_video_matching detector analyzes split-screen content against reference videos and returns:
-
-- **Panel Analysis** - Separate analysis for top and bottom panels with match detection and similarity scores
-- **Match Detected** - Boolean indicating whether reference content was found in each panel
-- **Similarity Score** - Matching confidence from 0.0 to 1.0 for each detected segment
-- **Matched Segments** - Time ranges where reference content appears with confidence scores
-- **Layout Detection** - Information about the split-screen layout type and panel boundaries
+- **top_match/bottom_match**: Both regions must match for a pass.
+- **split_detection_percentage**: How consistently a split line was detected.
+- **top_match_details/bottom_match_details**: Region-specific match evidence.

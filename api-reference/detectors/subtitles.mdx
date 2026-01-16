@@ -1,16 +1,16 @@
 ---
 title: 'subtitles'
-description: 'Detects subtitles and captions in video using OpenAI Vision and OCR'
+description: 'Checks for subtitle presence'
 ---
 
 ## Overview
 
-The `subtitles` detector identifies and analyzes subtitle and caption content in videos using a combination of OpenAI Vision API and OCR technology. It can verify subtitle presence and quality for accessibility compliance.
+Detects subtitles and can enforce a minimum presence requirement.
 
 ## Configuration
 
 <ParamField body="config.require_subtitles" type="boolean">
-  Whether subtitles are required for the content to pass evaluation
+  If true, the detector fails when subtitles are missing or insufficient.
 </ParamField>
 
 ## Example Configuration
@@ -30,68 +30,35 @@ The `subtitles` detector identifies and analyzes subtitle and caption content in
 {
   "detector_name": "subtitles",
   "pass_check": true,
-  "score": 0.85,
-  "rationale": "Subtitles detected in 78% of video frames with good readability",
+  "score": 1.0,
+  "rationale": "Detected subtitles in 6 frames (Total items: 6)",
   "metrics": {
-    "subtitles_detected": true,
-    "subtitle_overlays": [
+    "subtitles": [
       {
-        "text": "Today I'm going to show you my skincare routine",
-        "frame_index": 150,
-        "timestamp_sec": 5.0,
-        "bbox": [240, 980, 1680, 1040],
-        "confidence": 0.95,
-        "readability": "excellent",
-        "font_size": "large",
-        "background": "semi_transparent"
-      },
-      {
-        "text": "First, I start with this gentle cleanser",
-        "frame_index": 300,
-        "timestamp_sec": 10.0,
-        "bbox": [200, 980, 1720, 1040],
-        "confidence": 0.92,
-        "readability": "good",
-        "font_size": "large", 
-        "background": "semi_transparent"
+        "frame_index": 4,
+        "timestamp_sec": 1.6,
+        "category": "subtitle",
+        "description": "Hello world",
+        "bbox": [0.1, 0.8, 0.9, 0.95]
       }
     ],
-    "subtitle_analysis": {
-      "total_subtitle_frames": 702,
-      "total_frames": 900,
-      "subtitle_coverage": 78.0,
-      "average_confidence": 0.89,
-      "readability_score": 0.85,
-      "font_consistency": true,
-      "background_consistency": true
-    },
-    "quality_assessment": {
-      "text_clarity": "high",
-      "positioning": "appropriate",
-      "timing": "well_synced",
-      "completeness": "comprehensive"
-    }
+    "num_subtitles": 6,
+    "frames_with_subtitles": 6,
+    "require_subtitles": true,
+    "min_subtitle_frames": 3,
+    "subtitle_ocr_used": false,
+    "subtitle_ocr_added": 0,
+    "model": "gpt-4o-mini"
   },
-  "timestamps": [5.0, 10.0, 15.2, 20.5],
-  "flagged_frames": [
-    {
-      "frame_index": 150,
-      "subtitle_text": "Today I'm going to show you my skincare routine",
-      "quality": "excellent"
-    }
-  ],
-  "execution_time_sec": 6.2,
-  "api_cost_usd": 0.28
+  "timestamps": [1.6],
+  "flagged_frames": [],
+  "execution_time_sec": null,
+  "api_cost_usd": 0.07
 }
 ```
 
 ## Interpreting Results
 
-The subtitles detector analyzes caption and subtitle quality and returns:
-
-- **Subtitles Detected** - Boolean indicating whether subtitles are present in the video
-- **Subtitle Overlays** - Array of detected subtitle text with timestamps, confidence scores, and readability assessments
-- **Subtitle Coverage** - Percentage of video frames containing subtitles
-- **Average Confidence** - Overall OCR confidence score for text detection accuracy
-- **Readability Score** - Assessment of how easily subtitles can be read (0.0 to 1.0)
-- **Quality Assessment** - Evaluation of text clarity, positioning, timing synchronization, and completeness
+- **num_subtitles/frames_with_subtitles**: Quantity of detected subtitle evidence.
+- **require_subtitles/min_subtitle_frames**: Requirement rules for pass/fail.
+- **subtitles**: Frame-level detections with locations when available.

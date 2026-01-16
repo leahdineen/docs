@@ -1,16 +1,16 @@
 ---
 title: 'language'
-description: 'Detects and validates content language'
+description: 'Checks detected language against an allowed list'
 ---
 
 ## Overview
 
-The `language` detector analyzes spoken content to identify the language being used and validates it against a list of accepted languages. This ensures content meets language requirements for specific regions or audiences.
+Detects the primary language and validates it against an allowed list.
 
 ## Configuration
 
 <ParamField body="config.accepted_languages" type="array" required>
-  List of accepted language codes (ISO 639-1 format, e.g., ["en", "es", "fr"])
+  List of accepted language codes (for example: "en", "es").
 </ParamField>
 
 ## Example Configuration
@@ -30,53 +30,31 @@ The `language` detector analyzes spoken content to identify the language being u
 {
   "detector_name": "language",
   "pass_check": true,
-  "score": 0.95,
-  "rationale": "Content is primarily in English, which is an accepted language",
+  "score": 0.94,
+  "rationale": "Detected language 'en' (confidence: 94.0%) is in accepted languages: ['en', 'es']",
   "metrics": {
     "detected_language": "en",
-    "confidence": 0.95,
-    "language_analysis": {
-      "primary_language": {
-        "code": "en",
-        "name": "English",
-        "confidence": 0.95,
-        "duration_percentage": 89.2
-      },
-      "secondary_languages": [
-        {
-          "code": "es", 
-          "name": "Spanish",
-          "confidence": 0.7,
-          "duration_percentage": 10.8
-        }
-      ],
-      "language_segments": [
-        {
-          "start_time": 0.0,
-          "end_time": 35.2,
-          "language_code": "en",
-          "confidence": 0.95
-        },
-        {
-          "start_time": 35.2,
-          "end_time": 40.0,
-          "language_code": "es",
-          "confidence": 0.7
-        }
-      ]
-    }
+    "confidence": 0.94,
+    "accepted_languages": ["en", "es"],
+    "is_accepted_language": true,
+    "passes_confidence_threshold": true,
+    "confidence_threshold": 0.7,
+    "all_detected_languages": [
+      {"language": "en", "confidence": 0.94},
+      {"language": "fr", "confidence": 0.03}
+    ],
+    "transcript_length": 824,
+    "transcript_word_count": 142
   },
-  "timestamps": [0.0, 35.2],
+  "timestamps": [],
   "flagged_frames": [],
-  "execution_time_sec": 2.8,
-  "api_cost_usd": 0.05
+  "execution_time_sec": null,
+  "api_cost_usd": null
 }
 ```
 
 ## Interpreting Results
 
-- **detected_language**: ISO 639-1 code for the primary detected language
-- **confidence**: Detection confidence score (0.0-1.0)
-- **duration_percentage**: Percentage of content in each detected language
-- **language_segments**: Time-stamped segments showing language changes
-- **accepted_languages**: Use ISO 639-1 codes (en, es, fr, de, etc.)
+- **detected_language/confidence**: Primary language and confidence score.
+- **passes_confidence_threshold**: Whether confidence meets the minimum threshold.
+- **all_detected_languages**: Alternate language candidates with scores.

@@ -1,16 +1,16 @@
 ---
 title: 'product_application'
-description: 'Analyzes product application and usage in video content'
+description: 'Checks whether a product is being applied'
 ---
 
 ## Overview
 
-The `product_application` detector identifies and analyzes how products are being used, applied, or demonstrated in video content. It verifies that product application is visible and properly demonstrated when required by brand guidelines.
+Determines whether the product is being applied in the content.
 
 ## Configuration
 
 <ParamField body="config.require_application" type="boolean">
-  Whether product application demonstration is required for the content to pass
+  If true, the detector fails when application is not detected.
 </ParamField>
 
 ## Example Configuration
@@ -30,70 +30,26 @@ The `product_application` detector identifies and analyzes how products are bein
 {
   "detector_name": "product_application",
   "pass_check": true,
-  "score": 0.9,
-  "rationale": "Clear product application demonstrated with proper technique",
+  "score": 1.0,
+  "rationale": "Product application detected. Demonstrated use on skin.",
   "metrics": {
-    "application_detected": true,
-    "application_segments": [
-      {
-        "start_time": 15.2,
-        "end_time": 28.7,
-        "product_type": "skincare",
-        "application_method": "facial_application",
-        "technique_quality": "proper",
-        "visibility": "clear",
-        "demonstration_quality": 0.9
-      },
-      {
-        "start_time": 35.1,
-        "end_time": 42.3,
-        "product_type": "makeup",
-        "application_method": "brush_application", 
-        "technique_quality": "professional",
-        "visibility": "clear",
-        "demonstration_quality": 0.95
-      }
-    ],
-    "application_analysis": {
-      "total_application_time": 20.7,
-      "application_percentage": 34.5,
-      "technique_assessment": "professional",
-      "educational_value": "high",
-      "product_visibility": "excellent"
-    },
-    "demonstration_quality": {
-      "step_by_step": true,
-      "clear_technique": true,
-      "proper_usage": true,
-      "educational_content": true,
-      "before_after": false
-    }
+    "is_applying": true,
+    "reasons": "Demonstrated use on skin",
+    "evidence_frame_indices": [1, 4],
+    "num_evidence_frames": 2,
+    "frames_analyzed": 8,
+    "model": "gpt-4o-mini",
+    "require_application": true
   },
-  "timestamps": [15.2, 35.1],
-  "flagged_frames": [
-    {
-      "frame_index": 456,
-      "application_type": "facial_skincare",
-      "quality": "excellent"
-    },
-    {
-      "frame_index": 1053,
-      "application_type": "makeup_application",
-      "quality": "professional"
-    }
-  ],
-  "execution_time_sec": 5.1,
-  "api_cost_usd": 0.22
+  "timestamps": [0.8, 3.2],
+  "flagged_frames": [],
+  "execution_time_sec": null,
+  "api_cost_usd": 0.06
 }
 ```
 
 ## Interpreting Results
 
-The product_application detector analyzes product usage demonstrations and returns:
-
-- **Application Detected** - Boolean indicating whether product application is visible
-- **Application Segments** - Time ranges showing product usage with quality assessments
-- **Product Type** - Category of product being applied (skincare, makeup, hair, etc.)
-- **Application Method** - How the product is applied (facial_application, brush_application, etc.)
-- **Technique Quality** - Assessment of application skill (proper, professional, adequate, poor)
-- **Demonstration Quality** - Score from 0.0 to 1.0 rating the overall quality of the product demonstration
+- **is_applying**: Whether application is detected.
+- **require_application**: If true, `pass_check` depends on `is_applying`.
+- **evidence_frame_indices**: Frames used as supporting evidence.

@@ -1,26 +1,26 @@
 ---
 title: 'wardrobe'
-description: 'Checks appearance compliance (wardrobe, beauty) using OpenAI Vision API'
+description: 'Checks wardrobe and beauty rule compliance'
 ---
 
 ## Overview
 
-The `wardrobe` detector analyzes clothing, accessories, hair, makeup, and overall appearance for compliance with brand guidelines or content standards. It evaluates both wardrobe choices and beauty standards using AI vision analysis.
+Checks appearance against wardrobe and beauty rules.
 
-**Requires at least one configuration parameter** - Either `wardrobe_rules` or `beauty_rules` must be provided.
+**Requires at least one configuration parameter** - Provide `wardrobe_rules` or `beauty_rules`.
 
 ## Configuration
 
 <ParamField body="config.wardrobe_rules" type="array">
-  List of wardrobe requirements and guidelines
+  List of wardrobe rules to check.
 </ParamField>
 
 <ParamField body="config.beauty_rules" type="array">
-  List of beauty and appearance requirements
+  List of beauty rules to check.
 </ParamField>
 
 <ParamField body="config.max_violations" type="integer">
-  Maximum number of violations allowed before failing (default: 0)
+  Maximum number of violations allowed before failing.
 </ParamField>
 
 ## Example Configuration
@@ -31,13 +31,10 @@ The `wardrobe` detector analyzes clothing, accessories, hair, makeup, and overal
   "config": {
     "wardrobe_rules": [
       "professional business attire",
-      "no visible brand logos except approved sponsors",
-      "colors should be neutral or brand colors"
+      "no visible brand logos"
     ],
     "beauty_rules": [
-      "natural makeup look", 
-      "well-groomed hair",
-      "no distracting accessories"
+      "natural makeup look"
     ],
     "max_violations": 1
   }
@@ -50,67 +47,36 @@ The `wardrobe` detector analyzes clothing, accessories, hair, makeup, and overal
 {
   "detector_name": "wardrobe",
   "pass_check": true,
-  "score": 0.8,
-  "rationale": "Appearance meets most requirements with minor violations within acceptable limits",
+  "score": 0.83,
+  "rationale": "Detected 1 violations (1 wardrobe: no visible brand logos) - within limit of 1",
   "metrics": {
-    "wardrobe_analysis": {
-      "compliant_rules": [
-        "professional business attire",
-        "colors should be neutral or brand colors"
-      ],
-      "violations": [
-        {
-          "rule": "no visible brand logos except approved sponsors",
-          "description": "Small Nike logo visible on shirt",
-          "severity": "minor",
-          "frame_index": 150,
-          "timestamp": 5.0
-        }
-      ]
-    },
-    "beauty_analysis": {
-      "compliant_rules": [
-        "natural makeup look",
-        "well-groomed hair",
-        "no distracting accessories"
-      ],
-      "violations": []
-    },
-    "violation_summary": {
-      "total_violations": 1,
-      "max_allowed": 1,
-      "severity_breakdown": {
-        "minor": 1,
-        "moderate": 0,
-        "major": 0
+    "violations": [
+      {
+        "rule": "no visible brand logos",
+        "explanation": "Small logo visible on shirt",
+        "frame_indices": [2],
+        "timestamps": [1.6]
       }
-    },
-    "overall_assessment": {
-      "professionalism": 0.9,
-      "brand_alignment": 0.8,
-      "compliance_score": 0.8
-    }
+    ],
+    "beauty_violations": [],
+    "wardrobe_violation_count": 1,
+    "beauty_violation_count": 0,
+    "total_violations": 1,
+    "frames_analyzed": 8,
+    "model": "gpt-4o-mini",
+    "wardrobe_rules_count": 2,
+    "beauty_rules_count": 1,
+    "max_violations": 1
   },
-  "timestamps": [5.0],
-  "flagged_frames": [
-    {
-      "frame_index": 150,
-      "violation_type": "wardrobe",
-      "description": "Unapproved brand logo visible"
-    }
-  ],
-  "execution_time_sec": 3.8,
-  "api_cost_usd": 0.15
+  "timestamps": [1.6],
+  "flagged_frames": [],
+  "execution_time_sec": null,
+  "api_cost_usd": 0.12
 }
 ```
 
 ## Interpreting Results
 
-The wardrobe detector analyzes clothing and appearance compliance and returns:
-
-- **Wardrobe Analysis** - Assessment of clothing compliance with rules and identified violations
-- **Beauty Analysis** - Evaluation of makeup, hair, and accessories against guidelines  
-- **Violation Summary** - Count of total violations by severity level (minor, moderate, major)
-- **Overall Assessment** - Scores for professionalism, brand alignment, and compliance (0.0 to 1.0)
-- **Violation Details** - Specific rule violations with descriptions, severity ratings, and timestamps
-- **Compliant Rules** - Array of guidelines that were successfully followed
+- **violations/beauty_violations**: Rule violations with frame evidence.
+- **total_violations/max_violations**: Determines pass/fail.
+- **score**: Compliance score based on total rules vs. violations.

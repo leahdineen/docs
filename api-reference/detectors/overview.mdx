@@ -5,7 +5,7 @@ description: 'Available detectors and their configurations'
 
 ## Introduction
 
-Detectors are the building blocks of judges. Each detector analyzes specific aspects of content and can be configured with custom parameters. When creating a judge, you specify which detectors to use and their configurations.
+Detectors are the building blocks of judges. Each detector analyzes specific aspects of content and can be configured with custom parameters.
 
 ## Configuration Format
 
@@ -39,67 +39,67 @@ When creating a judge using the v1 endpoint, detectors are configured in the `de
 
 | Detector | Description |
 |----------|-------------|
-| `audio_noise` | Detects background noise and audio quality issues |
-| `image_sharpness` | Detects blurry or out-of-focus images |
-| `image_specs` | Validates image dimensions and aspect ratios |
-| `lighting` | Analyzes lighting quality in visual content |
-| `video_quality` | Validates video technical specifications |
-| `video_specs` | Checks video dimensions, duration, and frame rate |
+| `audio_noise` | Evaluates background noise and speech clarity |
+| `image_sharpness` | Evaluates image sharpness |
+| `image_specs` | Validates image dimensions and aspect ratio |
+| `lighting` | Evaluates lighting balance across video frames |
+| `video_quality` | Evaluates overall video quality |
+| `video_specs` | Validates video dimensions and duration |
 
 ### Content Matching Detectors
 
 | Detector | Description |
 |----------|-------------|
-| `audio_matching` | Matches audio against reference content |
-| `splitscreen_video_matching` | Matches split-screen video content |
-| `video_matching` | Matches video against reference content |
-| `video_matching_description` | Matches video against text description |
+| `audio_matching` | Checks whether audio matches reference audio |
+| `splitscreen_video_matching` | Checks split-screen content against references or descriptions |
+| `video_matching` | Checks whether video matches reference videos |
+| `video_matching_description` | Checks whether video content matches a description |
 
 ### Content Analysis Detectors
 
 | Detector | Description |
 |----------|-------------|
-| `content_quality` | Evaluates overall content quality |
-| `language` | Detects and validates content language |
-| `sentiment` | Analyzes emotional tone and sentiment |
-| `transcript_policy` | Checks transcript against policy guidelines |
-| `transcript_product` | Detects product mentions in transcripts |
+| `content_quality` | Assesses overall content quality and value |
+| `language` | Checks detected language against an allowed list |
+| `sentiment` | Checks sentiment and prohibited content in transcripts |
+| `transcript_policy` | Checks transcripts for required and prohibited language |
+| `transcript_product` | Counts brand and product mentions in transcripts |
 
 ### Visual Analysis Detectors
 
 | Detector | Description |
 |----------|-------------|
-| `background` | Analyzes background elements |
-| `framing` | Evaluates shot composition and framing |
-| `image_ip_infringement` | Checks for potential IP violations |
-| `overlays` | Detects text overlays and graphics |
-| `product_application` | Detects product usage demonstrations |
-| `subtitles` | Detects subtitle presence |
-| `wardrobe` | Analyzes clothing and appearance |
+| `background` | Assesses background conditions in the video |
+| `framing` | Checks whether framing meets composition expectations |
+| `image_ip_infringement` | Flags potential IP concerns in images |
+| `overlays` | Checks for required or disallowed overlays |
+| `product_application` | Checks whether a product is being applied |
+| `subtitles` | Checks for subtitle presence |
+| `wardrobe` | Checks wardrobe and beauty rule compliance |
 
 ### Audio Analysis Detectors
 
 | Detector | Description |
 |----------|-------------|
-| `pronunciation` | Checks brand/product name pronunciation |
+| `pronunciation` | Evaluates brand and product pronunciation |
 | `voice_over` | Detects voice-over narration |
 
 ### Metadata Detectors
 
 | Detector | Description |
 |----------|-------------|
-| `title_and_description` | Analyzes the content title and description for topic, mentions, and hashtags |
-| `transition_detection` | Detects scene transitions and cuts |
+| `title_and_description` | Checks title and description for required elements |
+| `transition_detection` | Counts scene transitions |
 
 ## Reference Content
 
-Some detectors require reference content (e.g., reference videos, audio files) for comparison. Reference content must be uploaded to Google Cloud Storage and provided as `gs://` URIs.
+Some detectors require reference content (for example, reference videos or audio) for comparison. Reference content must be uploaded to Google Cloud Storage and provided as `gs://` URIs.
 
 ### Detectors Requiring Reference Content
 
 - **audio_matching** - Requires `reference_audio`
-- **video_matching** - Requires `reference_video`
-- **splitscreen_video_matching** - Requires at least one of `source_video_reference` or `bottom_content_reference`
+- **video_matching** - Requires `reference_videos`
+- **splitscreen_video_matching** - Requires at least one of `top_content_references` or `bottom_content_references`
 - **pronunciation** - Optional `brand_audio_url` and `product_audio_url`
 
 ### Uploading Reference Content

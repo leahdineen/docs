@@ -1,24 +1,15 @@
 ---
 title: 'framing'
-description: 'Analyzes video framing and composition'
+description: 'Checks whether framing meets composition expectations'
 ---
 
 ## Overview
 
-The `framing` detector evaluates shot composition and framing quality in video content. It detects common framing issues like subjects being too close or far, off-center positioning, insufficient headroom, cropped subjects, and distracting composition elements.
-
-**No configuration required** - This detector works with default settings.
+Checks shot composition and framing for common issues.
 
 ## Configuration
 
-This detector does not require any configuration parameters. Include it with an empty config object:
-
-```json
-{
-  "detector_name": "framing",
-  "config": {}
-}
-```
+This detector does not accept configuration keys.
 
 ## Example Configuration
 
@@ -34,48 +25,35 @@ This detector does not require any configuration parameters. Include it with an 
 ```json
 {
   "detector_name": "framing",
-  "pass_check": false,
-  "score": 0.6,
-  "rationale": "Multiple framing issues detected including subject too close and off-center positioning",
+  "pass_check": true,
+  "score": 0.83,
+  "rationale": "Minor framing issues in 1 frame(s), below threshold of 2",
   "metrics": {
     "flags": [
       {
-        "frame_index": 150,
-        "decisions": ["too_close", "off_center"],
-        "rationale": "Subject is positioned too close to camera and off-center in frame"
-      },
-      {
-        "frame_index": 420,
-        "decisions": ["insufficient_headroom"],
-        "rationale": "Subject's head is too close to top of frame"
+        "frame_index": 3,
+        "timestamp_sec": 1.2,
+        "decisions": ["off_center"],
+        "rationale": "Subject off-center"
       }
-    ]
-  },
-  "timestamps": [5.0, 14.0],
-  "flagged_frames": [
-    {
-      "frame_index": 150,
-      "issues": ["too_close", "off_center"],
-      "timestamp": 5.0
+    ],
+    "num_flagged_frames": 1,
+    "total_frames_analyzed": 8,
+    "issue_counts": {
+      "off_center": 1
     },
-    {
-      "frame_index": 420,
-      "issues": ["insufficient_headroom"],
-      "timestamp": 14.0
-    }
-  ],
-  "execution_time_sec": 3.2,
-  "api_cost_usd": 0.15
+    "model": "gpt-4o-mini",
+    "fail_threshold": 2
+  },
+  "timestamps": [1.2],
+  "flagged_frames": [],
+  "execution_time_sec": null,
+  "api_cost_usd": 0.06
 }
 ```
 
 ## Interpreting Results
 
-- **decisions**: Array of detected framing issues for each flagged frame
-- **frame_index**: Specific frame number where issues were detected
-- **too_close**: Subject positioned too close to camera
-- **too_far**: Subject positioned too far from camera
-- **off_center**: Subject not properly centered in frame
-- **insufficient_headroom**: Not enough space above subject's head
-- **cropped_subject**: Parts of subject cut off by frame edges
-- **distracting_composition**: Background elements that distract from main subject
+- **flags**: Frame-level framing issues with decisions and rationale.
+- **num_flagged_frames/fail_threshold**: Determines pass/fail.
+- **issue_counts**: Aggregated issue types across analyzed frames.

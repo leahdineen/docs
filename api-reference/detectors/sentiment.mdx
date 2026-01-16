@@ -1,26 +1,26 @@
 ---
 title: 'sentiment'
-description: 'Analyzes transcript sentiment against desired and undesired sentiment criteria using OpenAI'
+description: 'Checks sentiment and prohibited content in transcripts'
 ---
 
 ## Overview
 
-The `sentiment` detector analyzes transcript content to identify emotional tone and sentiment. It uses OpenAI to identify specific portions that match desired or undesired sentiment criteria and detects prohibited content types.
+Evaluates sentiment and prohibited content in the transcript.
 
-**Requires at least one configuration parameter** - At least one of `desired_sentiment`, `undesired_sentiment`, or `prohibited_content_types` must be provided.
+**Requires at least one configuration parameter** - Provide `desired_sentiment`, `undesired_sentiment`, or `prohibited_content_types`.
 
 ## Configuration
 
-<ParamField body="config.desired_sentiment" type="array">
-  List of desired sentiments to detect (e.g., ["positive", "enthusiastic", "excited"])
+<ParamField body="config.desired_sentiment" type="string">
+  Desired sentiment or tone to detect.
 </ParamField>
 
-<ParamField body="config.undesired_sentiment" type="array">
-  List of undesired sentiments to flag (e.g., ["negative", "angry", "frustrated"])
+<ParamField body="config.undesired_sentiment" type="string">
+  Undesired sentiment or tone to avoid.
 </ParamField>
 
 <ParamField body="config.prohibited_content_types" type="array">
-  List of prohibited content types to detect (e.g., ["hate_speech", "inappropriate_language"])
+  List of prohibited content types to detect.
 </ParamField>
 
 ## Example Configuration
@@ -29,9 +29,9 @@ The `sentiment` detector analyzes transcript content to identify emotional tone 
 {
   "detector_name": "sentiment",
   "config": {
-    "desired_sentiment": ["positive", "enthusiastic"],
-    "undesired_sentiment": ["negative", "angry"],
-    "prohibited_content_types": ["hate_speech", "profanity"]
+    "desired_sentiment": "optimistic and upbeat",
+    "undesired_sentiment": "hostile",
+    "prohibited_content_types": ["explicit_content", "hate_speech"]
   }
 }
 ```
@@ -42,35 +42,33 @@ The `sentiment` detector analyzes transcript content to identify emotional tone 
 {
   "detector_name": "sentiment",
   "pass_check": true,
-  "score": 0.8,
-  "rationale": "Content shows positive sentiment with no undesired elements detected",
+  "score": 0.67,
+  "rationale": "Sentiment criteria met",
   "metrics": {
-    "desired_matches": [
-      {
-        "text": "I absolutely love this product!",
-        "explanation": "Shows strong positive enthusiasm"
-      },
-      {
-        "text": "This is amazing and works perfectly",
-        "explanation": "Expresses positive satisfaction"
-      }
-    ],
+    "desired_sentiment": "optimistic and upbeat",
+    "undesired_sentiment": "hostile",
+    "prohibited_content_types": ["explicit_content", "hate_speech"],
+    "desired_count": 2,
+    "undesired_count": 0,
+    "prohibited_count": 0,
+    "desired_matches": [{"text": "great day", "explanation": "positive phrasing"}],
     "undesired_matches": [],
-    "prohibited_content_matches": []
+    "prohibited_content_matches": [],
+    "model": "gpt-4o-mini",
+    "requirements": {
+      "min_desired_matches": 1,
+      "max_undesired_matches": 0
+    }
   },
-  "timestamps": [15.2, 32.8],
+  "timestamps": [],
   "flagged_frames": [],
-  "execution_time_sec": 2.1,
-  "api_cost_usd": 0.018
+  "execution_time_sec": null,
+  "api_cost_usd": 0.05
 }
 ```
 
 ## Interpreting Results
 
-The sentiment detector analyzes transcript content for emotional tone and returns:
-
-- **Desired Matches** - Array of text segments that match the desired sentiment criteria with explanations
-- **Undesired Matches** - Array of text segments that match undesired sentiment patterns
-- **Prohibited Content Matches** - Array of text segments containing prohibited content types
-- **Sentiment Analysis** - Overall emotional tone assessment of the content
-- **Match Score** - Ratio of desired sentiment matches to total analyzed content
+- **desired_count/undesired_count/prohibited_count**: Totals used to determine pass/fail.
+- **desired_matches/undesired_matches**: Evidence snippets for sentiment checks.
+- **requirements**: Thresholds applied for sentiment counts.

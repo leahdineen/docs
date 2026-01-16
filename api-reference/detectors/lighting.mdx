@@ -1,24 +1,15 @@
 ---
 title: 'lighting'
-description: 'Detects lighting issues in video frames by analyzing brightness in YUV color space'
+description: 'Evaluates lighting balance across video frames'
 ---
 
 ## Overview
 
-The `lighting` detector analyzes lighting quality in video content by examining frame brightness in YUV color space and checking Y (luma/brightness) channel median values. It identifies common lighting problems that affect video quality and viewer experience.
-
-**No configuration required** - This detector works with default settings.
+Checks whether frames are overly dark or overly bright.
 
 ## Configuration
 
-This detector does not require any configuration parameters. Include it with an empty config object:
-
-```json
-{
-  "detector_name": "lighting",
-  "config": {}
-}
-```
+This detector does not accept configuration keys.
 
 ## Example Configuration
 
@@ -35,78 +26,39 @@ This detector does not require any configuration parameters. Include it with an 
 {
   "detector_name": "lighting",
   "pass_check": true,
-  "score": 0.8,
-  "rationale": "Generally good lighting with minor underexposed segments",
+  "score": 0.88,
+  "rationale": "Lighting is acceptable. Average brightness: 124.2/255",
   "metrics": {
-    "lighting_analysis": {
-      "overall_quality": "good",
-      "average_brightness": 142.5,
-      "brightness_consistency": 0.8,
-      "dynamic_range": 85.2,
-      "exposure_stability": 0.85
-    },
-    "lighting_issues": [
-      {
-        "issue_type": "underexposed",
-        "start_time": 15.2,
-        "end_time": 18.7,
-        "severity": "mild",
-        "brightness_value": 45.3,
-        "frame_range": [456, 561]
-      },
-      {
-        "issue_type": "inconsistent_lighting",
-        "start_time": 32.1,
-        "end_time": 35.4,
-        "severity": "moderate",
-        "brightness_variation": 62.8,
-        "frame_range": [963, 1062]
-      }
+    "total_frames_analyzed": 60,
+    "dark_frames_count": 3,
+    "bright_frames_count": 2,
+    "dark_frames_pct": 5.0,
+    "bright_frames_pct": 3.3,
+    "median_brightness": 123.0,
+    "mean_brightness": 124.2,
+    "min_brightness": 42.0,
+    "max_brightness": 236.0,
+    "dark_threshold": 50.0,
+    "bright_threshold": 210.0,
+    "dark_frames": [
+      {"timestamp_sec": 1.0, "median_y": 44.0}
     ],
-    "brightness_statistics": {
-      "min_brightness": 38.2,
-      "max_brightness": 198.7,
-      "median_brightness": 145.1,
-      "brightness_std_dev": 28.4,
-      "histogram_analysis": {
-        "shadows": 0.15,
-        "midtones": 0.70,
-        "highlights": 0.15
-      }
-    },
-    "quality_metrics": {
-      "exposure_accuracy": 0.82,
-      "contrast_ratio": 3.2,
-      "shadow_detail": 0.75,
-      "highlight_retention": 0.85,
-      "color_temperature_consistency": 0.9
-    }
+    "bright_frames": [
+      {"timestamp_sec": 6.5, "median_y": 224.0}
+    ],
+    "flags": [
+      {"timestamp_sec": 1.0, "decision": "too_dark", "rationale": "Median brightness: 44.0/255"}
+    ]
   },
-  "timestamps": [15.2, 32.1],
-  "flagged_frames": [
-    {
-      "frame_index": 456,
-      "issue": "underexposed",
-      "brightness": 45.3
-    },
-    {
-      "frame_index": 963,
-      "issue": "lighting_change",
-      "brightness": 198.7
-    }
-  ],
-  "execution_time_sec": 2.8,
+  "timestamps": [1.0, 6.5],
+  "flagged_frames": [],
+  "execution_time_sec": null,
   "api_cost_usd": null
 }
 ```
 
 ## Interpreting Results
 
-The lighting detector analyzes video brightness and illumination quality, returning:
-
-- **Overall Quality** - Categorized assessment of lighting (excellent, good, fair, poor)
-- **Average Brightness** - Mean brightness value across all frames
-- **Brightness Consistency** - Score from 0.0 to 1.0 indicating consistent lighting
-- **Dynamic Range** - Difference between darkest and brightest areas in the video
-- **Lighting Issues** - Specific problems detected with timestamps, severity, and descriptions
-- **Brightness Statistics** - Min/max/median brightness values and histogram analysis of shadows, midtones, and highlights
+- **dark_frames_pct/bright_frames_pct**: Percent of frames outside lighting thresholds.
+- **flags**: Sampled frames with the specific lighting decision.
+- **pass_check**: Fails when dark or bright percentages exceed thresholds.

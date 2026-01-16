@@ -1,28 +1,28 @@
 ---
 title: 'video_quality'
-description: 'Analyzes overall video quality including compression artifacts and clarity'
+description: 'Evaluates overall video quality'
 ---
 
 ## Overview
 
-The `video_quality` detector provides comprehensive analysis of video technical quality, including compression artifacts, clarity, visual noise, and overall production standards. It evaluates multiple technical aspects that affect viewing experience.
+Checks video resolution, sharpness, and aspect ratio quality.
 
 ## Configuration
 
 <ParamField body="config.expected_aspect_ratios" type="array">
-  Expected aspect ratios for the content (e.g., ["16:9", "9:16"])
+  Acceptable aspect ratios (for example: "9:16", "16:9").
 </ParamField>
 
 <ParamField body="config.check_aspect_ratio" type="boolean">
-  Whether to validate aspect ratio consistency throughout the video
+  If true, enforce aspect ratio checks.
 </ParamField>
 
 <ParamField body="config.min_width" type="integer">
-  Minimum acceptable video width in pixels
+  Minimum width in pixels.
 </ParamField>
 
 <ParamField body="config.min_height" type="integer">
-  Minimum acceptable video height in pixels
+  Minimum height in pixels.
 </ParamField>
 
 ## Example Configuration
@@ -31,10 +31,10 @@ The `video_quality` detector provides comprehensive analysis of video technical 
 {
   "detector_name": "video_quality",
   "config": {
-    "expected_aspect_ratios": ["16:9", "9:16"],
+    "expected_aspect_ratios": ["9:16"],
     "check_aspect_ratio": true,
-    "min_width": 1280,
-    "min_height": 720
+    "min_width": 720,
+    "min_height": 1280
   }
 }
 ```
@@ -45,89 +45,58 @@ The `video_quality` detector provides comprehensive analysis of video technical 
 {
   "detector_name": "video_quality",
   "pass_check": true,
-  "score": 0.85,
-  "rationale": "High video quality with minor compression artifacts in some segments",
+  "score": 0.86,
+  "rationale": "Video quality is acceptable",
   "metrics": {
-    "technical_quality": {
-      "resolution": {
-        "width": 1920,
-        "height": 1080,
-        "aspect_ratio": "16:9",
-        "aspect_ratio_consistent": true,
-        "meets_minimum": true
-      },
-      "compression_analysis": {
-        "compression_level": "moderate",
-        "bitrate_estimation": "high",
-        "artifact_severity": "low",
-        "encoding_quality": "very_good"
-      },
-      "visual_metrics": {
-        "sharpness": 0.88,
-        "contrast": 0.82,
-        "color_accuracy": 0.9,
-        "noise_level": 0.15,
-        "clarity_score": 0.85
-      }
+    "resolution": {
+      "width": 1080,
+      "height": 1920,
+      "total_pixels": 2073600,
+      "aspect_ratio": "9:16"
     },
-    "quality_issues": [
-      {
-        "issue_type": "compression_artifacts",
-        "start_time": 25.3,
-        "end_time": 28.7,
-        "severity": "mild",
-        "description": "Minor blocking in fast motion segment",
-        "frame_range": [759, 861]
-      },
-      {
-        "issue_type": "noise_spikes",
-        "start_time": 45.1,
-        "end_time": 46.2,
-        "severity": "low",
-        "description": "Brief digital noise in transition",
-        "frame_range": [1353, 1386]
-      }
-    ],
-    "encoding_assessment": {
-      "codec_efficiency": "good",
-      "bitrate_consistency": 0.9,
-      "keyframe_distribution": "appropriate",
-      "motion_handling": "very_good",
-      "detail_preservation": 0.87
+    "sharpness": {
+      "total_frames_analyzed": 60,
+      "blurry_frames_count": 2,
+      "blurry_frames_pct": 3.3,
+      "avg_sharpness": 34.2,
+      "min_sharpness": 20.1,
+      "max_sharpness": 48.7,
+      "threshold": 18.0,
+      "blurry_frames": [
+        {"timestamp_sec": 4.2, "sharpness_score": 12.4}
+      ]
     },
-    "frame_analysis": {
-      "total_frames": 1800,
-      "problematic_frames": 42,
-      "quality_consistency": 0.88,
-      "temporal_artifacts": "minimal",
-      "interlacing_issues": false
-    }
+    "aspect_ratio": {
+      "actual": "9:16",
+      "matches_expected": true,
+      "closest_match": "9:16",
+      "deviation": 0.0
+    },
+    "checks": {
+      "resolution_width": {"pass": true, "actual": 1080, "threshold": 720},
+      "resolution_height": {"pass": true, "actual": 1920, "threshold": 1280},
+      "resolution_total_pixels": {"pass": true, "actual": 2073600, "threshold": 921600},
+      "sharpness": {"pass": true, "blurry_frames_pct": 3.3, "max_blurry_frames_pct": 30.0},
+      "aspect_ratio": {"pass": true, "actual": "9:16", "expected": ["9:16"]}
+    },
+    "issues_count": 0,
+    "flags": [
+      {
+        "timestamp_sec": 4.2,
+        "decision": "blurry_or_pixelated",
+        "rationale": "Sharpness score: 12.4 (min: 18.0)"
+      }
+    ]
   },
-  "timestamps": [25.3, 45.1],
-  "flagged_frames": [
-    {
-      "frame_index": 759,
-      "issue": "compression_artifacts",
-      "severity": "mild"
-    },
-    {
-      "frame_index": 1353,
-      "issue": "noise_spike",
-      "severity": "low"
-    }
-  ],
-  "execution_time_sec": 12.5,
-  "api_cost_usd": 0.45
+  "timestamps": [4.2],
+  "flagged_frames": [],
+  "execution_time_sec": null,
+  "api_cost_usd": null
 }
 ```
 
 ## Interpreting Results
 
-The video_quality detector analyzes technical video quality and returns:
-
-- **Technical Quality** - Comprehensive analysis including resolution, compression, and visual metrics
-- **Compression Analysis** - Assessment of encoding quality, bitrate estimation, and artifact detection
-- **Visual Metrics** - Scores for sharpness, contrast, color accuracy, and noise levels (0.0 to 1.0)
-- **Quality Issues** - Array of specific problems detected with timestamps, severity, and descriptions
-- **Encoding Assessment** - Evaluation of codec efficiency, bitrate consistency, and detail preservation
-- **Frame Analysis** - Statistics on problematic frames and overall quality consistency
+- **sharpness/blurry_frames_pct**: Primary signal for blur-related issues.
+- **aspect_ratio.matches_expected**: Whether the aspect ratio meets the configured expectation.
+- **checks**: Per-check pass/fail summary.
