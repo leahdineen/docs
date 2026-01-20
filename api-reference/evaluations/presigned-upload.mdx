@@ -90,7 +90,7 @@ curl -X POST "https://api.getpique.ai/v1/evaluations/presigned-upload" \
 <ResponseField name="upload_url" type="string">
   Pre-signed GCS upload URL. Use this URL with a PUT request to upload your content.
   
-  **Important:** This URL expires after the time specified in `expires_at`
+  **Important:** This URL expires after the time specified in `expires_at` (15 minutes from creation)
 </ResponseField>
 
 <ResponseField name="upload_headers" type="object">
@@ -102,7 +102,7 @@ curl -X POST "https://api.getpique.ai/v1/evaluations/presigned-upload" \
 </ResponseField>
 
 <ResponseField name="expires_at" type="string">
-  ISO 8601 timestamp indicating when the upload URL expires (typically 5 minutes from creation)
+  ISO 8601 timestamp indicating when the upload URL expires (15 minutes from creation)
 </ResponseField>
 
 ## Response Example
