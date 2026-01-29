@@ -12,6 +12,10 @@ description: 'Submit social media video URLs for evaluation'
 
 This endpoint allows you to submit social media video URLs for evaluation. The system will automatically download the videos and process them through your specified judge.
 
+<Warning>
+**Pilot Testing Only**: This API is intended for pilot testing and is not recommended for production use. Social media video scraping is fragile and may fail due to platform changes, bot detection, or rate limiting. For production applications, use the [direct upload API](/api-reference/evaluations/presigned-upload) instead.
+</Warning>
+
 ## Request Body
 
 <ParamField body="judge_id" type="string" required>
