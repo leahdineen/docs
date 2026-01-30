@@ -1,0 +1,52 @@
+---
+title: 'framing'
+description: 'Checks whether framing meets composition expectations'
+---
+
+## Overview
+
+Checks shot composition and framing for common issues.
+
+## Configuration
+
+This detector does not accept configuration keys.
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "framing",
+  "config": {}
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "framing",
+  "pass_check": true,
+  "score": 0.83,
+  "rationale": "Minor framing issues in 1 frame",
+  "metrics": {
+    "flags": [
+      {
+        "timestamp_sec": 1.2,
+        "decisions": ["off_center"],
+        "rationale": "Subject off-center"
+      }
+    ],
+    "num_flagged_frames": 1,
+    "issue_counts": {
+      "off_center": 1
+    },
+  },
+  "timestamps": [1.2]
+}
+```
+
+## Interpreting Results
+
+- **flags**: Frame-level framing issues with decisions and rationale.
+- **num_flagged_frames/fail_threshold**: Determines pass/fail.
+- **issue_counts**: Aggregated issue types across analyzed frames.

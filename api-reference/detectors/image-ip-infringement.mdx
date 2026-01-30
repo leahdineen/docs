@@ -1,0 +1,48 @@
+---
+title: 'image_ip_infringement'
+description: 'Flags potential IP concerns in images'
+---
+
+## Overview
+
+Flags potential IP-related elements found in an image.
+
+## Configuration
+
+<ParamField body="config.allowed_terms" type="array">
+  List of terms that are allowed even if detected.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "image_ip_infringement",
+  "config": {
+    "allowed_terms": ["acme", "acme logo"]
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "image_ip_infringement",
+  "pass_check": false,
+  "score": 0.0,
+  "rationale": "Found 2 potential IP matches",
+  "metrics": {
+    "hits": [
+      {
+        "term": "Brand X",
+        "category": "logo",
+        "confidence": 0.78,
+        "location": "top-right",
+        "notes": "Logo on packaging"
+      }
+    ],
+    "analysis": "Detected recognizable branding elements."
+  }
+}
+```

@@ -1,0 +1,55 @@
+---
+title: 'subtitles'
+description: 'Checks for subtitle presence'
+---
+
+## Overview
+
+Detects subtitles and can enforce a minimum presence requirement.
+
+## Configuration
+
+<ParamField body="config.require_subtitles" type="boolean">
+  If true, the detector fails when subtitles are missing or insufficient.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "subtitles",
+  "config": {
+    "require_subtitles": true
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "subtitles",
+  "pass_check": true,
+  "score": 1.0,
+  "rationale": "Detected subtitles in 6 frames (Total items: 6)",
+  "metrics": {
+    "subtitles": [
+      {
+        "timestamp_sec": 1.6,
+        "category": "subtitle",
+        "description": "Hello world",
+      }
+    ],
+    "num_subtitles": 6,
+    "require_subtitles": true,
+    "min_subtitle_frames": 3,
+  },
+  "timestamps": [1.6],
+}
+```
+
+## Interpreting Results
+
+- **num_subtitles/frames_with_subtitles**: Quantity of detected subtitle evidence.
+- **require_subtitles/min_subtitle_frames**: Requirement rules for pass/fail.
+- **subtitles**: Frame-level detections with locations when available.

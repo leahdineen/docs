@@ -1,0 +1,56 @@
+---
+title: 'audio_noise'
+description: 'Evaluates background noise and speech clarity'
+---
+
+## Overview
+
+Evaluates speech clarity and background noise levels in the audio.
+
+## Configuration
+
+This detector does not accept configuration keys.
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "audio_noise",
+  "config": {}
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "audio_noise",
+  "pass_check": true,
+  "score": 0.86,
+  "rationale": "Good SNR: 18.4 dB. Low music overlap: 6.0%",
+  "metrics": {
+    "snr": {
+      "snr_db": 18.4,
+      "speech_rms": 0.12,
+      "noise_rms": 0.03,
+      "usable_noise_duration_sec": 8.2,
+      "min_snr_db_threshold": 12.0,
+      "pass": true
+    },
+    "music": {
+      "overlap_pct": 0.06,
+      "max_overlap_threshold": 0.3,
+      "music_score_threshold": 0.4,
+      "pass": true
+    },
+    "speech_segments_count": 14,
+    "total_speech_duration_sec": 22.5
+  }
+}
+```
+
+## Interpreting Results
+
+- **snr.pass/music.pass**: Individual checks that determine the overall pass/fail result.
+- **snr_db/overlap_pct**: Primary quality signals for speech clarity and music overlap.
+- **speech_segments_count/total_speech_duration_sec**: How much speech was detected.

@@ -1,0 +1,48 @@
+---
+title: 'video_matching_description'
+description: 'Checks whether video content matches a description'
+---
+
+## Overview
+
+Checks whether the video content aligns with a provided description.
+
+## Configuration
+
+<ParamField body="config.content_description" type="string" required>
+  Description of the expected content.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "video_matching_description",
+  "config": {
+    "content_description": "Person demonstrating a blender on a kitchen counter"
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "video_matching_description",
+  "pass_check": true,
+  "score": 0.86,
+  "rationale": "Frames match description.",
+  "metrics": {
+    "reasoning": "Shows a person using a blender in a kitchen.",
+    "contains_explicit_or_unsafe": false,
+    "blank_frames_detected": 0
+  },
+  "timestamps": [0.8, 2.4, 3.6],
+  "flagged_frames": []
+}
+```
+
+## Interpreting Results
+
+- **matching_frame_indexes**: Frames that support the match.
+- **contains_explicit_or_unsafe**: Indicates unsafe content detection.

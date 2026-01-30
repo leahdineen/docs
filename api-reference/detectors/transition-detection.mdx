@@ -1,0 +1,49 @@
+---
+title: 'transition_detection'
+description: 'Counts scene transitions'
+---
+
+## Overview
+
+Counts scene transitions and compares them to an optional limit.
+
+## Configuration
+
+<ParamField body="config.max_transitions" type="integer">
+  Maximum number of transitions allowed.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "transition_detection",
+  "config": {
+    "max_transitions": 5
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "transition_detection",
+  "pass_check": true,
+  "score": 1.0,
+  "rationale": "Detected 3 transitions (within limit of 5)",
+  "metrics": {
+    "transition_count": 3,
+    "transition_timestamps": [1.2, 3.4, 7.8],
+    "transition_frames": [15, 42, 98],
+    "max_transitions": 5
+  },
+  "timestamps": [1.2, 3.4, 7.8]
+}
+```
+
+## Interpreting Results
+
+- **transition_count**: Total detected transitions.
+- **transition_timestamps/transition_frames**: Locations of detected transitions.
+- **max_transitions**: If set, determines pass/fail.

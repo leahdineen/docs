@@ -1,0 +1,122 @@
+---
+title: 'title_and_description'
+description: 'Checks title and description for required elements'
+---
+
+## Overview
+
+Checks title and description for required hashtags, social tags, text, and optional topic relevance.
+
+**Requires at least one configuration parameter** - Provide any of the configuration keys below.
+
+## Configuration
+
+<ParamField body="config.suggested_hashtags" type="array">
+  Suggested hashtags (used for scoring only).
+</ParamField>
+
+<ParamField body="config.required_hashtags" type="array">
+  Hashtags that must be present.
+</ParamField>
+
+<ParamField body="config.required_social_tags" type="array">
+  Social tags (for example, @brand) that must be present.
+</ParamField>
+
+<ParamField body="config.required_social_tags_mode" type="string">
+  Requirement mode: "all" or "at_least_one".
+</ParamField>
+
+<ParamField body="config.required_text" type="array">
+  Text strings that must be present (case-insensitive).
+</ParamField>
+
+<ParamField body="config.required_text_mode" type="string">
+  Requirement mode: "all" or "at_least_one".
+</ParamField>
+
+<ParamField body="config.topic_keywords" type="array">
+  Topic keywords used when topic analysis is enabled.
+</ParamField>
+
+<ParamField body="config.enable_topic_analysis" type="boolean">
+  Whether to evaluate topic relevance.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "title_and_description",
+  "config": {
+    "suggested_hashtags": ["#acme"],
+    "required_hashtags": ["#ad"],
+    "required_social_tags": ["@acme"],
+    "required_social_tags_mode": "all",
+    "required_text": ["sponsored"],
+    "required_text_mode": "at_least_one",
+    "topic_keywords": ["vacuum", "cleaning"],
+    "enable_topic_analysis": true
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "title_and_description",
+  "pass_check": true,
+  "score": 0.78,
+  "rationale": "All required elements present. Relevant to topic.",
+  "metrics": {
+    "title": "Acme Vacuum Review",
+    "description": "#ad Sponsored by @acme. Great cleaning power.",
+    "relevance_score": 0.82,
+    "is_relevant": true,
+    "evidence": "Mentions cleaning and vacuum performance.",
+    "missing_elements": [],
+    "suggested_hashtag_analysis": {
+      "found_hashtags": ["#ad", "#acme"],
+      "used_suggested_hashtags": ["#acme"],
+      "unused_suggested_hashtags": [],
+      "suggested_count": 1,
+      "total_suggested": 1
+    },
+    "required_hashtag_analysis": {
+      "found_hashtags": ["#ad"],
+      "missing_hashtags": [],
+      "all_present": true
+    },
+    "required_social_tag_analysis": {
+      "found_tags": ["@acme"],
+      "missing_tags": [],
+      "all_present": true,
+      "requirement_met": true,
+      "mode": "all"
+    },
+    "required_text_analysis": {
+      "found_text": ["sponsored"],
+      "missing_text": [],
+      "all_present": true,
+      "requirement_met": true,
+      "mode": "at_least_one"
+    },
+    "suggested_hashtags": ["#acme"],
+    "required_hashtags": ["#ad"],
+    "required_hashtags_normalized": ["#ad"],
+    "required_social_tags": ["@acme"],
+    "required_social_tags_normalized": ["@acme"],
+    "required_social_tags_mode": "all",
+    "required_text": ["sponsored"],
+    "required_text_mode": "at_least_one",
+    "topic_keywords": ["vacuum", "cleaning"],
+    "min_topic_score": 0.7,
+  }
+}
+```
+
+## Interpreting Results
+
+- **required_*_analysis**: Whether each required element was found and any missing items.
+- **suggested_hashtag_analysis**: Suggested hashtags influence score, not pass/fail.

@@ -1,0 +1,66 @@
+---
+title: 'overlays'
+description: 'Checks for required or disallowed overlays'
+---
+
+## Overview
+
+Detects disallowed overlays and verifies required overlays are present.
+
+## Configuration
+
+<ParamField body="config.disallowed_overlays" type="array">
+  List of overlay categories to disallow.
+</ParamField>
+
+<ParamField body="config.required_overlays" type="array">
+  List of overlay descriptions that must appear.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "overlays",
+  "config": {
+    "disallowed_overlays": ["watermark", "sticker"],
+    "required_overlays": ["#ad disclosure"]
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "overlays",
+  "pass_check": false,
+  "score": 0.0,
+  "rationale": "Missing required overlay(s): #ad disclosure | Found at: 2.40s - watermark",
+  "metrics": {
+    "disallowed_overlays": [
+      {
+        "frame_index": 6,
+        "timestamp_sec": 2.4,
+        "category": "watermark",
+        "description": "Logo in corner"
+      }
+    ],
+    "required_overlays": {
+      "#ad disclosure": {
+        "found": false,
+        "frame_index": null,
+        "timestamp_sec": null
+      }
+    },
+    "failure_reasons": ["Missing required overlay(s): #ad disclosure"]
+  },
+  "timestamps": [2.4]
+}
+```
+
+## Interpreting Results
+
+- **disallowed_overlays**: Any detected overlays that violate the disallowed list.
+- **required_overlays**: Per-required item status and evidence.
+- **pass_check**: Fails if any disallowed overlay is found or required overlays are missing.

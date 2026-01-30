@@ -1,0 +1,98 @@
+---
+title: 'video_specs'
+description: 'Validates video dimensions and duration'
+---
+
+## Overview
+
+Validates video dimensions, duration, aspect ratio, and frame rate against requirements.
+
+## Configuration
+
+<ParamField body="config.min_width" type="integer">
+  Minimum width in pixels.
+</ParamField>
+
+<ParamField body="config.max_width" type="integer">
+  Maximum width in pixels.
+</ParamField>
+
+<ParamField body="config.min_height" type="integer">
+  Minimum height in pixels.
+</ParamField>
+
+<ParamField body="config.max_height" type="integer">
+  Maximum height in pixels.
+</ParamField>
+
+<ParamField body="config.allowed_aspect_ratios" type="array">
+  Allowed aspect ratios (for example: "9:16", "16:9").
+</ParamField>
+
+<ParamField body="config.min_duration_sec" type="number">
+  Minimum duration in seconds.
+</ParamField>
+
+<ParamField body="config.max_duration_sec" type="number">
+  Maximum duration in seconds.
+</ParamField>
+
+<ParamField body="config.min_fps" type="number">
+  Minimum frame rate.
+</ParamField>
+
+<ParamField body="config.max_fps" type="number">
+  Maximum frame rate.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "video_specs",
+  "config": {
+    "min_width": 720,
+    "min_height": 1280,
+    "allowed_aspect_ratios": ["9:16"],
+    "min_duration_sec": 5,
+    "max_duration_sec": 60,
+    "min_fps": 24,
+    "max_fps": 60
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "video_specs",
+  "pass_check": true,
+  "score": 1.0,
+  "rationale": "Video specs meet requirements: 1080x1920 (9:16), 30.0fps, 15.0s",
+  "metrics": {
+    "video_specs": {
+      "width": 1080,
+      "height": 1920,
+      "aspect_ratio": "9:16",
+      "fps": 30.0,
+      "duration_sec": 15.0,
+      "audio_sample_rate": 44100
+    },
+    "checks": {
+      "width_min": {"pass": true, "actual": 1080, "threshold": 720},
+      "height_min": {"pass": true, "actual": 1920, "threshold": 1280},
+      "aspect_ratio": {"pass": true, "actual": "9:16", "allowed": ["9:16"]},
+      "duration_min": {"pass": true, "actual": 15.0, "threshold": 5}
+    },
+    "issues_count": 0,
+    "total_checks": 4
+  }
+}
+```
+
+## Interpreting Results
+
+- **checks**: Per-rule validation results for size, duration, and fps.
+- **issues_count**: Number of failed checks.
+- **video_specs**: Observed specs used for validation.

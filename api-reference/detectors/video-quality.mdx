@@ -1,0 +1,99 @@
+---
+title: 'video_quality'
+description: 'Evaluates overall video quality'
+---
+
+## Overview
+
+Checks video resolution, sharpness, and aspect ratio quality.
+
+## Configuration
+
+<ParamField body="config.expected_aspect_ratios" type="array">
+  Acceptable aspect ratios (for example: "9:16", "16:9").
+</ParamField>
+
+<ParamField body="config.check_aspect_ratio" type="boolean">
+  If true, enforce aspect ratio checks.
+</ParamField>
+
+<ParamField body="config.min_width" type="integer">
+  Minimum width in pixels.
+</ParamField>
+
+<ParamField body="config.min_height" type="integer">
+  Minimum height in pixels.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "video_quality",
+  "config": {
+    "expected_aspect_ratios": ["9:16"],
+    "check_aspect_ratio": true,
+    "min_width": 720,
+    "min_height": 1280
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "video_quality",
+  "pass_check": true,
+  "score": 0.86,
+  "rationale": "Video quality is acceptable",
+  "metrics": {
+    "resolution": {
+      "width": 1080,
+      "height": 1920,
+      "total_pixels": 2073600,
+      "aspect_ratio": "9:16"
+    },
+    "sharpness": {
+      "total_frames_analyzed": 60,
+      "blurry_frames_count": 2,
+      "blurry_frames_pct": 3.3,
+      "avg_sharpness": 34.2,
+      "min_sharpness": 20.1,
+      "max_sharpness": 48.7,
+      "threshold": 18.0,
+      "blurry_frames": [
+        {"timestamp_sec": 4.2, "sharpness_score": 12.4}
+      ]
+    },
+    "aspect_ratio": {
+      "actual": "9:16",
+      "matches_expected": true,
+      "closest_match": "9:16",
+      "deviation": 0.0
+    },
+    "checks": {
+      "resolution_width": {"pass": true, "actual": 1080, "threshold": 720},
+      "resolution_height": {"pass": true, "actual": 1920, "threshold": 1280},
+      "resolution_total_pixels": {"pass": true, "actual": 2073600, "threshold": 921600},
+      "sharpness": {"pass": true, "blurry_frames_pct": 3.3, "max_blurry_frames_pct": 30.0},
+      "aspect_ratio": {"pass": true, "actual": "9:16", "expected": ["9:16"]}
+    },
+    "issues_count": 0,
+    "flags": [
+      {
+        "timestamp_sec": 4.2,
+        "decision": "blurry_or_pixelated",
+        "rationale": "Sharpness score: 12.4 (min: 18.0)"
+      }
+    ]
+  },
+  "timestamps": [4.2]
+}
+```
+
+## Interpreting Results
+
+- **sharpness/blurry_frames_pct**: Primary signal for blur-related issues.
+- **aspect_ratio.matches_expected**: Whether the aspect ratio meets the configured expectation.
+- **checks**: Per-check pass/fail summary.

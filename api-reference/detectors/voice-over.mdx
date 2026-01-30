@@ -1,0 +1,59 @@
+---
+title: 'voice_over'
+description: 'Detects voice-over narration'
+---
+
+## Overview
+
+Detects whether speech is voice-over or on-camera.
+
+## Configuration
+
+<ParamField body="config.fail_if_voice_over" type="boolean">
+  If true, the detector fails when voice-over is detected.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "voice_over",
+  "config": {
+    "fail_if_voice_over": true
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "voice_over",
+  "pass_check": false,
+  "score": 0.22,
+  "rationale": "Voice-over detected: only 12.0% of speech has face visible (min: 50.0%)",
+  "metrics": {
+    "is_voice_over": true,
+    "is_silent": false,
+    "speech_duration_sec": 18.4,
+    "on_camera_speech_duration_sec": 2.2,
+    "on_camera_speech_ratio": 0.12,
+    "face_presence_ratio": 0.2,
+    "mouth_motion_ratio": 0.3,
+    "total_frames": 60,
+    "frames_with_face": 12,
+    "speech_frames": 22,
+    "requirements": {
+      "min_on_cam_ratio": 0.5,
+      "min_face_presence_ratio": 0.5,
+      "mouth_motion_threshold": 1.5
+    }
+  }
+}
+```
+
+## Interpreting Results
+
+- **is_voice_over**: Primary classification for pass/fail.
+- **on_camera_speech_ratio/face_presence_ratio**: Evidence for on-camera speech.
+- **requirements**: Thresholds used when `fail_if_voice_over` is true.

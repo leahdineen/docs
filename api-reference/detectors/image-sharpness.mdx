@@ -1,0 +1,47 @@
+---
+title: 'image_sharpness'
+description: 'Evaluates image sharpness'
+---
+
+## Overview
+
+Evaluates whether a still image is sufficiently sharp.
+
+## Configuration
+
+This detector does not accept configuration keys.
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "image_sharpness",
+  "config": {}
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "image_sharpness",
+  "pass_check": true,
+  "score": 0.78,
+  "rationale": "Image appears sharp enough for large-format printing",
+  "metrics": {
+    "base_score": 31.2,
+    "downscaled_score": 28.7,
+    "crop_score": 27.4,
+    "min_sharpness_score": 20.0,
+    "min_downscaled_sharpness": 18.0,
+    "upscaled_score": 24.5,
+    "min_upscaled_sharpness": 22.0
+  }
+}
+```
+
+## Interpreting Results
+
+- **base_score/downscaled_score/crop_score**: Core sharpness measurements used for pass/fail.
+- **min_* thresholds**: The minimum scores required to pass.
+- **upscaled_score**: Included only when upscaling checks are enabled.

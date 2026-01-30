@@ -1,0 +1,59 @@
+---
+title: 'sentiment'
+description: 'Checks sentiment and prohibited content in transcripts'
+---
+
+## Overview
+
+Evaluates sentiment and prohibited content in the transcript.
+
+**Requires at least one configuration parameter** - Provide `desired_sentiment`, `undesired_sentiment`, or `prohibited_content_types`.
+
+## Configuration
+
+<ParamField body="config.desired_sentiment" type="string">
+  Desired sentiment or tone to detect.
+</ParamField>
+
+<ParamField body="config.undesired_sentiment" type="string">
+  Undesired sentiment or tone to avoid.
+</ParamField>
+
+<ParamField body="config.prohibited_content_types" type="array">
+  List of prohibited content types to detect.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "sentiment",
+  "config": {
+    "desired_sentiment": "optimistic and upbeat",
+    "undesired_sentiment": "hostile",
+    "prohibited_content_types": ["explicit_content", "hate_speech"]
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "sentiment",
+  "pass_check": true,
+  "score": 0.67,
+  "rationale": "Sentiment criteria met",
+  "metrics": {
+    "desired_sentiment": "optimistic and upbeat",
+    "undesired_sentiment": "hostile",
+    "prohibited_content_types": ["explicit_content", "hate_speech"],
+    "desired_count": 2,
+    "undesired_count": 0,
+    "prohibited_count": 0,
+    "desired_matches": [{"text": "great day", "explanation": "positive phrasing"}],
+    "undesired_matches": [],
+    "prohibited_content_matches": [],
+  }
+}
+```

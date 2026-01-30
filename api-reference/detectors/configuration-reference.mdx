@@ -1,105 +1,9 @@
 ---
 title: 'Detector Configuration Reference'
-description: 'Detailed configuration options for each detector'
+description: 'Browse all available detectors and their configurations'
 ---
 
-## Video Quality Detectors
-
-### video_specs
-
-Validates video technical specifications.
-
-<ParamField body="config.min_width" type="integer">
-  Minimum video width in pixels
-</ParamField>
-
-<ParamField body="config.max_width" type="integer">
-  Maximum video width in pixels
-</ParamField>
-
-<ParamField body="config.min_height" type="integer">
-  Minimum video height in pixels
-</ParamField>
-
-<ParamField body="config.max_height" type="integer">
-  Maximum video height in pixels
-</ParamField>
-
-<ParamField body="config.allowed_aspect_ratios" type="array">
-  List of allowed aspect ratios (e.g., ["16:9", "9:16", "1:1"])
-</ParamField>
-
-<ParamField body="config.min_duration_sec" type="number">
-  Minimum video duration in seconds
-</ParamField>
-
-<ParamField body="config.max_duration_sec" type="number">
-  Maximum video duration in seconds
-</ParamField>
-
-<ParamField body="config.min_fps" type="number">
-  Minimum frames per second
-</ParamField>
-
-<ParamField body="config.max_fps" type="number">
-  Maximum frames per second
-</ParamField>
-
-**Example:**
-```json
-{
-  "detector_name": "video_specs",
-  "config": {
-    "min_width": 1920,
-    "min_height": 1080,
-    "min_duration_sec": 15,
-    "max_duration_sec": 60,
-    "min_fps": 24
-  }
-}
-```
-
-### video_quality
-
-Checks video quality metrics.
-
-<ParamField body="config.expected_aspect_ratios" type="array">
-  Expected aspect ratios
-</ParamField>
-
-<ParamField body="config.check_aspect_ratio" type="boolean">
-  Whether to check aspect ratio consistency
-</ParamField>
-
-<ParamField body="config.min_width" type="integer">
-  Minimum width in pixels
-</ParamField>
-
-<ParamField body="config.min_height" type="integer">
-  Minimum height in pixels
-</ParamField>
-
-## Image Detectors
-
-### image_specs
-
-Validates image specifications.
-
-<ParamField body="config.allowed_aspect_ratios" type="array">
-  List of allowed aspect ratios
-</ParamField>
-
-<ParamField body="config.min_width" type="integer">
-  Minimum image width in pixels
-</ParamField>
-
-<ParamField body="config.min_height" type="integer">
-  Minimum image height in pixels
-</ParamField>
-
-<ParamField body="config.min_megapixels" type="number">
-  Minimum image size in megapixels
-</ParamField>
+Each detector analyzes specific aspects of content and can be configured with custom parameters. Click on any detector below for detailed configuration options and result schemas.
 
 ## Content Matching Detectors
 
@@ -284,37 +188,40 @@ Checks for potential IP violations.
 
 ## Audio Analysis Detectors
 
-### pronunciation
+| Detector | Description |
+|----------|-------------|
+| [audio_noise](/api-reference/detectors/audio-noise) | Evaluates background noise and speech clarity |
+| [pronunciation](/api-reference/detectors/pronunciation) | Evaluates brand and product pronunciation |
+| [voice_over](/api-reference/detectors/voice-over) | Detects voice-over narration |
 
-Checks brand/product name pronunciation.
+## Content Analysis Detectors
 
-<ParamField body="config.brand_name" type="string">
-  Brand name to check
-</ParamField>
+| Detector | Description |
+|----------|-------------|
+| [background](/api-reference/detectors/background) | Assesses background conditions in the video |
+| [content_quality](/api-reference/detectors/content-quality) | Assesses overall content quality and value |
+| [language](/api-reference/detectors/language) | Checks detected language against an allowed list |
+| [sentiment](/api-reference/detectors/sentiment) | Checks sentiment and prohibited content in transcripts |
+| [title_and_description](/api-reference/detectors/title-and-description) | Checks title and description for required elements |
+| [transcript_policy](/api-reference/detectors/transcript-policy) | Checks transcripts for required and prohibited language |
+| [transcript_product](/api-reference/detectors/transcript-product) | Counts brand and product mentions in transcripts |
 
-<ParamField body="config.product_name" type="string">
-  Product name to check
-</ParamField>
+## Video Quality Detectors
 
-<ParamField body="config.brand_cue" type="string">
-  Phonetic cue for brand name
-</ParamField>
+| Detector | Description |
+|----------|-------------|
+| [framing](/api-reference/detectors/framing) | Checks whether framing meets composition expectations |
+| [lighting](/api-reference/detectors/lighting) | Evaluates lighting balance across video frames |
+| [transition_detection](/api-reference/detectors/transition-detection) | Counts scene transitions |
+| [video_quality](/api-reference/detectors/video-quality) | Evaluates overall video quality |
+| [video_specs](/api-reference/detectors/video-specs) | Validates video dimensions and duration |
 
-<ParamField body="config.product_cue" type="string">
-  Phonetic cue for product name
-</ParamField>
+## Image Quality Detectors
 
-<ParamField body="config.brand_audio_url" type="string">
-  GCS URI of reference audio for brand name
-  
-  **Allowed extensions:** mp3, wav, aac, flac, m4a
-</ParamField>
-
-<ParamField body="config.product_audio_url" type="string">
-  GCS URI of reference audio for product name
-  
-  **Allowed extensions:** mp3, wav, aac, flac, m4a
-</ParamField>
+| Detector | Description |
+|----------|-------------|
+| [image_sharpness](/api-reference/detectors/image-sharpness) | Evaluates image sharpness |
+| [image_specs](/api-reference/detectors/image-specs) | Validates image dimensions and aspect ratio |
 
 ### voice_over
 

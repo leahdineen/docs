@@ -1,0 +1,69 @@
+---
+title: 'video_matching'
+description: 'Checks whether video matches reference videos'
+---
+
+## Overview
+
+Checks whether the video matches any of the provided reference videos.
+
+## Configuration
+
+<ParamField body="config.reference_videos" type="array" required>
+  List of GCS URIs for reference videos.
+
+  **Allowed extensions:** mp4, mov, avi, mkv, webm
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "video_matching",
+  "config": {
+    "reference_videos": [
+      "gs://judge-artifacts/org_123/reference_uploads/abc/clip1.mp4",
+      "gs://judge-artifacts/org_123/reference_uploads/abc/clip2.mp4"
+    ]
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "video_matching",
+  "pass_check": true,
+  "score": 0.91,
+  "rationale": "Reference match detected (score 0.91).",
+  "metrics": {
+    "detected_pattern": "source_video",
+    "blank_frames_detected": 0,
+    "blank_frame_details": [],
+    "blank_frame_failure": false,
+    "max_consecutive_blank_frames": 0,
+    "config": {
+      "max_consecutive_blank_frames_allowed": 3
+    },
+    "reference_dir": "gs://judge-artifacts/.../reference/video_matching",
+    "methods": {
+      "vision_embed": {"score": 0.91, "threshold": 0.8}
+    },
+    "sources": {
+      "reference_0": {"score": 0.91, "methods": {"vision_embed": {"score": 0.91}}}
+    },
+    "combined_methods": {"score": 0.91},
+    "verdict": {"pass": true, "mode": "combined"},
+    "thresholds": {"vision_embed": 0.8}
+  },
+  "timestamps": [0.5, 1.0, 1.5],
+  "flagged_frames": []
+}
+```
+
+## Interpreting Results
+
+- **pass_check/score**: Overall match decision and aggregate score.
+- **methods/sources/combined_methods**: Per-method and per-reference scoring details.
+- **blank_frame_failure**: If true, the result fails due to excessive blank frames.

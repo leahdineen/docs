@@ -1,0 +1,48 @@
+---
+title: 'language'
+description: 'Checks detected language against an allowed list'
+---
+
+## Overview
+
+Detects the primary language and validates it against an allowed list.
+
+## Configuration
+
+<ParamField body="config.accepted_languages" type="array" required>
+  List of accepted language codes (for example: "en", "es").
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "language",
+  "config": {
+    "accepted_languages": ["en", "es"]
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "language",
+  "pass_check": true,
+  "score": 0.94,
+  "rationale": "Detected language 'en' (confidence: 94.0%) is in accepted languages: ['en', 'es']",
+  "metrics": {
+    "detected_language": "en",
+    "confidence": 0.94,
+    "accepted_languages": ["en", "es"],
+    "is_accepted_language": true,
+    "transcript_length": 824,
+    "transcript_word_count": 142
+  }
+}
+```
+
+## Interpreting Results
+
+- **detected_language/confidence**: Primary language and confidence score.

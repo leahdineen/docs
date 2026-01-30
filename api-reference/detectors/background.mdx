@@ -1,0 +1,50 @@
+---
+title: 'background'
+description: 'Assesses background conditions in the video'
+---
+
+## Overview
+
+Assesses whether the background meets expectations such as tidiness and setting.
+
+## Configuration
+
+This detector does not accept configuration keys.
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "background",
+  "config": {}
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "background",
+  "pass_check": false,
+  "score": 0.0,
+  "rationale": "Background issues: Background is not tidy. Cluttered room with visible piles.",
+  "metrics": {
+    "is_car": false,
+    "is_tidy": false,
+    "reasons": "Cluttered room with visible piles",
+    "evidence_frame_indices": [2, 5],
+    "frames_analyzed": 8,
+    "requirements": {
+      "require_tidy": true,
+      "fail_if_car": false
+    }
+  },
+  "timestamps": [1.2, 3.6]
+}
+```
+
+## Interpreting Results
+
+- **is_tidy/is_car**: Primary classification signals; these drive pass/fail based on requirements.
+- **evidence_frame_indices**: Frames supporting the assessment.
+- **requirements**: The thresholds applied for this run.

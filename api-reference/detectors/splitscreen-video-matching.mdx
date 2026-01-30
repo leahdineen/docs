@@ -1,0 +1,82 @@
+---
+title: 'splitscreen_video_matching'
+description: 'Checks split-screen videos against references or descriptions'
+---
+
+## Overview
+
+Checks split-screen videos by matching the top and bottom regions against references and/or descriptions.
+Each region must have at least one of references or description provided. If both are provided, references will be evaluated first, falling back to the description in case of failure or error. 
+
+**Requires reference content** - Provide at least one of `top_content_references` or `bottom_content_references`.
+
+## Configuration
+
+<ParamField body="config.top_content_references" type="array">
+  List of GCS URIs for top-region reference videos.
+
+  **Allowed extensions:** mp4, mov, avi, mkv, webm
+</ParamField>
+
+<ParamField body="config.top_content_description" type="string">
+  Description of expected top-region content.
+</ParamField>
+
+<ParamField body="config.bottom_content_references" type="array">
+  List of GCS URIs for bottom-region reference videos.
+
+  **Allowed extensions:** mp4, mov, avi, mkv, webm
+</ParamField>
+
+<ParamField body="config.bottom_content_description" type="string">
+  Description of expected bottom-region content.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "splitscreen_video_matching",
+  "config": {
+    "top_content_references": ["gs://judge-artifacts/org_123/reference_uploads/top.mp4"],
+    "top_content_description": "Person speaking to camera",
+    "bottom_content_references": ["gs://judge-artifacts/org_123/reference_uploads/bottom.mp4"],
+    "bottom_content_description": "Product demo footage"
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "splitscreen_video_matching",
+  "pass_check": true,
+  "score": 0.88,
+  "rationale": "Split-screen detected with matching content (score: 0.88)",
+  "metrics": {
+    "detected_pattern": "splitscreen",
+    "total_frames_analyzed": 90,
+    "top_match": true,
+    "top_score": 0.9,
+    "top_match_details": {"confidence": 0.9},
+    "bottom_match": true,
+    "bottom_score": 0.86,
+    "bottom_match_details": {"confidence": 0.86},
+    "blank_frames_detected": 0,
+    "blank_frame_failure": false,
+    "max_consecutive_blank_frames": 0,
+    "split_detection_percentage": 0.92,
+    "split_line_detected": true,
+    "split_line_position": 0.51
+  },
+  "timestamps": [1.0, 2.0, 3.0],
+  "flagged_frames": []
+}
+```
+
+## Interpreting Results
+
+- **top_match/bottom_match**: Both regions must match for a pass.
+- **split_detection_percentage**: How consistently a split line was detected.
+- **top_match_details/bottom_match_details**: Region-specific match evidence.

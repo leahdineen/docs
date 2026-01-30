@@ -1,0 +1,71 @@
+---
+title: 'transcript_policy'
+description: 'Checks transcripts for required and prohibited language'
+---
+
+## Overview
+
+Checks transcripts for required talking points and prohibited language.
+
+**Requires at least one configuration parameter** - Provide `talking_points` or `language_to_avoid`.
+
+## Configuration
+
+<ParamField body="config.talking_points" type="array">
+  Required talking points to include.
+</ParamField>
+
+<ParamField body="config.language_to_avoid" type="array">
+  Phrases that must not appear.
+</ParamField>
+
+<ParamField body="config.min_talking_points" type="integer">
+  Minimum number of talking points required.
+</ParamField>
+
+<ParamField body="config.max_language_to_avoid" type="integer">
+  Maximum number of forbidden phrases allowed.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "transcript_policy",
+  "config": {
+    "talking_points": ["battery life", "fast charging"],
+    "language_to_avoid": ["free giveaway"],
+    "min_talking_points": 1,
+    "max_language_to_avoid": 0
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "transcript_policy",
+  "pass_check": true,
+  "score": 0.75,
+  "rationale": "2/2 talking points covered. No forbidden language detected (1 checked)",
+  "metrics": {
+    "talking_points_hit": ["battery life", "fast charging"],
+    "language_to_avoid_hit": [],
+    "talking_points_count": 2,
+    "language_to_avoid_count": 0,
+    "talking_points_total": 2,
+    "language_to_avoid_total": 1,
+    "matches": {
+      "talking_points": [{"item": "battery life", "texts": ["battery life"]}],
+      "language_to_avoid": []
+    },
+  }
+}
+```
+
+## Interpreting Results
+
+- **talking_points_hit/language_to_avoid_hit**: Items found (or avoided) in the transcript.
+- **talking_points_count/language_to_avoid_count**: Totals used for pass/fail.
+- **matches**: Evidence snippets supporting each detected item.

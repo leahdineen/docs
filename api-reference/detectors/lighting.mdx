@@ -1,0 +1,61 @@
+---
+title: 'lighting'
+description: 'Evaluates lighting balance across video frames'
+---
+
+## Overview
+
+Checks whether frames are overly dark or overly bright.
+
+## Configuration
+
+This detector does not accept configuration keys.
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "lighting",
+  "config": {}
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "lighting",
+  "pass_check": true,
+  "score": 0.88,
+  "rationale": "Lighting is acceptable. Average brightness: 124.2/255",
+  "metrics": {
+    "total_frames_analyzed": 60,
+    "dark_frames_count": 3,
+    "bright_frames_count": 2,
+    "dark_frames_pct": 5.0,
+    "bright_frames_pct": 3.3,
+    "median_brightness": 123.0,
+    "mean_brightness": 124.2,
+    "min_brightness": 42.0,
+    "max_brightness": 236.0,
+    "dark_threshold": 50.0,
+    "bright_threshold": 210.0,
+    "dark_frames": [
+      {"timestamp_sec": 1.0, "median_y": 44.0}
+    ],
+    "bright_frames": [
+      {"timestamp_sec": 6.5, "median_y": 224.0}
+    ],
+    "flags": [
+      {"timestamp_sec": 1.0, "decision": "too_dark", "rationale": "Median brightness: 44.0/255"}
+    ]
+  },
+  "timestamps": [1.0, 6.5]
+}
+```
+
+## Interpreting Results
+
+- **dark_frames_pct/bright_frames_pct**: Percent of frames outside lighting thresholds.
+- **flags**: Sampled frames with the specific lighting decision.
+- **pass_check**: Fails when dark or bright percentages exceed thresholds.

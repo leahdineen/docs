@@ -1,0 +1,80 @@
+---
+title: 'image_specs'
+description: 'Validates image dimensions and aspect ratio'
+---
+
+## Overview
+
+Validates image dimensions, megapixels, and aspect ratio against your requirements.
+
+## Configuration
+
+<ParamField body="config.allowed_aspect_ratios" type="array">
+  Allowed aspect ratios (for example: "1:1", "4:5").
+</ParamField>
+
+<ParamField body="config.min_width" type="integer">
+  Minimum width in pixels.
+</ParamField>
+
+<ParamField body="config.min_height" type="integer">
+  Minimum height in pixels.
+</ParamField>
+
+<ParamField body="config.min_megapixels" type="number">
+  Minimum megapixels required.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "image_specs",
+  "config": {
+    "allowed_aspect_ratios": ["1:1", "4:5"],
+    "min_width": 1080,
+    "min_height": 1080,
+    "min_megapixels": 1.0
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "image_specs",
+  "pass_check": true,
+  "score": 1.0,
+  "rationale": "Image meets resolution/aspect specifications",
+  "metrics": {
+    "checks": {
+      "min_width": {"pass": true, "actual": 1200, "threshold": 1080},
+      "min_height": {"pass": true, "actual": 1200, "threshold": 1080},
+      "min_megapixels": {"pass": true, "actual": 1.44, "threshold": 1.0},
+      "aspect_ratio": {
+        "pass": true,
+        "actual": 1.0,
+        "closest_ratio": "1:1",
+        "deviation": 0.0,
+        "limit": 0.02
+      }
+    },
+    "issues": [],
+    "image_metadata": {
+      "width": 1200,
+      "height": 1200,
+      "megapixels": 1.44,
+      "mode": "RGB",
+      "format": "JPEG",
+      "dpi": [72, 72]
+    }
+  }
+}
+```
+
+## Interpreting Results
+
+- **checks**: Per-rule pass/fail details for size and aspect ratio.
+- **issues**: Human-readable reasons when a check fails.
+- **image_metadata**: Observed properties used for validation.

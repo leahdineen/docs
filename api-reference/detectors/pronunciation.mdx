@@ -1,0 +1,89 @@
+---
+title: 'pronunciation'
+description: 'Evaluates brand and product pronunciation'
+---
+
+## Overview
+
+Evaluates pronunciation of brand and product names in audio.
+
+**Requires at least one configuration parameter** - Provide `brand_name` or `product_name`.
+
+## Configuration
+
+<ParamField body="config.brand_name" type="string">
+  Brand name to evaluate.
+</ParamField>
+
+<ParamField body="config.product_name" type="string">
+  Product name to evaluate.
+</ParamField>
+
+<ParamField body="config.brand_cue" type="string">
+  Optional cue phrase for the brand name.
+</ParamField>
+
+<ParamField body="config.product_cue" type="string">
+  Optional cue phrase for the product name.
+</ParamField>
+
+<ParamField body="config.brand_audio_url" type="string">
+  Optional reference audio for brand pronunciation.
+
+  **Allowed extensions:** mp3, wav, aac, flac, m4a
+</ParamField>
+
+<ParamField body="config.product_audio_url" type="string">
+  Optional reference audio for product pronunciation.
+
+  **Allowed extensions:** mp3, wav, aac, flac, m4a
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "pronunciation",
+  "config": {
+    "brand_name": "Acme",
+    "product_name": "Turbo Blender",
+    "brand_audio_url": "gs://judge-artifacts/org_123/reference_uploads/acme_pronunciation.mp3"
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "pronunciation",
+  "pass_check": true,
+  "score": 0.87,
+  "rationale": "Overall pronunciation score: 0.87 (3/3 correct mentions).",
+  "metrics": {
+    "brand_mentions": [
+      {
+        "mention_number": 1,
+        "pronunciation_correct": true,
+        "clarity_score": 0.9,
+        "confidence": 0.92,
+        "feedback": "Clear pronunciation",
+        "specific_issues": [],
+        "phonetic_transcription": "ak-mee",
+        "reference_audio_comparison": "very close"
+      }
+    ],
+    "product_mentions": [],
+    "summary": {
+      "total_brand_mentions": 3,
+      "total_product_mentions": 0,
+      "total_correct_brand_mentions": 3,
+      "total_correct_product_mentions": 0,
+      "overall_score": 0.87,
+      "suggestions": []
+    },
+    "brand_name": "Acme",
+    "product_name": "Turbo Blender"
+  }
+}
+```

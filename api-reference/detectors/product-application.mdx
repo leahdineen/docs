@@ -1,0 +1,41 @@
+---
+title: 'product_application'
+description: 'Checks whether a product is being applied'
+---
+
+## Overview
+
+Determines whether the product is being applied in the content.
+
+## Configuration
+
+<ParamField body="config.require_application" type="boolean">
+  If true, the detector fails when application is not detected.
+</ParamField>
+
+## Example Configuration
+
+```json
+{
+  "detector_name": "product_application",
+  "config": {
+    "require_application": true
+  }
+}
+```
+
+## Result Schema
+
+```json
+{
+  "detector_name": "product_application",
+  "pass_check": true,
+  "score": 1.0,
+  "rationale": "Product application detected. Demonstrated use on skin.",
+  "metrics": {
+    "is_applying": true,
+    "reasons": "Demonstrated use on skin"
+  },
+  "timestamps": [0.8, 3.2]
+}
+```
