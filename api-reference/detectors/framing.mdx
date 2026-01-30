@@ -27,26 +27,21 @@ This detector does not accept configuration keys.
   "detector_name": "framing",
   "pass_check": true,
   "score": 0.83,
-  "rationale": "Minor framing issues in 1 frame(s), below threshold of 2",
+  "rationale": "Minor framing issues in 1 frame",
   "metrics": {
     "flags": [
       {
-        "frame_index": 3,
         "timestamp_sec": 1.2,
         "decisions": ["off_center"],
         "rationale": "Subject off-center"
       }
     ],
     "num_flagged_frames": 1,
-    "total_frames_analyzed": 8,
     "issue_counts": {
       "off_center": 1
     },
-    "model": "gpt-4o-mini",
-    "fail_threshold": 2
   },
-  "timestamps": [1.2],
-  "flagged_frames": []
+  "timestamps": [1.2]
 }
 ```
 

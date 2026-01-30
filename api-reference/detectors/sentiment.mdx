@@ -54,19 +54,6 @@ Evaluates sentiment and prohibited content in the transcript.
     "desired_matches": [{"text": "great day", "explanation": "positive phrasing"}],
     "undesired_matches": [],
     "prohibited_content_matches": [],
-    "model": "gpt-4o-mini",
-    "requirements": {
-      "min_desired_matches": 1,
-      "max_undesired_matches": 0
-    }
-  },
-  "timestamps": [],
-  "flagged_frames": []
+  }
 }
 ```
-
-## Interpreting Results
-
-- **desired_count/undesired_count/prohibited_count**: Totals used to determine pass/fail.
-- **desired_matches/undesired_matches**: Evidence snippets for sentiment checks.
-- **requirements**: Thresholds applied for sentiment counts.

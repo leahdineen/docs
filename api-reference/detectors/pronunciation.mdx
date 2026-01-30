@@ -59,12 +59,11 @@ Evaluates pronunciation of brand and product names in audio.
   "detector_name": "pronunciation",
   "pass_check": true,
   "score": 0.87,
-  "rationale": "Overall pronunciation score: 0.87 (3/3 correct mentions). Meets minimum score of 0.7",
+  "rationale": "Overall pronunciation score: 0.87 (3/3 correct mentions).",
   "metrics": {
     "brand_mentions": [
       {
         "mention_number": 1,
-        "approximate_timestamp": "middle",
         "pronunciation_correct": true,
         "clarity_score": 0.9,
         "confidence": 0.92,
@@ -83,18 +82,8 @@ Evaluates pronunciation of brand and product names in audio.
       "overall_score": 0.87,
       "suggestions": []
     },
-    "model": "gpt-4o-mini",
-    "min_score": 0.7,
     "brand_name": "Acme",
     "product_name": "Turbo Blender"
-  },
-  "timestamps": [],
-  "flagged_frames": []
+  }
 }
 ```
-
-## Interpreting Results
-
-- **summary.overall_score**: Primary score used for pass/fail.
-- **brand_mentions/product_mentions**: Per-mention evaluations and feedback.
-- **min_score**: Minimum score required to pass.

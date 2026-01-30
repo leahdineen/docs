@@ -112,18 +112,11 @@ Checks title and description for required hashtags, social tags, text, and optio
     "required_text_mode": "at_least_one",
     "topic_keywords": ["vacuum", "cleaning"],
     "min_topic_score": 0.7,
-    "enable_topic_analysis": true,
-    "model": "gpt-4o-mini",
-    "suggested_score": 1.0,
-    "compliance_score": 1.0
-  },
-  "timestamps": [],
-  "flagged_frames": []
+  }
 }
 ```
 
 ## Interpreting Results
 
 - **required_*_analysis**: Whether each required element was found and any missing items.
-- **relevance_score/is_relevant**: Only applicable when topic analysis is enabled.
 - **suggested_hashtag_analysis**: Suggested hashtags influence score, not pass/fail.

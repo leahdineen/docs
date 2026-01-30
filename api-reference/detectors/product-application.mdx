@@ -34,20 +34,8 @@ Determines whether the product is being applied in the content.
   "rationale": "Product application detected. Demonstrated use on skin.",
   "metrics": {
     "is_applying": true,
-    "reasons": "Demonstrated use on skin",
-    "evidence_frame_indices": [1, 4],
-    "num_evidence_frames": 2,
-    "frames_analyzed": 8,
-    "model": "gpt-4o-mini",
-    "require_application": true
+    "reasons": "Demonstrated use on skin"
   },
-  "timestamps": [0.8, 3.2],
-  "flagged_frames": []
+  "timestamps": [0.8, 3.2]
 }
 ```
-
-## Interpreting Results
-
-- **is_applying**: Whether application is detected.
-- **require_application**: If true, `pass_check` depends on `is_applying`.
-- **evidence_frame_indices**: Frames used as supporting evidence.

@@ -42,24 +42,7 @@ Flags potential IP-related elements found in an image.
         "notes": "Logo on packaging"
       }
     ],
-    "raw_hits": [
-      {
-        "term": "Brand X",
-        "category": "logo",
-        "confidence": 0.78,
-        "location": "top-right",
-        "notes": "Logo on packaging"
-      }
-    ],
     "analysis": "Detected recognizable branding elements."
-  },
-  "timestamps": [],
-  "flagged_frames": []
+  }
 }
 ```
-
-## Interpreting Results
-
-- **hits**: Filtered list after applying `allowed_terms` and minimum confidence.
-- **raw_hits**: Full list returned by the detector before filtering.
-- **pass_check**: Fails when the number of hits exceeds the allowed threshold.

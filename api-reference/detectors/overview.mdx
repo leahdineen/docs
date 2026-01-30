@@ -35,17 +35,6 @@ When creating a judge using the v1 endpoint, detectors are configured in the `de
 
 ## Available Detectors
 
-### Content Quality Detectors
-
-| Detector | Description |
-|----------|-------------|
-| `audio_noise` | Evaluates background noise and speech clarity |
-| `image_sharpness` | Evaluates image sharpness |
-| `image_specs` | Validates image dimensions and aspect ratio |
-| `lighting` | Evaluates lighting balance across video frames |
-| `video_quality` | Evaluates overall video quality |
-| `video_specs` | Validates video dimensions and duration |
-
 ### Content Matching Detectors
 
 | Detector | Description |
@@ -59,37 +48,42 @@ When creating a judge using the v1 endpoint, detectors are configured in the `de
 
 | Detector | Description |
 |----------|-------------|
-| `content_quality` | Assesses overall content quality and value |
 | `language` | Checks detected language against an allowed list |
 | `sentiment` | Checks sentiment and prohibited content in transcripts |
+| `title_and_description` | Checks title and description for required elements |
 | `transcript_policy` | Checks transcripts for required and prohibited language |
 | `transcript_product` | Counts brand and product mentions in transcripts |
 
-### Visual Analysis Detectors
+### Video Visual Analysis Detectors
 
 | Detector | Description |
 |----------|-------------|
 | `background` | Assesses background conditions in the video |
 | `framing` | Checks whether framing meets composition expectations |
-| `image_ip_infringement` | Flags potential IP concerns in images |
+| `lighting` | Evaluates lighting balance across video frames |
 | `overlays` | Checks for required or disallowed overlays |
 | `product_application` | Checks whether a product is being applied |
 | `subtitles` | Checks for subtitle presence |
+| `transition_detection` | Counts scene transitions |
+| `video_quality` | Evaluates overall video quality |
+| `video_specs` | Validates video dimensions and duration |
 | `wardrobe` | Checks wardrobe and beauty rule compliance |
+
+### Image Visual Analysis Detectors
+| Detector | Description |
+|----------|-------------|
+| `image_ip_infringement` | Flags potential IP concerns in images |
+| `image_sharpness` | Evaluates image sharpness |
+| `image_specs` | Validates image dimensions and aspect ratio |
 
 ### Audio Analysis Detectors
 
 | Detector | Description |
 |----------|-------------|
+| `audio_noise` | Evaluates background noise and speech clarity |
 | `pronunciation` | Evaluates brand and product pronunciation |
 | `voice_over` | Detects voice-over narration |
 
-### Metadata Detectors
-
-| Detector | Description |
-|----------|-------------|
-| `title_and_description` | Checks title and description for required elements |
-| `transition_detection` | Counts scene transitions |
 
 ## Reference Content
 
