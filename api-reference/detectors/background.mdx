@@ -1,17 +1,37 @@
 ---
 title: 'background'
-description: 'Assesses background conditions in the video'
+description: 'Analyzes video backgrounds to check for desired and undesired elements'
 ---
 
 ## Overview
 
-Assesses whether the background meets expectations such as tidiness and setting.
+Analyzes video backgrounds to evaluate whether specific elements are present or absent. The detector uses configurable criteria to check for desired elements that should be present and undesired elements that should not be present.
 
 ## Configuration
 
-This detector does not accept configuration keys.
+<ParamField body="config.desired_elements" type="array">
+  List of elements that SHOULD be present in the background (e.g., "professional setting", "clean workspace", "natural lighting")
+</ParamField>
+
+<ParamField body="config.undesired_elements" type="array">
+  List of elements that should NOT be present in the background (e.g., "clutter", "car interior", "distracting objects")
+</ParamField>
 
 ## Example Configuration
+
+```json
+{
+  "detector_name": "background",
+  "config": {
+    "desired_elements": ["professional setting", "clean workspace", "good lighting"],
+    "undesired_elements": ["clutter", "distracting objects", "inappropriate content"]
+  }
+}
+```
+
+## Minimal Configuration
+
+If no elements are specified, the detector will pass by default:
 
 ```json
 {
@@ -26,25 +46,22 @@ This detector does not accept configuration keys.
 {
   "detector_name": "background",
   "pass_check": false,
-  "score": 0.0,
-  "rationale": "Background issues: Background is not tidy. Cluttered room with visible piles.",
+  "score": 0.67,
+  "rationale": "Background issues: Missing desired element: professional setting; Detected undesired element: clutter. Cluttered room with visible piles and unprofessional appearance.",
   "metrics": {
-    "is_car": false,
-    "is_tidy": false,
-    "reasons": "Cluttered room with visible piles",
-    "evidence_frame_indices": [2, 5],
-    "frames_analyzed": 8,
-    "requirements": {
-      "require_tidy": true,
-      "fail_if_car": false
-    }
+    "element_results": {
+      "professional setting": false,
+      "clean workspace": true,
+      "good lighting": true,
+      "clutter": true,
+      "distracting objects": false
+    },
+    "missing_desired": ["professional setting"],
+    "detected_undesired": ["clutter"],
+    "reasons": "Cluttered room with visible piles and unprofessional appearance",
+    "desired_elements": ["professional setting", "clean workspace", "good lighting"],
+    "undesired_elements": ["clutter", "distracting objects"]
   },
-  "timestamps": [1.2, 3.6]
+  "timestamps": [1.2, 3.6, 4.8]
 }
 ```
-
-## Interpreting Results
-
-- **is_tidy/is_car**: Primary classification signals; these drive pass/fail based on requirements.
-- **evidence_frame_indices**: Frames supporting the assessment.
-- **requirements**: The thresholds applied for this run.
