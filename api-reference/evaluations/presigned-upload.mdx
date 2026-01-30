@@ -130,17 +130,55 @@ curl -X PUT "<UPLOAD_URL_FROM_RESPONSE>"\
 
 ## Webhook Notifications
 
-If configured, your webhook will receive a POST request when each video completes processing:
+If configured, your webhook will receive a POST request when content processing completes:
 
+**Headers:**
+```
+X-Pique-Signature: t=1732654321,v1=5d41402abc4b2a76b9719d911017c592,alg=sha256
+Content-Type: application/json
+```
+
+**Completed Evaluation:**
 ```json
 {
-  "job_id": "job_aB3cD4eF5gH6iJ7k",
-  "batch_id": "batch_hJ8kLm3nP9qR2vXy",
+  "evaluation_id": "a1922bbb-7264-4e2e-82f6-778702b05a30",
+  "job_id": "job_AbC123XyZ456789",
+  "content_id": "550e8400-e29b-41d4-a716-446655440000",
+  "judge_id": "a1b2c3d4-e5f6-4789-9012-3456789abcde",
   "status": "completed",
-  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  "overall_score": 85.5,
-  "results": [...],
-  "completed_at": "2024-01-15T12:45:00Z"
+  "overall_score": 0.85,
+  "timestamp": "2025-11-12T23:16:08.526491Z",
+  "results": [
+    {
+      "criterion_id": "848b9b59-2775-4303-8912-0a6ff40b6fd6",
+      "detector_name": "video_specs",
+      "pass_check": true,
+      "score": 1,
+      "rationale": "Video specs meet requirements: 576x1024 (9:16), 30.0fps, 38.0s",
+      "metrics": {
+        "video_specs": {
+          "width": 576,
+          "height": 1024,
+          "aspect_ratio": "9:16",
+          "fps": 30,
+          "duration_sec": 38.033991,
+          "audio_sample_rate": 44100
+        }
+      }
+    }
+  ]
+}
+```
+
+**Failed Evaluation:**
+```json
+{
+  "event": "evaluation.failed",
+  "job_id": "job_3vp2mT7dJh5vhZmpk2G_yg",
+  "status": "failed",
+  "timestamp": "2025-11-12T23:16:08.526491Z",
+  "error": "Failed to process video",
+  "judge_id": "9e8ed8b4-e4ff-4137-9469-11181586a9e6"
 }
 ```
 
@@ -152,7 +190,7 @@ Timeout: Webhook requests timeout after 10 seconds. Ensure your endpoint respond
 Retries: Pique will retry failed webhook deliveries with exponential backoff. Implement idempotent processing using the `job_id`.
 
 Signing:
-- Header: X-Pique-Signature: t=<unix timestamp seconds>,v1=<hex hmac>,alg=sha256
+- Header: X-Pique-Signature: t=&lt;unix timestamp seconds&gt;,v1=&lt;hex hmac&gt;,alg=sha256
 - Message for signing: message = f"{timestamp}.{raw_body}" (UTF-8 bytes)
 - Algorithm: HMAC(secret, message, SHA256)
 
