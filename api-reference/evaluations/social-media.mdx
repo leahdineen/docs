@@ -166,7 +166,7 @@ Timeout: Webhook requests timeout after 10 seconds. Ensure your endpoint respond
 Retries: Pique will retry failed webhook deliveries with exponential backoff. Implement idempotent processing using the `job_id`.
 
 Signing:
-- Header: X-Pique-Signature: t=<unix timestamp seconds>,v1=<hex hmac>,alg=sha256
+- Header: X-Pique-Signature: t=&lt;unix timestamp seconds&gt;,v1=&lt;hex hmac&gt;,alg=sha256
 - Message for signing: message = f"{timestamp}.{raw_body}" (UTF-8 bytes)
 - Algorithm: HMAC(secret, message, SHA256)
 
