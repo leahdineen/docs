@@ -89,7 +89,6 @@
           "group": "Content Analysis Detectors",
           "pages": [
             "api-reference/detectors/background",
-            "api-reference/detectors/content-quality",
             "api-reference/detectors/title-and-description",
             "api-reference/detectors/transcript-policy",
             "api-reference/detectors/transcript-product"
