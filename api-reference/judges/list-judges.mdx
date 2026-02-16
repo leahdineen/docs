@@ -1,0 +1,204 @@
+---
+title: 'List Judges'
+api: 'GET /v1/judges'
+description: 'List all judges for your organization'
+---
+
+## Authentication
+
+**Required:** API Key authentication via `X-API-Key` header
+
+## Overview
+
+Returns a paginated list of all judges belonging to your organization. Judges are sorted by creation date (newest first).
+
+## Query Parameters
+
+<ParamField query="limit" type="integer" default="50">
+  Maximum number of judges to return per page.
+
+  **Range:** 1-100
+</ParamField>
+
+<ParamField query="offset" type="integer" default="0">
+  Number of judges to skip for pagination.
+
+  **Minimum:** 0
+</ParamField>
+
+<ParamField query="content_type" type="string">
+  Filter judges by content type.
+
+  **Allowed values:** `video`, `image`
+</ParamField>
+
+## Request Example
+
+### cURL
+```bash
+curl -X GET "https://api.getpique.ai/v1/judges" \
+  -H "X-API-Key: pk_your_api_key_here"
+```
+
+### With Pagination
+```bash
+curl -X GET "https://api.getpique.ai/v1/judges?limit=10&offset=0" \
+  -H "X-API-Key: pk_your_api_key_here"
+```
+
+### With Content Type Filter
+```bash
+curl -X GET "https://api.getpique.ai/v1/judges?content_type=video" \
+  -H "X-API-Key: pk_your_api_key_here"
+```
+
+## Response
+
+<ResponseField name="judges" type="array">
+  Array of judge objects
+
+  <Expandable title="Judge Object">
+    <ResponseField name="id" type="string">
+      Unique identifier for the judge
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      The name of the judge
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Description of what this judge evaluates
+    </ResponseField>
+
+    <ResponseField name="content_type" type="string">
+      The type of content this judge evaluates (`video` or `image`)
+    </ResponseField>
+
+    <ResponseField name="status" type="string">
+      Current status of the judge
+
+      **Possible values:**
+      - `ready` - Judge is ready to use
+      - `pending` - Judge is being prepared
+      - `failed` - Judge creation failed
+    </ResponseField>
+
+    <ResponseField name="detector_configs" type="array">
+      Array of detector configurations attached to this judge
+
+      <Expandable title="Detector Config">
+        <ResponseField name="id" type="string">
+          Unique identifier for the detector configuration
+        </ResponseField>
+
+        <ResponseField name="detector_name" type="string">
+          Name of the detector
+        </ResponseField>
+
+        <ResponseField name="config" type="object">
+          Configuration parameters for the detector
+        </ResponseField>
+
+        <ResponseField name="weight" type="integer">
+          Weight of this detector in scoring (1-10)
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="is_active" type="boolean">
+      Whether the judge is currently active
+    </ResponseField>
+
+    <ResponseField name="created_at" type="string">
+      ISO 8601 timestamp of when the judge was created
+    </ResponseField>
+
+    <ResponseField name="updated_at" type="string">
+      ISO 8601 timestamp of when the judge was last updated
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of judges matching the query
+</ResponseField>
+
+<ResponseField name="has_more" type="boolean">
+  Whether there are more judges available beyond the current page
+</ResponseField>
+
+## Response Example
+
+```json
+{
+  "judges": [
+    {
+      "id": "1f46ff19-e251-421c-8b81-30561e160b62",
+      "name": "Brand Video Judge",
+      "description": "Evaluates brand video content for compliance and quality",
+      "content_type": "video",
+      "status": "ready",
+      "detector_configs": [
+        {
+          "id": "443b224d-d5af-40bd-95cb-ec54ea9dacf6",
+          "detector_name": "language",
+          "config": {
+            "accepted_languages": ["en"]
+          },
+          "weight": 5
+        },
+        {
+          "id": "f08eedc2-cb03-43cf-a041-84b0c6b91ae0",
+          "detector_name": "subtitles",
+          "config": {
+            "require_subtitles": true
+          },
+          "weight": 5
+        },
+        {
+          "id": "6f17c1d8-27bd-492e-9117-b272446d9e19",
+          "detector_name": "title_and_description",
+          "config": {
+            "required_hashtags": ["#acme"]
+          },
+          "weight": 5
+        },
+        {
+          "id": "d9104e0a-fa8d-4dfe-aedb-54e1ae255646",
+          "detector_name": "video_matching",
+          "config": {
+            "reference_videos": [
+              "gs://judge-artifacts-sandbox/org_9094b441/reference_uploads/c354b125/f37ba7ed.mp4"
+            ]
+          },
+          "weight": 5
+        },
+        {
+          "id": "9319a5b2-c4f5-46a3-9664-443fb8db4d3c",
+          "detector_name": "video_specs",
+          "config": {
+            "min_width": 1080,
+            "min_height": 1080,
+            "min_duration_sec": 10,
+            "allowed_aspect_ratios": ["9:16", "4:3"]
+          },
+          "weight": 5
+        }
+      ],
+      "is_active": true,
+      "created_at": "2026-01-22T05:33:07.965372Z",
+      "updated_at": "2026-01-25T23:40:28.563145Z"
+    }
+  ],
+  "total": 1,
+  "has_more": false
+}
+```
+
+## Error Responses
+
+### 401 Unauthorized
+Missing or invalid API key
+
+### 500 Internal Server Error
+Failed to retrieve judges due to server error

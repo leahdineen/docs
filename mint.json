@@ -41,6 +41,8 @@
     {
       "group": "Judges",
       "pages": [
+        "api-reference/judges/list-judges",
+        "api-reference/judges/get-judge",
         "api-reference/judges/create-judge",
         "api-reference/judges/create-reference-content"
       ]
